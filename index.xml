@@ -21,6 +21,2501 @@
     </item>
     
     <item>
+      <title>在R中处理数据</title>
+      <link>https://jeevanyue.github.io/post/2018-01-08_data_explore/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2018-01-08_data_explore/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#r&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1&lt;/span&gt; 1. R自带函数&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.1&lt;/span&gt; 1.1 转置&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#aggregate&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.2&lt;/span&gt; 1.2 整合数据aggregate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#apply&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.3&lt;/span&gt; 1.3 apply&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#unionintersect&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.4&lt;/span&gt; 1.4 union和intersect&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-cbindrbind&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.5&lt;/span&gt; 1.5 合并 cbind和rbind&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-merge&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.6&lt;/span&gt; 1.6 匹配合并 merge&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-unique&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.7&lt;/span&gt; 1.7 排除重复数据 unique&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#reshape2&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2&lt;/span&gt; 2. reshape2包&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#-melt&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.1&lt;/span&gt; 2.1融合-melt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-dcastacast&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.2&lt;/span&gt; 2.2重铸-dcast和acast&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 练习&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#dplyr&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3&lt;/span&gt; 3. dplyr&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.1&lt;/span&gt; 3.1 基本操作&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#group_by&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.2&lt;/span&gt; 3.2 分组group_by&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#--.&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.3&lt;/span&gt; 3.3 链式操作(管道) %&amp;gt;% 或 %.%&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#join&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.4&lt;/span&gt; 3.5 数据匹配合并join&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.5&lt;/span&gt; 3.6 连接数据库&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.6&lt;/span&gt; 3.7 利用窗体函数变换数据&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#tidyr&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;4&lt;/span&gt; 4. tidyr&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5&lt;/span&gt; 5. 字符串处理&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#-nchar&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5.1&lt;/span&gt; 5.1 字符个数 nchar&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-paste&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5.2&lt;/span&gt; 5.2 连接字符 paste&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-strsplit&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5.3&lt;/span&gt; 5.3 分割字符 strsplit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-substrsubstring&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5.4&lt;/span&gt; 5.4 提取字符 substr与substring&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-subgsub&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5.5&lt;/span&gt; 5.5 替换字符 sub和gsub&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#-grep&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5.6&lt;/span&gt; 5.6 字符查询匹配 grep&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5.7&lt;/span&gt; 5.5 其他&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#stringr&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;5.8&lt;/span&gt; 5.6 stringr包&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#a-&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;6&lt;/span&gt; 附录A 正则表达式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#b&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;7&lt;/span&gt; 附录B&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%&lt;/p&gt;
+&lt;div id=&#34;r&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;1&lt;/span&gt; 1. R自带函数&lt;/h1&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.1&lt;/span&gt; 1.1 转置&lt;/h2&gt;
+&lt;p&gt;使用函数t()可对一个矩阵或数据框进行转置，对于数据框，行名将变成变量（列）名。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cars &amp;lt;- mtcars(1:5,1:4)
+cars
+t(cars)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;数列array进行维度转换 aperm&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- array(1:24, 2:4)
+xt &amp;lt;- aperm(x, c(2,1,3))
+dim(x)
+dim(xt)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;aggregate&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.2&lt;/span&gt; 1.2 整合数据aggregate&lt;/h2&gt;
+&lt;p&gt;在R中使用一个或多个by变量和一个预先定义好的函数来折叠（collapse）数据。调用格式为：&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;aggregate(x,by,FUN)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其中&lt;em&gt;x&lt;/em&gt;是待折叠的数据对象，&lt;em&gt;by&lt;/em&gt;饰一个变量名组成的列表，这些变量将被去掉以新的观测，而&lt;em&gt;FUN&lt;/em&gt;则是用来计算表述性统计量的标量函数，它将被用来计算新观测中的值。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;options(digits=2)
+attach(mtcars)
+mydata &amp;lt;- aggregate(mtcars, by=list(cyl,gear), FUN=mean, na.rm=TRUE)
+mydata&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;by中的变量必须在一个列表中（即使只有一个变量）。也可以在列表中为各组声明自定义的名称，例如by＝list(Group.cyl=cyl,Group.gears=gear)。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## example with character variables and NAs
+testDF &amp;lt;- data.frame(v1 = c(1,3,5,7,8,3,5,NA,4,5,7,9),
+                     v2 = c(11,33,55,77,88,33,55,NA,44,55,77,99) )
+by1 &amp;lt;- c(&amp;quot;red&amp;quot;, &amp;quot;blue&amp;quot;, 1, 2, NA, &amp;quot;big&amp;quot;, 1, 2, &amp;quot;red&amp;quot;, 1, NA, 12)
+by2 &amp;lt;- c(&amp;quot;wet&amp;quot;, &amp;quot;dry&amp;quot;, 99, 95, NA, &amp;quot;damp&amp;quot;, 95, 99, &amp;quot;red&amp;quot;, 99, NA, NA)
+aggregate(x = testDF, by = list(by1, by2), FUN = &amp;quot;mean&amp;quot;)
+
+# and if you want to treat NAs as a group
+fby1 &amp;lt;- factor(by1, exclude = &amp;quot;&amp;quot;)
+fby2 &amp;lt;- factor(by2, exclude = &amp;quot;&amp;quot;)
+aggregate(x = testDF, by = list(fby1, fby2), FUN = &amp;quot;mean&amp;quot;)
+
+## Formulas, one ~ one, one ~ many, many ~ one, and many ~ many:
+aggregate(weight ~ feed, data = chickwts, mean)
+aggregate(breaks ~ wool + tension, data = warpbreaks, mean)
+aggregate(cbind(Ozone, Temp) ~ Month, data = airquality, mean)
+aggregate(cbind(ncases, ncontrols) ~ alcgp + tobgp, data = esoph, sum)
+
+## Dot notation:
+aggregate(. ~ Species, data = iris, mean)
+aggregate(len ~ ., data = ToothGrowth, mean)
+
+## Often followed by xtabs():
+ag &amp;lt;- aggregate(len ~ ., data = ToothGrowth, mean)
+xtabs(len ~ ., data = ag)
+
+## Compute the average annual approval ratings for American presidents.
+aggregate(presidents, nfrequency = 1, FUN = mean)
+## Give the summer less weight.
+aggregate(presidents, nfrequency = 1,
+          FUN = weighted.mean, w = c(1, 1, 0.5, 1))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;apply&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.3&lt;/span&gt; 1.3 apply&lt;/h2&gt;
+&lt;p&gt;待整理&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;unionintersect&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.4&lt;/span&gt; 1.4 union和intersect&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- c(sort(sample(1:20, 9)), NA)
+y &amp;lt;- c(sort(sample(3:23, 7)), NA)
+union(x, y)
+intersect(x, y)
+setdiff(x, y)
+setdiff(y, x)
+setequal(x, y)
+#%in%
+(1:10) %in% c(3,7,12)
+&amp;quot;%w/o%&amp;quot; &amp;lt;- function(x, y) x[!x %in% y]
+(1:10) %w/o% c(3,7,12)
+sstr &amp;lt;- c(&amp;quot;c&amp;quot;,&amp;quot;ab&amp;quot;,&amp;quot;B&amp;quot;,&amp;quot;bba&amp;quot;,&amp;quot;c&amp;quot;,NA,&amp;quot;@&amp;quot;,&amp;quot;bla&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;Ba&amp;quot;,&amp;quot;%&amp;quot;)
+sstr %in% c(letters, LETTERS)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-cbindrbind&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.5&lt;/span&gt; 1.5 合并 cbind和rbind&lt;/h2&gt;
+&lt;p&gt;纵向合并数据通常用于向数据框中添加观测。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;rbind() ：纵向合并两个数据框（数据集）&lt;/li&gt;
+&lt;li&gt;cbind() ：横向合并两个数据框（数据集）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注：两个数据框行（列）数必须相同。如果x中拥有y中没有的变量，在合并它们之前需做以下处理：&lt;/p&gt;
+&lt;p&gt;(1)删除dataframeA中的多余变量；&lt;/p&gt;
+&lt;p&gt;(2)在dataframeB中创建追加的变量并将其值设为NA(缺失)。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x1 &amp;lt;- c(1:5)
+x2 &amp;lt;- c(21:25)
+x3 &amp;lt;- c(31:35)
+r1 &amp;lt;- cbind(x1, x2)
+r2 &amp;lt;- rbind(x1, x2)
+r31 &amp;lt;- cbind(r1, x3)
+r32 &amp;lt;- rbind(r2, x3)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-merge&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.6&lt;/span&gt; 1.6 匹配合并 merge&lt;/h2&gt;
+&lt;p&gt;merge效果同dplyr的join，join的效力更高。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;inner_join 等价于 merge(all=F)&lt;/li&gt;
+&lt;li&gt;left_join 等价于 merge(all.x=T, all.y=F)&lt;/li&gt;
+&lt;li&gt;right_join 等价于 merge(all.x=F, all.y=T)&lt;/li&gt;
+&lt;li&gt;full_join 等价于 merge(all=T)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#authors和books
+authors &amp;lt;- data.frame(
+    surname = I(c(&amp;quot;Tukey&amp;quot;, &amp;quot;Venables&amp;quot;, &amp;quot;Tierney&amp;quot;, &amp;quot;Ripley&amp;quot;, &amp;quot;McNeil&amp;quot;)),
+    nationality = c(&amp;quot;US&amp;quot;, &amp;quot;Australia&amp;quot;, &amp;quot;US&amp;quot;, &amp;quot;UK&amp;quot;, &amp;quot;Australia&amp;quot;),
+    deceased = c(&amp;quot;yes&amp;quot;, rep(&amp;quot;no&amp;quot;, 4)))
+books &amp;lt;- data.frame(
+    name = I(c(&amp;quot;Tukey&amp;quot;, &amp;quot;Venables&amp;quot;, &amp;quot;Tierney&amp;quot;,
+             &amp;quot;Ripley&amp;quot;, &amp;quot;Ripley&amp;quot;, &amp;quot;McNeil&amp;quot;, &amp;quot;R Core&amp;quot;)),
+    title = c(&amp;quot;Exploratory Data Analysis&amp;quot;,
+              &amp;quot;Modern Applied Statistics ...&amp;quot;,
+              &amp;quot;LISP-STAT&amp;quot;,
+              &amp;quot;Spatial Statistics&amp;quot;, &amp;quot;Stochastic Simulation&amp;quot;,
+              &amp;quot;Interactive Data Analysis&amp;quot;,
+              &amp;quot;An Introduction to R&amp;quot;),
+    other.author = c(NA, &amp;quot;Ripley&amp;quot;, NA, NA, NA, NA,
+                     &amp;quot;Venables &amp;amp; Smith&amp;quot;))
+
+m1 &amp;lt;- merge(authors, books, by.x = &amp;quot;surname&amp;quot;, by.y = &amp;quot;name&amp;quot;)
+m2 &amp;lt;- merge(books, authors, by.x = &amp;quot;name&amp;quot;, by.y = &amp;quot;surname&amp;quot;)
+#m1和m2结果相同，只是结果的列名不同。
+#left_join
+m3 &amp;lt;- merge(authors, books, by.x = &amp;quot;surname&amp;quot;, by.y = &amp;quot;name&amp;quot;, all.x = T, all.y = F)
+#right_join
+m4 &amp;lt;- merge(authors, books, by.x = &amp;quot;surname&amp;quot;, by.y = &amp;quot;name&amp;quot;, all.x = F, all.y = T)
+#full_join
+m5 &amp;lt;- merge(authors, books, by.x = &amp;quot;surname&amp;quot;, by.y = &amp;quot;name&amp;quot;, all = TRUE)
+
+m11 &amp;lt;- inner_join(authors, books, by=c(&amp;quot;surname&amp;quot;=&amp;quot;name&amp;quot;))
+m22 &amp;lt;- inner_join(books, authors, by=c(&amp;quot;name&amp;quot;=&amp;quot;surname&amp;quot;))
+m33 &amp;lt;- left_join(authors, books, by=c(&amp;quot;surname&amp;quot;=&amp;quot;name&amp;quot;))
+m44 &amp;lt;- right_join(authors, books, by=c(&amp;quot;surname&amp;quot;=&amp;quot;name&amp;quot;))
+m55 &amp;lt;- full_join(authors, books, by=c(&amp;quot;surname&amp;quot;=&amp;quot;name&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-unique&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.7&lt;/span&gt; 1.7 排除重复数据 unique&lt;/h2&gt;
+&lt;p&gt;unique 函数可以去掉向量、数据框或类似数列的数据中重复的元素。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- c(9:20, 1:5, 3:7, 0:8)
+y &amp;lt;- unique(x)
+#下列方式业可以，但unique方式效率更高.
+#duplicated 函数返回了元素是否重复的逻辑值.
+y1 &amp;lt;- x[!duplicated(x)]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;reshape2&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;2&lt;/span&gt; 2. reshape2包&lt;/h1&gt;
+&lt;p&gt;首先将数据“融合”（melt），以使每一行都是一个唯一的标识符-变量组合。&lt;/p&gt;
+&lt;p&gt;然后将数据“重铸”（cast），可以使用任何函数对数据进行整合成想要的任何形状。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;注：reshape包的重铸函数为cast()，reshape2包的重铸函数为dcast()和acast()&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#数据集mydata
+ID &amp;lt;- c(1,1,2,2)
+Time &amp;lt;- c(1,2,1,2)
+X1 &amp;lt;- c(5,3,6,2)
+X2 &amp;lt;- c(6,5,1,4)
+mydata &amp;lt;- data.frame(ID,Time,X1,X2)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;-melt&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.1&lt;/span&gt; 2.1融合-melt&lt;/h2&gt;
+&lt;p&gt;数据集的融合是将它重构为这样一种格式：每个测量变量独占一行，行中带有要唯一确定这个测量所需的标识符变量。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(reshape2)
+md &amp;lt;- melt(mydata, id=c(&amp;quot;ID&amp;quot;,&amp;quot;Time&amp;quot;))
+md &amp;lt;- melt(mydata, id=1:2)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-dcastacast&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.2&lt;/span&gt; 2.2重铸-dcast和acast&lt;/h2&gt;
+&lt;p&gt;Use &lt;strong&gt;acast&lt;/strong&gt; or &lt;strong&gt;dcast&lt;/strong&gt; depending on whether you want vector/matrix/array output or data frame output. Data frames can have at most two dimensions.&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;dcast——返回的结果是一个数据框&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;acast——返回的结果可以是向量、矩阵或者数组&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;调用格式为：&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;newdata &amp;lt;- dcast(data, formula, fun.aggregate = NULL, ..., 
+  margins = NULL, subset = NULL, fill = NULL, drop = TRUE, 
+  value.var = guess_value(data))
+newdata &amp;lt;- acast(data, formula, fun.aggregate = NULL, ..., 
+  margins = NULL, subset = NULL, fill = NULL, drop = TRUE, 
+  value.var = guess_value(data))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其中&lt;em&gt;md&lt;/em&gt;为已融合的数据，&lt;em&gt;formula&lt;/em&gt;描述想要的结果，&lt;em&gt;FUN&lt;/em&gt;是（可选的）数据整合函数。&lt;/p&gt;
+&lt;p&gt;接受的公式形如：&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rowvar1 + rowvar2 + ... ~ colvar1 + colvar2 + ...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在这个公式中，&lt;em&gt;rowvar1 + rowvar2 + … &lt;/em&gt;定义了要划掉的变量集合，以确定各行的内容，而&lt;em&gt;colvar1 + colvar2 + … &lt;/em&gt;则定义了要划掉的、确定各列内容的变量集合。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#执行整合
+acast(md, ID~variable, mean)
+dcast(md, ID~variable, mean)
+dcast(md, tTime~variable, mean)
+dcast(md, ID~Time, mean)
+#不执行整合
+dcast(md, ID+Time~variable)
+dcast(md, ID+variable~Time)
+dcast(md, ID~variable+Time)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://jeevanyue.github.io/post/2018-01-08_data_explore_files/figure-html/data_explore.png&#34; title=&#34;R语言实战截图&#34; alt=&#34;R语言实战截图&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;R语言实战截图&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 练习&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(reshape2)
+head(airquality)
+mydata &amp;lt;- airquality
+mydata1 &amp;lt;- melt(mydata, id=c(&amp;quot;Month&amp;quot;, &amp;quot;Day&amp;quot;),
+  variable.name = &amp;quot;type&amp;quot;,value.name = &amp;quot;val&amp;quot;)
+#选定测量变量为Ozone、Wind
+mydata2 &amp;lt;- melt(mydata, id=c(&amp;quot;Month&amp;quot;, &amp;quot;Day&amp;quot;),
+  measure = c(&amp;quot;Ozone&amp;quot;,&amp;quot;Wind&amp;quot;),
+  variable.name = &amp;quot;type&amp;quot;,value.name = &amp;quot;val&amp;quot;)
+str(mydata1)
+str(mydata2)
+#大写转换为小写
+names(mydata) &amp;lt;- tolower(names(mydata))
+a &amp;lt;- melt(mydata, id=c(&amp;quot;month&amp;quot;, &amp;quot;day&amp;quot;), na.rm=TRUE)
+#数据b和原始数据airquality一样，数据复原了。
+b &amp;lt;- dcast(a , month + day ~variable)
+result1 &amp;lt;- dcast(a , month  ~variable ,mean)
+#查看缺失值数量的函数
+myfun &amp;lt;- function(x){return(sum(is.na(x)))}
+result2 &amp;lt;- dcast(a, month  ~variable ,myfun)
+result3 &amp;lt;- melt(mydata, id=c(&amp;quot;month&amp;quot;, &amp;quot;day&amp;quot;))
+result4 &amp;lt;- dcast(result3 , month  ~variable ,myfun)
+result5 &amp;lt;- recast(mydata , month ~ variable , 
+  id.var = c(&amp;#39;month&amp;#39;,&amp;#39;day&amp;#39;) , fun = myfun)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;dplyr&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;3&lt;/span&gt; 3. dplyr&lt;/h1&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1&lt;/span&gt; 3.1 基本操作&lt;/h2&gt;
+&lt;div class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.1&lt;/span&gt; 3.1.1 数据类型&lt;/h3&gt;
+&lt;p&gt;将过长过大的数据集转换为显示更友好的 tbl_df 类型&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)
+iris_df &amp;lt;- tbl_df(iris)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;filter&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.2&lt;/span&gt; 3.1.2 筛选filter&lt;/h3&gt;
+&lt;p&gt;按给定的逻辑判断筛选出符合要求的子数据集, 类似于 base::subset() 函数&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;filter(iris_df, Species == &amp;#39;setosa&amp;#39; , Sepal.Length &amp;gt;=5)
+filter(iris_df, Species == &amp;#39;setosa&amp;#39; &amp;amp; Sepal.Length &amp;gt;=5)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;用R自带函数实现:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;iris_df[iris_df$Species == &amp;#39;setosa&amp;#39; &amp;amp; iris_df$Sepal.Length &amp;gt;=5, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;除了代码简洁外, 还支持对同一对象的任意个条件组合, 如:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;filter(iris_df, Species == &amp;#39;setosa&amp;#39; | Sepal.Length &amp;gt;=5)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;注意: 表示 AND 时要使用 &amp;amp; 而避免 &amp;amp;&amp;amp;&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-arrange&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.3&lt;/span&gt; 3.1.3 排列 arrange&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;arrange(iris_df, Sepal.Length, Sepal.Width)
+arrange(iris_df, desc(Sepal.Length))
+#这个函数和 plyr::arrange() 是一样的, 类似于 order()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;用R自带函数实现:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;iris_df[order(iris_df$Sepal.Length, iris_df$Sepal.Width), ]
+iris_df[order(desc(iris_df$Sepal.Length)), ]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;select&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.4&lt;/span&gt; 3.1.4 选择select&lt;/h3&gt;
+&lt;p&gt;用列名作参数来选择子数据集:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;select(iris_df, 5, 1:2)
+select(iris_df, Species, Sepal.Length, Sepal.Width)
+select(iris, Species, everything())
+#重命名列名
+select(iris_df, Species, Length=Sepal.Length, Width=Sepal.Width)
+select(iris_df, petal = starts_with(&amp;quot;Petal&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;排除列名:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;select(iris_df, -Petal.Length, -Petal.Width)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;select的特殊函数&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;starts_with(x, ignore.case = TRUE): names starts with x&lt;/li&gt;
+&lt;li&gt;ends_with(x, ignore.case = TRUE): names ends in x&lt;/li&gt;
+&lt;li&gt;contains(x, ignore.case = TRUE): selects all variables whose name contains&lt;/li&gt;
+&lt;li&gt;matches(x, ignore.case = TRUE): selects all variables whose name matches the regular expression x&lt;/li&gt;
+&lt;li&gt;num_range(“x”, 1:5, width = 2): selects all variables (numerically) from x01 to x05.&lt;/li&gt;
+&lt;li&gt;one_of(“x”, “y”, “z”): selects variables provided in a character vector.&lt;/li&gt;
+&lt;li&gt;everything(): selects all variables.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;select(iris_df, everything())
+select(iris_df, starts_with(&amp;quot;Petal&amp;quot;))
+select(iris_df, ends_with(&amp;quot;Width&amp;quot;))
+select(iris_df, contains(&amp;quot;etal&amp;quot;))
+select(iris_df, matches(&amp;quot;.t.&amp;quot;))
+#选取名称符合指定表达式规则的列
+select(iris_df, Sepal.Length:Petal.Width)
+select(iris_df, Petal.Length, Petal.Width)
+vars &amp;lt;- c(&amp;quot;Petal.Length&amp;quot;, &amp;quot;Petal.Width&amp;quot;)
+select(iris_df, one_of(vars))
+df &amp;lt;- as.data.frame(matrix(runif(100), nrow = 10))
+df &amp;lt;- tbl_df(df)
+select(df, V4:V6)
+select(df, num_range(&amp;quot;V&amp;quot;, 4:6))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;“:” 选择连续列，contains来匹配列名&lt;/p&gt;
+&lt;p&gt;同样类似于R自带的&lt;strong&gt;subset() 函数&lt;/strong&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;subset(iris,select=c(1,2))
+subset(iris,select=c(3,4))
+subset(iris,select=c(Petal.Length, Petal.Width))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Programming with select 存疑??&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;select_(iris_df, ~Petal.Length)
+select_(iris_df, &amp;quot;Petal.Length&amp;quot;)
+select_(iris_df, lazyeval::interp(~matches(x), x = &amp;quot;.t.&amp;quot;))
+select_(iris_df, quote(-Petal.Length), quote(-Petal.Width))
+select_(iris_df, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;mutate&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.5&lt;/span&gt; 3.1.5 添加新变量mutate&lt;/h3&gt;
+&lt;p&gt;对已有列进行数据运算并添加为新列:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars_df &amp;lt;- tbl_df(mtcars)
+mutate(mtcars_df, displ_l = disp / 61.0237)
+#transmute结果只有计算的字段
+transmute(mtcars_df, displ_l = disp / 61.0237)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;mutate_each()&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对每一列运行窗体函数。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mutate_each(iris, funs(min_rank))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;plyr::mutate() 与 base::transform() 相似, 优势在于可以在同一语句中&lt;strong&gt;对刚增加的列进行操作。&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mutate(hflights_df, 
+  gain = ArrDelay - DepDelay, 
+  gain_per_hour = gain / (AirTime / 60)
+)
+#而同样操作用R自带函数 transform() 的话就会报错:
+transform(hflights, 
+  gain = ArrDelay - DepDelay, 
+  gain_per_hour = gain / (AirTime / 60)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过data.frame有可以实现&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars_df &amp;lt;- data.frame(mtcars_df,displ_l = mtcars_df$disp / 61.0237)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summarise&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.6&lt;/span&gt; 3.1.6 汇总summarise&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summarise(mtcars_df, mean(disp, na.rm = TRUE), n())
+summarise(group_by(mtcars_df, cyl), mean(disp), n())
+summarise(group_by(mtcars_df, cyl), m = mean(disp), sd = sd(disp))
+#对每⼀一列运⾏行概述函数。
+summarise_each(iris, funs(mean))
+by_species &amp;lt;- iris %&amp;gt;% group_by(Species)
+by_species %&amp;gt;% summarise_each(funs(length))
+by_species %&amp;gt;% summarise_each(funs(mean))
+by_species %&amp;gt;% summarise_each(funs(mean), Petal.Width)
+by_species %&amp;gt;% summarise_each(funs(mean), matches(&amp;quot;Width&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;count()&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#计算各变量中每⼀一个特定值的⾏行数(带权重或不带权重)。
+count(iris, Species, wt = Sepal.Length)
+count(iris, Species, mycount = n())&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;tally&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.7&lt;/span&gt; 3.1.7 tally&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+    group_by(cyl, vs) %&amp;gt;%
+    tally(sort = TRUE)
+#与下列方式相同
+mtcars %&amp;gt;%
+    group_by(cyl, vs) %&amp;gt;%
+    summarise(n = n()) %&amp;gt;%
+    arrange(cyl,vs,n)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;group_by&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2&lt;/span&gt; 3.2 分组group_by&lt;/h2&gt;
+&lt;p&gt;当对数据集通过 group_by() 添加了分组信息后,mutate(), arrange() 和 summarise() 函数会自动对这些 tbl 类数据执行分组操作 (R语言泛型函数的优势).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summarise(mtcars_df, mean(disp, na.rm = TRUE), n())
+summarise(group_by(mtcars_df, cyl), mean(disp), n(),n_distinct(gear))
+summarise(group_by(mtcars_df, cyl), m = mean(disp), sd = sd(disp))
+#a mutate/rename followed by a simple group_by
+group_by(mtcars_df, vsam = vs + am)
+group_by(mtcars_df, vs2 = vs)
+summarise(group_by(mtcars_df, cyl2=cyl), m = mean(disp), sd = sd(disp))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;另: 一些汇总时的小函数&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;n(): 计算个数&lt;br /&gt;
+n_distinct(x): 计算 x 中唯一值的个数&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;--.&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.3&lt;/span&gt; 3.3 链式操作(管道) %&amp;gt;% 或 %.%&lt;/h2&gt;
+&lt;p&gt;dplyr包还新引进了一个操作符，&lt;em&gt;读成then&lt;/em&gt;，使用时把数据名作为开头, 然后依次对此数据进行多步操作。比如:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mtcars %&amp;gt;%
+    group_by(cyl) %&amp;gt;%
+    summarise(total = sum(disp)) %&amp;gt;%
+    arrange(desc(total)) %&amp;gt;%
+    head(5)
+(x1-x2)^2%&amp;gt;%sum()%&amp;gt;%sqrt()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按数据处理的思路写代码, 一步步深入, &lt;strong&gt;既易写又易读&lt;/strong&gt;, 接近于从左到右的自然语言顺序， 对比一下用R自带函数实现的.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(arrange(summarise(group_by(mtcars, cyl), total = sum(disp)) , desc(total)), 5)
+x1 &amp;lt;- 1:5
+x2 &amp;lt;- 2:6
+sqrt(sum((x1-x2)^2))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;或者像&lt;a href=&#34;http://blog.revolutionanalytics.com/2014/01/fast-and-easy-data-munging-with-dplyr.html&#34;&gt;这篇文章&lt;/a&gt;所用的方法:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;totals &amp;lt;- aggregate(. ~ cyl, data=mtcars[,c(&amp;quot;cyl&amp;quot;,&amp;quot;disp&amp;quot;)], sum)
+ranks &amp;lt;- sort.list(-totals$disp)
+#ranks &amp;lt;- order(-totals$disp)
+totals[ranks[1:5],]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;文章里还表示: 通过 %&amp;gt;% 那段代码比跑上面这段代码，运算速度提升很多倍.&lt;/p&gt;
+&lt;p&gt;至于这个新鲜的概念会不会和 ggplot2 里的 + 连接号一样, 发挥出种种奇妙的功能呢? 还是在实际使用中多体验感受吧.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;join&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.4&lt;/span&gt; 3.5 数据匹配合并join&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;inner_join(x, y) ：只包含同时出现在x,y表中的行&lt;/li&gt;
+&lt;li&gt;left_join(x, y) ：包含&lt;strong&gt;所有&lt;/strong&gt;x中以及y中匹配的行&lt;/li&gt;
+&lt;li&gt;semi_join(x, y) ：包含x中，在y中有匹配的行，结果为x的子集&lt;/li&gt;
+&lt;li&gt;anti_join(x, y) ：包含x中，不匹配y的行，结果为x的子集，与semi_join相反&lt;/li&gt;
+&lt;li&gt;full_join(x, y) ：包含所以x、y中的行&lt;/li&gt;
+&lt;li&gt;right_join(x, y) ：包含所有y中以及x中匹配的行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- data.frame(name = c(&amp;quot;John&amp;quot;, &amp;quot;Paul&amp;quot;, &amp;quot;George&amp;quot;, &amp;quot;Ringo&amp;quot;, &amp;quot;Stuart&amp;quot;, &amp;quot;Pete&amp;quot;),
+  instrument = c(&amp;quot;guitar&amp;quot;, &amp;quot;bass&amp;quot;, &amp;quot;guitar&amp;quot;, &amp;quot;drums&amp;quot;, &amp;quot;bass&amp;quot;,&amp;quot;drums&amp;quot;))
+y &amp;lt;- data.frame(name = c(&amp;quot;John&amp;quot;, &amp;quot;Paul&amp;quot;, &amp;quot;George&amp;quot;, &amp;quot;Ringo&amp;quot;, &amp;quot;Brian&amp;quot;),
+  band = c(&amp;quot;TRUE&amp;quot;, &amp;quot;TRUE&amp;quot;, &amp;quot;TRUE&amp;quot;, &amp;quot;TRUE&amp;quot;, &amp;quot;FALSE&amp;quot;))
+inner_join(x, y)
+left_join(x, y)
+semi_join(x, y)
+anti_join(x, y)
+full_join(x, y)
+right_join(x,y)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.5&lt;/span&gt; 3.6 连接数据库&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;dplyr 可以连接数据库&lt;/li&gt;
+&lt;li&gt;使用与本地数据框操作一样的语法&lt;/li&gt;
+&lt;li&gt;只支持生成SELECT语句&lt;/li&gt;
+&lt;li&gt;支持SQLite, PostgreSQL/Redshift, MySQL/MariaDB, BigQuery, MonetDB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.6&lt;/span&gt; 3.7 利用窗体函数变换数据&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;函数&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::lead&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;把除第一个值以外的所有元素提前，最后一个元素为NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::lag&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;把除第一个值以外的所有元素延后，第一个元素为NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::dense_rank&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;无缝排序&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::min_rank&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;排序。并列时，其他序号顺延&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::percent_rank&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;把数据在[0,1]中充足并排列&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::row_number&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;排序。并列时，位置在前的并列数据序号在前&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::ntile&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;把向量分为n份&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::between&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;数据是否在a和b之间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::cume_dist&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;累计分布&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::cumal&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;累计all函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::cumany&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;累计any函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;dplyr::cummean&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;累计mean函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;cumsum&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;累计sum函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;cummax&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;累计max函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;cummin&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;累计min函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;cumprod&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;累计prod函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;pmax&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;针对元素的max函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;pmin&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;针对元素的min函数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;tidyr&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;4&lt;/span&gt; 4. tidyr&lt;/h1&gt;
+&lt;p&gt;tidyr包的作者也是Hadley Wickham, 与dplyr包结合使用，是reshape2包的替代。 （先挖坑…）&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;5&lt;/span&gt; 5. 字符串处理&lt;/h1&gt;
+&lt;div id=&#34;-nchar&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;5.1&lt;/span&gt; 5.1 字符个数 nchar&lt;/h2&gt;
+&lt;p&gt;nchar()能够获取字符串的长度，它和length()的结果是有区别的。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nchar(c(&amp;quot;abc&amp;quot;, &amp;quot;abcd&amp;quot;))    ＃求字符串中的字符个数，返回向量c(3, 4)
+length(c(&amp;quot;abc&amp;quot;, &amp;quot;abcd&amp;quot;))  ＃返回2，向量中元素的个数&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-paste&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;5.2&lt;/span&gt; 5.2 连接字符 paste&lt;/h2&gt;
+&lt;p&gt;paste()不仅可以连接多个字符串，还可以将对象自动转换为字符串再相连，另外它还能处理向量，所以功能更强大。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;paste(&amp;quot;fitbit&amp;quot;, month, &amp;quot;.jpg&amp;quot;, sep=&amp;quot;&amp;quot;)
+paste(&amp;quot;fitbit&amp;quot;, 1:12, &amp;quot;.jpg&amp;quot;, sep = &amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;paste默认的分隔符是空格，必须指定sep=“”。还有一个&lt;strong&gt;collapse参数&lt;/strong&gt;，可以把这些字符串拼成一个长字符串，而不是放在一个向量中。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;paste(&amp;quot;fitbit&amp;quot;, 1:3, &amp;quot;.jpg&amp;quot;, sep = &amp;quot;&amp;quot;, collapse = &amp;quot;; &amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;另外还有一个paste0函数，默认就是sep=“”&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-strsplit&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;5.3&lt;/span&gt; 5.3 分割字符 strsplit&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;strsplit(x, split, fixed = FALSE, perl = FALSE, useBytes = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- c(as = &amp;quot;asfef&amp;quot;, qu = &amp;quot;qwerty&amp;quot;, &amp;quot;yuiop[&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;stuff.blah.yech&amp;quot;)
+strsplit(x,&amp;quot;e&amp;quot;)
+#需要注意的细节
+strsplit(paste(c(&amp;quot;&amp;quot;, &amp;quot;a&amp;quot;, &amp;quot;&amp;quot;)
+strsplit(&amp;quot;&amp;quot;, &amp;quot; &amp;quot;)[[1]]
+strsplit(&amp;quot; &amp;quot;, &amp;quot; &amp;quot;)[[1]]
+
+##倒序运用：
+strReverse &amp;lt;- function(x)
+        sapply(lapply(strsplit(x, NULL), rev), paste, collapse = &amp;quot;&amp;quot;)
+strReverse(c(&amp;quot;abc&amp;quot;, &amp;quot;Statistics&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-substrsubstring&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;5.4&lt;/span&gt; 5.4 提取字符 substr与substring&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;substr(x, start, stop)
+substring(text, first, last = 1000000L)
+substr(x, start, stop) &amp;lt;- value
+substring(text, first, last = 1000000L) &amp;lt;- value&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;substr(&amp;quot;abcdef&amp;quot;, 2, 4)
+substring(&amp;quot;abcdef&amp;quot;, 1:6, 1:6)
+
+substr(rep(&amp;quot;abcdef&amp;quot;, 4), 1:4, 4:5)
+x &amp;lt;- c(&amp;quot;asfef&amp;quot;, &amp;quot;qwerty&amp;quot;, &amp;quot;yuiop[&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;stuff.blah.yech&amp;quot;)
+substr(x, 2, 5)
+substring(x, 2, 4:6)
+substring(x, 2) &amp;lt;- c(&amp;quot;..&amp;quot;, &amp;quot;+++&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-subgsub&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;5.5&lt;/span&gt; 5.5 替换字符 sub和gsub&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;sub 只做一次替换（不管有几次匹配）&lt;/li&gt;
+&lt;li&gt;gsub 把满足条件的匹配都做替换&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
+    fixed = FALSE, useBytes = FALSE)
+gsub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
+     fixed = FALSE, useBytes = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;虽然sub和gsub是用于字符串替换的函数，但严格地说R语言没有字符串替换的函数，因为R语言不管什么操作对参数都是传值不传址。所以原字符串并没有改变，要改变原变量我们只能通过再赋值的方式。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;text &amp;lt;- &amp;quot;Hello Adam!\nHello Ava!&amp;quot;
+sub(pattern=&amp;quot;Adam&amp;quot;, replacement=&amp;quot;World&amp;quot;, text)
+text
+sub(pattern=&amp;quot;Adam|Ava&amp;quot;, replacement=&amp;quot;World&amp;quot;, text)
+gsub(pattern=&amp;quot;Adam|Ava&amp;quot;, replacement=&amp;quot;world&amp;quot;, text)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;sub和gsub函数可以使用提取表达式（转义字符+数字）让部分变成全部&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sub(pattern=&amp;quot;.*(Adam).*&amp;quot;, replacement=&amp;quot;\\1&amp;quot;, text)
+str &amp;lt;- &amp;quot;Now is the time      &amp;quot;
+sub(&amp;quot; +$&amp;quot;, &amp;quot;&amp;quot;, str)
+sub(&amp;quot;[[:space:]]+$&amp;quot;, &amp;quot;&amp;quot;, str)
+sub(&amp;quot;\\s+$&amp;quot;, &amp;quot;&amp;quot;, str, perl = TRUE)
+txt &amp;lt;- &amp;quot;a test of capitalizing&amp;quot;
+gsub(&amp;quot;(\\w)(\\w*)&amp;quot;, &amp;quot;\\U\\1\\L\\2&amp;quot;, txt, perl=TRUE)
+gsub(&amp;quot;\\b(\\w)&amp;quot;,    &amp;quot;\\U\\1&amp;quot;,       txt, perl=TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-grep&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;5.6&lt;/span&gt; 5.6 字符查询匹配 grep&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;grep 返回匹配项的下标&lt;/li&gt;
+&lt;li&gt;grepl 返回所有查询结果的逻辑向量&lt;/li&gt;
+&lt;li&gt;regexpr&lt;/li&gt;
+&lt;li&gt;gregexpr&lt;/li&gt;
+&lt;li&gt;regexec regexpr、gregexpr和regexec这三个函数返回的结果包含了匹配的具体位置和字符串长度信息，可以用于字符串的提取操作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- c(&amp;quot;abc&amp;quot;,&amp;quot;abcdef&amp;quot;,&amp;quot;def&amp;quot;)
+grep(&amp;quot;def&amp;quot;, x)
+# grep返回匹配项的下标
+# grepl返回所有查询结果的逻辑向量。两者的结果都可用于提取数据子集
+grepl(&amp;quot;def&amp;quot;, x)
+# regexpr、gregexpr和regexec&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;5.7&lt;/span&gt; 5.5 其他&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;大小写转换 tolower与toupper&lt;/li&gt;
+&lt;li&gt;列表转换为向量unlist，&lt;code&gt;unlist(x, recursive = TRUE, use.names = TRUE)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;重复输入&lt;strong&gt;rep()&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1:4, 2)
+rep(1:4, each = 2)
+rep(1:4, c(2,2,2,2))
+rep(1:4, c(2,1,2,1))
+rep(1:4, each = 2, len = 4)
+rep(1:4, each = 2, len = 10)
+rep(1:4, each = 2, times = 3) &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;stringr&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;5.8&lt;/span&gt; 5.6 stringr包&lt;/h2&gt;
+&lt;p&gt;stringr包是用来处理字符串的。(先挖坑…)&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;6&lt;/span&gt; 附录A 正则表达式&lt;/h1&gt;
+&lt;p&gt;待整理&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;b&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;7&lt;/span&gt; 附录B&lt;/h1&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>在R中读取数据</title>
+      <link>https://jeevanyue.github.io/post/2018-01-08-read_data_in_r/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2018-01-08-read_data_in_r/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1&lt;/span&gt; 1. 文本格式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#excel&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2&lt;/span&gt; 2. Excel格式&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#openxlsx&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 openxlsx包&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#vbaxlsxcsv&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 用VBA把xlsx批量转化为csv格式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#xlsx&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 xlsx包&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.4&lt;/span&gt; 2.4 剪切板&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3&lt;/span&gt; 3. 数据库&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#access&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.1&lt;/span&gt; 3.1 ACCESS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#mysql&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.2&lt;/span&gt; 3.2 MYSQL&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;数据源&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文本格式&lt;/li&gt;
+&lt;li&gt;Excel格式&lt;/li&gt;
+&lt;li&gt;数据库&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;剪切板&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;1&lt;/span&gt; 1. 文本格式&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;read.table()&lt;/strong&gt; 即是以&lt;strong&gt;数据框&lt;/strong&gt;的格式在R中读取数据，可以直接读取txt文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;read.csv()&lt;/strong&gt; 与read.table函数类似，可以直接读取csv文件和txt文件。&lt;/li&gt;
+&lt;li&gt;data.table的&lt;strong&gt;fread()&lt;/strong&gt; 比常规的&lt;strong&gt;read.table&lt;/strong&gt;或者&lt;strong&gt;read.csv&lt;/strong&gt;效率更高。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;read.table(tf, header = T, fill = TRUE)
+read.csv(tf, header = T, fill = TRUE)
+#fread需先加载data.table
+library(data.table)
+fread(tf, sep=&amp;quot;auto&amp;quot;, header=T, select=NULL, drop=NULL)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;筛选读取的列&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data = &amp;quot;A,B,C,D\n1,3,5,7\n2,4,6,8\n&amp;quot;
+#筛选读取的列
+fread(data, select=c(&amp;quot;A&amp;quot;,&amp;quot;D&amp;quot;))
+fread(data, select=c(1,4))
+#筛选不读取的列
+fread(data, drop=c(&amp;quot;B&amp;quot;,&amp;quot;C&amp;quot;))
+fread(data, drop=2:3)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;直接读取URL数据&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- fread(&amp;quot;http://www.stats.ox.ac.uk/pub/datasets/csb/ch11b.dat&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;read.csv与fread效率比较&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n &amp;lt;- 1e6
+DT &amp;lt;- data.table( a=sample(1:1000,n,replace=TRUE),b=sample(1:1000,n,replace=TRUE),
+                 c=rnorm(n),d=sample(c(&amp;quot;foo&amp;quot;,&amp;quot;bar&amp;quot;,&amp;quot;baz&amp;quot;,&amp;quot;qux&amp;quot;,&amp;quot;quux&amp;quot;),n,replace=TRUE),
+                 e=rnorm(n),f=sample(1:1000,n,replace=TRUE) )
+DT[2,b:=NA_integer_]
+DT[4,c:=NA_real_]
+DT[3,d:=NA_character_]
+DT[5,d:=&amp;quot;&amp;quot;]
+DT[2,e:=+Inf]
+DT[3,e:=-Inf]
+write.table(DT,&amp;quot;test.csv&amp;quot;,sep=&amp;quot;,&amp;quot;,row.names=FALSE,quote=FALSE)
+cat(&amp;quot;File size (MB):&amp;quot;, round(file.info(&amp;quot;test.csv&amp;quot;)$size/1024^2),&amp;quot;\n&amp;quot;)
+##File size (MB): 51 
+#新建50 MB (1e6 rows x 6 columns)的数据
+
+system.time(DF1 &amp;lt;-read.csv(&amp;quot;test.csv&amp;quot;,stringsAsFactors=FALSE))
+#第一次读取所需时间 11 sec
+system.time(DF1 &amp;lt;- read.csv(&amp;quot;test.csv&amp;quot;,stringsAsFactors=FALSE))
+#重复读取所需时间 8 sec
+system.time(DF2 &amp;lt;- read.table(&amp;quot;test.csv&amp;quot;,header=TRUE,sep=&amp;quot;,&amp;quot;,quote=&amp;quot;&amp;quot;,
+    stringsAsFactors=FALSE,comment.char=&amp;quot;&amp;quot;,nrows=n,
+    colClasses=c(&amp;quot;integer&amp;quot;,&amp;quot;integer&amp;quot;,&amp;quot;numeric&amp;quot;,
+                 &amp;quot;character&amp;quot;,&amp;quot;numeric&amp;quot;,&amp;quot;integer&amp;quot;)))
+#知道字段格式所需时间 6 sec
+require(data.table)
+system.time(DT &amp;lt;- fread(&amp;quot;test.csv&amp;quot;))
+#使用fread()更友好、更快！&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;excel&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;2&lt;/span&gt; 2. Excel格式&lt;/h1&gt;
+&lt;p&gt;用VBA把xlsx批量转化为csv格式，虽然比较方便，但是还有mac的存在，综合推荐使用&lt;strong&gt;openxlsx包&lt;/strong&gt;&lt;/p&gt;
+&lt;div id=&#34;openxlsx&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 openxlsx包&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;read.xlsx(xlsxFile, sheet = 1, startRow = 1, colNames = TRUE,
+  rowNames = FALSE, detectDates = FALSE, skipEmptyRows = TRUE,
+  rows = NULL, cols = NULL, check.names = FALSE, namedRegion = NULL)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;读取excel数据&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(openxlsx)
+xlsxFile &amp;lt;- system.file(&amp;quot;readTest.xlsx&amp;quot;, package = &amp;quot;openxlsx&amp;quot;)
+df &amp;lt;- read.xlsx(xlsxFile = xlsxFile, sheet = 1, skipEmptyRows = FALSE)
+sapply(df, class)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将excel中日期数字转换为日期格式&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;convertToDate(df$Var5)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;获取工作表sheet的名称&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getSheetNames(xlsxFile)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;创建工作簿并保存&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wb &amp;lt;- createWorkbook()
+# 创建mtcars工作表
+addWorksheet(wb, &amp;quot;mtcars&amp;quot;)
+# 写入数据
+writeData(wb, &amp;quot;mtcars&amp;quot;, mtcars)
+# 保存工作簿
+saveWorkbook(wb, &amp;quot;mtcars.xlsx&amp;quot;, overwrite = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;vbaxlsxcsv&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 用VBA把xlsx批量转化为csv格式&lt;/h2&gt;
+&lt;p&gt;主要参考&lt;a href=&#34;http://www.cnblogs.com/weibaar/&#34;&gt;尾巴AR&lt;/a&gt;的&lt;a href=&#34;http://www.cnblogs.com/weibaar/p/4506144.html&#34;&gt;R语言学习笔记之: 论如何正确把EXCEL文件喂给R处理&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在上面的尝试已经发现，xlsx本身就是这个复杂问题的最根本原因。与之相反，R对csv等文本格式支持的很好，而且有&lt;strong&gt;fread&lt;/strong&gt;这个神器，要处理一定量级的数据，还是得把xlsx转化为csv格式。 以此为思路，在参考了两个资料后，我成功改写了一段VBA，可以选中需要的xlsx，然后在其目录下新建csv文件夹，把xlsx批量转化为csv格式&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div id=&#34;xlsx&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 xlsx包&lt;/h2&gt;
+&lt;p&gt;首先配置java环境，加载rJava包，再加载xlsxjars包和xlsx包。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;安装最新版本的java。&lt;/li&gt;
+&lt;li&gt;在R中加载环境，即一行代码，路径要依据你的java版本做出更改。&lt;br /&gt;
+&lt;code&gt;Sys.setenv(JAVA_HOME=&#39;C:\\Program Files\\Java\\jre1.8.0_45\\&#39;)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.4&lt;/span&gt; 2.4 剪切板&lt;/h2&gt;
+&lt;p&gt;如果excel文件很小、很干净，可临时采用&lt;strong&gt;剪切板&lt;/strong&gt;的方式。 &lt;code&gt;read.table(&amp;quot;clipboard&amp;quot;,header=T)&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;3&lt;/span&gt; 3. 数据库&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;ACCESS&lt;/li&gt;
+&lt;li&gt;MYSQL&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;access&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1&lt;/span&gt; 3.1 ACCESS&lt;/h2&gt;
+&lt;div class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.1&lt;/span&gt; 3.1.1 连接数据库&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;odbcConnect(dsn, uid = &amp;quot;&amp;quot;, pwd = &amp;quot;&amp;quot;, ...)&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RODBC)
+# datasource为已配制好的本地数据源
+channel &amp;lt;- odbcConnect(&amp;quot;datasource&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;也可以先不配置ODBC源，直接用odbcConnectAccess()&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;channel &amp;lt;- odbcConnectAccess(&amp;quot;AccessFile.mdb&amp;quot;)
+#odbcConnectAccess只能用于32位windows系统，64位的可以尝试odbcConnectAccess2007()
+channel &amp;lt;- odbcConnectAccess2007(&amp;quot;AccessFile.accdb&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1.2&lt;/span&gt; 3.1.2 读取数据&lt;/h3&gt;
+&lt;p&gt;向数据库提交查询，并返回结果。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sqlQuery(channel, query, errors = TRUE, ..., rows_at_time)&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;myquery &amp;lt;- &amp;quot;select * from testtable&amp;quot;
+mydata &amp;lt;- sqlQuery(channel, myquery)
+#对于日常的统计口径可以讲select、where和group等模块化
+myselect &amp;lt;- &amp;quot;select State, Murder from USArrests&amp;quot;
+mywhere &amp;lt;- &amp;quot;where Rape &amp;gt; 30 order by Murder&amp;quot;
+mydata1 &amp;lt;- sqlQuery(channel, paste(myselect,mywhere))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;mysql&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2&lt;/span&gt; 3.2 MYSQL&lt;/h2&gt;
+&lt;p&gt;参考内容:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://blog.fens.me/r-mysql-rmysql/&#34;&gt;RMySQL数据库编程指南&lt;/a&gt; &lt;a href=&#34;http://blog.csdn.net/hongweigg/article/details/49781427&#34;&gt;R语言使用RMySQL连接及读写Mysql数据库&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;RMySql包安装和加载优点问题，试着根据提示简单安装和加载可以使用，后续再查询资料解决。&lt;/p&gt;
+&lt;div id=&#34;-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2.1&lt;/span&gt; 3.2.1 连接数据库&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;dbConnect(MySQL(),host=&amp;quot;localhost&amp;quot;,dbname,user=&amp;quot;&amp;quot;,password=&amp;quot;&amp;quot;, ...)&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RMySql)
+#可能是安装RMySQL的问题，导致直接library(RMySql)提示不存在RMySql包，通过下列方式可以加载成功（又挖一个坑...）
+library(&amp;quot;RMySQL&amp;quot;, lib.loc=&amp;quot;/Library/Frameworks/R.framework/Versions/3.3/Resources/library&amp;quot;)
+# Quark
+con &amp;lt;- dbConnect(MySQL(),host=&amp;quot;localhost&amp;quot;,dbname=&amp;quot;Quark&amp;quot;,user=&amp;quot;root&amp;quot;,password=&amp;quot;root&amp;quot;)
+#获取连接信息，查看database下所有表
+summary(con)  
+dbGetInfo(con)  
+dbListTables(con)
+#断开连接
+dbDisconnect(con)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2.2&lt;/span&gt; 3.2.2 写入数据&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;dbWriteTable(conn, name, value, row.names=T...)&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;append=T 在数据库中原表的基础上追加&lt;/li&gt;
+&lt;li&gt;overwrite=T 覆盖数据库中的原表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;testA &amp;lt;-data.frame(id=1:6,e=c(&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;d&amp;quot;,&amp;quot;e&amp;quot;,&amp;quot;f&amp;quot;),c=c(&amp;quot;我&amp;quot;,&amp;quot;的&amp;quot;,&amp;quot;世&amp;quot;,&amp;quot;界&amp;quot;,&amp;quot;变&amp;quot;,&amp;quot;得&amp;quot;))  
+testB &amp;lt;-data.frame(id=7:13,e=c(&amp;quot;g&amp;quot;,&amp;quot;h&amp;quot;,&amp;quot;i&amp;quot;,&amp;quot;j&amp;quot;,&amp;quot;k&amp;quot;,&amp;quot;l&amp;quot;,&amp;quot;m&amp;quot;),c=c(&amp;quot;奇&amp;quot;,&amp;quot;妙&amp;quot;,&amp;quot;跟&amp;quot;,&amp;quot;难&amp;quot;,&amp;quot;以&amp;quot;,&amp;quot;言&amp;quot;,&amp;quot;喻&amp;quot;))  
+#直接写testA写入test表中  
+dbWriteTable(con,&amp;quot;test&amp;quot;,testA,row.names=T)
+dbReadTable(con,&amp;quot;test&amp;quot;)
+#追加写testB追加在test表后  
+dbWriteTable(con,&amp;quot;test&amp;quot;,testB,append=T,row.names=F)  
+dbReadTable(con,&amp;quot;test&amp;quot;)  
+#覆盖写testB覆盖test表  
+dbWriteTable(con,&amp;quot;test&amp;quot;,testB,overwrite=T,row.names=F)  
+dbReadTable(con,&amp;quot;test&amp;quot;)
+
+fruits &amp;lt;-data.frame(id=1:5,name=c(&amp;quot;苹果&amp;quot;,&amp;quot;香蕉&amp;quot;,&amp;quot;梨子&amp;quot;,&amp;quot;玉米&amp;quot;,&amp;quot;西瓜&amp;quot;),price=c(8.8,4.98,7.8,6,2.1),status=c(&amp;quot;无&amp;quot;,&amp;quot;打折&amp;quot;,&amp;quot;无&amp;quot;,&amp;quot;售罄&amp;quot;,&amp;quot;批发&amp;quot;))  
+dbListTables(con)
+dbWriteTable(con,&amp;quot;fruits&amp;quot;,fruits,overwrite=T,row.names=F)
+dbReadTable(con,&amp;quot;fruits&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2.3&lt;/span&gt; 3.2.3 读取数据&lt;/h3&gt;
+&lt;p&gt;向数据库提交查询，并返回结果。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dbReadTable(conn, name, …) 直接获得所读取表的全部数据&lt;/li&gt;
+&lt;li&gt;dbGetQuery(conn, statement, …) 通过sql语句查询数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#读数据库
+#解决中文乱麻问题
+#dbSendQuery(con,&amp;#39;SET NAMES uft8&amp;#39;)
+dbReadTable(con,&amp;quot;test&amp;quot;)
+
+#用SQL语句查询dbGetQuery()和dbSendQuery()两种方法  
+dbGetQuery(con, &amp;quot;SELECT * FROM test limit 3&amp;quot;)  
+   
+res &amp;lt;- dbSendQuery(con, &amp;quot;SELECT * FROM test&amp;quot;)  
+data &amp;lt;- dbFetch(res, n=2) #取前2条数据，n=-1时是获取所有数据  
+data  
+data &amp;lt;- dbFetch(res, n=-1) #取余下所有数据  
+data  
+dbClearResult(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;用SQL语句批量查询&lt;/strong&gt;，client.flag设置这样支持批量查询&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;con &amp;lt;- dbConnect(MySQL(),host=&amp;quot;localhost&amp;quot;,dbname=&amp;quot;Quark&amp;quot;,user=&amp;quot;root&amp;quot;,password=&amp;quot;root&amp;quot;,client.flag= CLIENT_MULTI_STATEMENTS) 
+#client.flag设置这样支持批量查询
+#dbSendQuery(con,&amp;#39;SET NAMES uft-8&amp;#39;)
+sql &amp;lt;- &amp;quot;SELECT * FROM fruits;SELECT * FROM test&amp;quot;
+res1 &amp;lt;- dbSendQuery(con,sql)
+dbFetch(res1, n = -1)
+if (dbMoreResults(con)) {
+  res2 &amp;lt;- dbNextResult(con)
+  dbFetch(res2, n = -1)
+}
+dbListResults(con)
+dbClearResult(res1)
+dbClearResult(res2)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2.4&lt;/span&gt; 3.2.3 删除表&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dbRemoveTable(con,&amp;quot;test&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>在R中读取数据-XML</title>
+      <link>https://jeevanyue.github.io/post/2018-01-08-read_xml_data_in_r/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2018-01-08-read_xml_data_in_r/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#xml&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1&lt;/span&gt; 1.XML包&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#xml&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.1&lt;/span&gt; 1.1. 载入XML文件&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.2&lt;/span&gt; 1.2. 获取特定的节点&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#xmlsapplyxmlapply&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.3&lt;/span&gt; 1.3 xmlSApply和xmlApply&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#xmldataframe&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.4&lt;/span&gt; 1.4 xml格式转dataframe&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%&lt;/p&gt;
+&lt;p&gt;因为要读取一个XML格式的数据，学习整理XML包。&lt;/p&gt;
+&lt;div id=&#34;xml&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;1&lt;/span&gt; 1.XML包&lt;/h1&gt;
+&lt;div id=&#34;xml&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.1&lt;/span&gt; 1.1. 载入XML文件&lt;/h2&gt;
+&lt;p&gt;有两种方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;通过函数xmlTreeParse(“file.xml”)载入xml文件，如果不加入参数，将获得关于这个xml文件的所有信息。所以，这个函数通常配合xmlRoot()使用，比如xmlRoot(xmlTreeParse(“file.xml”))以得到xml主体文件。&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;ol start=&#34;2&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;通过函数xmlTreeParse(“file.xml”, useInternalNodes = TRUE)来得到加入首行的xml文件主体&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RCurl)
+library(XML)
+url&amp;lt;-&amp;quot;http://www.w3school.com.cn/example/xdom/books.xml&amp;quot;  #注，也可以为url复制本地文件的路径
+doc&amp;lt;-xmlTreeParse(getURL(url),useInternal = TRUE)
+d &amp;lt;- xmlRoot(doc)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.2&lt;/span&gt; 1.2. 获取特定的节点&lt;/h2&gt;
+&lt;p&gt;详细XPath语言见&lt;a href=&#34;http://www.w3school.com.cn/xpath/xpath_syntax.asp&#34;&gt;XPath 语法&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;使用函数getNodeSet(doc, XPath)&lt;/p&gt;
+&lt;p&gt;XPath的常见用法：&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;获取第一个son元素&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;/root/son[1]&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getNodeSet(d, &amp;quot;/bookstore/book[1]&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;2&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;获取最后一个son元素&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;/root/son[last()]&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getNodeSet(d, &amp;quot;/bookstore/book[last()]&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;3&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;获取前两个son元素&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;/root/son[position() &amp;lt; 3]&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getNodeSet(d, &amp;quot;/bookstore/book[position() &amp;lt; 3]&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;4&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;获取任意son2元素&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;//son2&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getNodeSet(d, &amp;quot;/bookstore/book&amp;quot;)
+getNodeSet(d, &amp;quot;/bookstore/book/title&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;5&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;获取任意son2的age属性&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;//son2&lt;span class=&#34;citation&#34;&gt;[@age]&lt;/span&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getNodeSet(d, &amp;quot;//book[@category]&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;6&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;获取任意son2的age属性等于18的元素&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;//son2&lt;span class=&#34;citation&#34;&gt;[@age=18]&lt;/span&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getNodeSet(d, &amp;quot;//book[@category=&amp;#39;web&amp;#39;]&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;7&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;获取root下所有元素&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;/root/*&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getNodeSet(d, &amp;quot;/bookstore/*&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;8&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;获取所有带属性的son元素&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;//son&lt;span class=&#34;citation&#34;&gt;[@*]&lt;/span&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;getNodeSet(d, &amp;quot;//book[@*]&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;节点相关函数&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;class(xmltop) #查看类&lt;/li&gt;
+&lt;li&gt;xmlName(node)：查看根目录名。 node[[1]]：查看第一个子目录 node[[1]][[2]]：查看第一个子目录的第二个节点&lt;/li&gt;
+&lt;li&gt;xmlSize(node)：该节点下字节点数量。&lt;/li&gt;
+&lt;li&gt;xmlAttrs(node)：该节点属性。&lt;/li&gt;
+&lt;li&gt;xmlGetAttr(node, attr)：该节点某一属性。&lt;/li&gt;
+&lt;li&gt;xmlValue(node)：该节点值。&lt;/li&gt;
+&lt;li&gt;xmlChildren(node)：该节点下的子节点。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;class(d)
+xmlName(d)
+xmlSize(d)
+xmlAttrs(d)
+xmlAttrs(d[[1]])
+xmlAttrs(d[[1]][[1]])
+xmlGetAttr(d[[1]][[1]], &amp;quot;lang&amp;quot;)
+xmlChildren(d[[1]])
+
+#通过以下方式获得的节点类型不同，建议使用getNodeSet
+d[[1]][[1]]
+getNodeSet(d, &amp;quot;//book/title&amp;quot;)[[1]]
+getNodeSet(d, &amp;quot;//book[1]/title&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;xmlsapplyxmlapply&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.3&lt;/span&gt; 1.3 xmlSApply和xmlApply&lt;/h2&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;读取节点的值&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#读取第一本书的&amp;quot;title&amp;quot;的值
+d[[1]][[1]][[1]]
+xmlValue(d[[1]][[1]])
+xpathSApply(d, &amp;quot;/bookstore/book[1]/title&amp;quot;, xmlValue)
+xpathSApply(d, &amp;quot;//book[1]/title&amp;quot;, xmlValue)
+
+xpathSApply(d, &amp;quot;//book/title&amp;quot;, xmlValue)
+
+xpathSApply(d, &amp;quot;//book[1]/title&amp;quot;, xmlName)
+xpathSApply(d, &amp;quot;//book[1]/title&amp;quot;, xmlSize)
+xpathSApply(d, &amp;quot;//book[1]/title&amp;quot;, xmlAttrs)
+
+#xpathSApply和xpathApply的区别：
+#xpathSApply是xpathApply读取值的一个因子
+xpathApply(d, &amp;quot;//book[1]/title&amp;quot;, xmlName)
+xpathApply(d, &amp;quot;//book[1]/title&amp;quot;, xmlSize)
+xpathApply(d, &amp;quot;//book[1]/title&amp;quot;, xmlAttrs)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;2&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;读取节点的属性值&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;xmlGetAttr(d[[1]][[1]], &amp;quot;lang&amp;quot;)
+
+title&amp;lt;-getNodeSet(d, &amp;quot;//book[1]/title&amp;quot;)
+title_lang&amp;lt;-sapply(title, xmlGetAttr, &amp;quot;lang&amp;quot;)
+sapply(xmlChildren(d), xmlGetAttr, &amp;quot;category&amp;quot;)
+
+#也可以通过该方法读取节点的值
+title_value&amp;lt;-sapply(title, xmlValue)
+sapply(xmlChildren(d[[&amp;quot;book&amp;quot;]]), xmlValue)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;xmldataframe&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.4&lt;/span&gt; 1.4 xml格式转dataframe&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;book &amp;lt;- getNodeSet(d, &amp;quot;//book&amp;quot;)
+mybook &amp;lt;- sapply(book,xmlValue)
+
+#第一种方式，直接用xmlToDataFrame()函数
+xmlToDataFrame(d)
+#由于book[4]不规范，导致转化失败
+xmlToDataFrame(xmlChildren(d)[[&amp;quot;book&amp;quot;]])
+xmlToDataFrame(getNodeSet(d, &amp;quot;//book[1]&amp;quot;))
+xmlToDataFrame(nodes = getNodeSet(d, &amp;quot;//book/title&amp;quot;))
+
+#第二种方式，数据格式处理专用包plyr
+library(&amp;quot;plyr&amp;quot;)
+#先转成list,再转dataframe
+MyBooks &amp;lt;- ldply(xmlToList(d), data.frame)
+MyBooks &amp;lt;- ldply(xmlToList(getNodeSet(d, &amp;quot;//book&amp;quot;)), data.frame)
+
+#第三种方式，读取单个值后组合为dataframe
+author &amp;lt;- xpathSApply(d, &amp;quot;//book/author&amp;quot;, xmlValue)
+#对第四个book的author值做特殊处理
+author4 &amp;lt;- xpathSApply(d, &amp;quot;//book[4]/author&amp;quot;, xmlValue)
+author4 &amp;lt;- paste(author4, collapse = &amp;quot;, &amp;quot;)
+author &amp;lt;- c(author[1:3],author4)
+MyBooks &amp;lt;- data.frame(
+    category=sapply(xmlChildren(d), xmlGetAttr, &amp;quot;category&amp;quot;),
+    title=xpathSApply(d, &amp;quot;//book/title&amp;quot;, xmlValue),
+    author,
+    year=xpathSApply(d, &amp;quot;//book/year&amp;quot;, xmlValue),
+    price=xpathSApply(d, &amp;quot;//book/price&amp;quot;, xmlValue))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>总结2017-展望2018</title>
+      <link>https://jeevanyue.github.io/post/2018-01-07-year_2018/</link>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2018-01-07-year_2018/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#2017&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1&lt;/span&gt; 总结2017&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#2018&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2&lt;/span&gt; 展望2018&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%&lt;/p&gt;
+&lt;p&gt;2018年已经过去一周，今天必须抽空总结一下。&lt;/p&gt;
+&lt;div id=&#34;2017&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;1&lt;/span&gt; 总结2017&lt;/h1&gt;
+&lt;p&gt;该博客搭建于2016年8月，已经过去快一年半，还以为是去年搭建的，而且离上次写文章已经过去半年。时间真的过的真快。&lt;/p&gt;
+&lt;p&gt;2017年因为工作有所变动，忙了很多事情，也是因为工作的原因，主要是学习了shinyapps和docker在工程方面的应用。而在学习总结方面稍微了少了点，所以下面直接规划展望2018年。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;2018&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;2&lt;/span&gt; 展望2018&lt;/h1&gt;
+&lt;p&gt;自己有好多需要不断学习！这里也只总结关于工具学习方面，包括R(包括用到的各类package)、docker、HTML等等，主要通过工作中的应用、日常的学习练习来实现。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每月至少一个项目，无论项目大小&lt;/li&gt;
+&lt;li&gt;每月至少维护一次BI项目&lt;/li&gt;
+&lt;li&gt;每周学习总结，无论什么内容&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么这周已经欠了一次总结，那么下周需要已经两篇总结。下周把sf.gg中的内容转到博客中，并且后续保证两者同时更新。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;逃离舒适区！&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://jeevanyue.github.io/images/you_can_do_it.jpg&#34; alt=&#34;you can do it&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;you can do it&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>dplyr之参数传递</title>
+      <link>https://jeevanyue.github.io/post/2017-04-06-dplyr_transfer_parameter/</link>
+      <pubDate>Thu, 06 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2017-04-06-dplyr_transfer_parameter/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1&lt;/span&gt; 1. 概述&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.1&lt;/span&gt; 1.1 三种方式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.2&lt;/span&gt; 1.2 传递多个参数&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.3&lt;/span&gt; 1.3 设置变量名&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.4&lt;/span&gt; 1.4 将更多信息参数化&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#examples&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2&lt;/span&gt; 2. examples&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#select_&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 select_&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#filter_&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 filter_&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#group_by_summarise_&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 group_by_和summarise_&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#mutete_&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.4&lt;/span&gt; 2.4 mutete_&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#lazyeval&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3&lt;/span&gt; 3. lazyeval包&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;4&lt;/span&gt; 4. 参考&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;1&lt;/span&gt; 1. 概述&lt;/h1&gt;
+&lt;p&gt;在shiny中经常需要根据input来向dplyr的函数提供参数，以便进行相应数据操作。dplyr在filter()、mutate()、summarise()、arrange()、select()、group_by()这些函数中，都支持Non-standard evaluation(NSE)，很方便的进行参数传递。&lt;/p&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.1&lt;/span&gt; 1.1 三种方式&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 加载dplyr包
+require(&amp;quot;dplyr&amp;quot;)
+## 通过下列查看相关资料
+vignette(&amp;quot;nse&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过select_、group_by_、filter_、summarise_、mutate_、arrange_与&lt;code&gt;.dots&lt;/code&gt;结合来操作数据。支持下列三种方式，向dplyr传递参数。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;With a formula: &lt;code&gt;~ mean(mpg)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;With quote(): &lt;code&gt;quote(mean(mpg))&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;As a string: &lt;code&gt;&amp;quot;mean(mpg)&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面是个简单的栗子&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 使用mtcars作为测试数据
+data &amp;lt;- mtcars
+
+myfun1 &amp;lt;- function(data, group_name, measure_input){
+  data %&amp;gt;%
+    group_by_(group_name) %&amp;gt;%
+    summarise_(measure_input) %&amp;gt;% 
+    ungroup() -&amp;gt; data
+  return(data)
+}
+group_name &amp;lt;- ~ cyl
+measure_input &amp;lt;- ~mean(mpg)
+group_name &amp;lt;- quote(cyl)
+measure_input &amp;lt;- quote(mean(mpg))
+group_name &amp;lt;- &amp;quot;cyl&amp;quot;
+measure_input &amp;lt;- &amp;quot;mean(mpg)&amp;quot;
+myfun1(data = mtcars, group_name = group_name, measure_input = measure_input)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.2&lt;/span&gt; 1.2 传递多个参数&lt;/h2&gt;
+&lt;p&gt;通过&lt;code&gt;.dots&lt;/code&gt;来传递多个参数&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;myfun1 &amp;lt;- function(data, group_name, measure_input){
+  data %&amp;gt;%
+    group_by_(.dots = group_name) %&amp;gt;%
+    summarise_(.dots = measure_input) %&amp;gt;% 
+    ungroup() -&amp;gt; data
+  return(data)
+}
+group_name &amp;lt;- &amp;quot;cyl;carb&amp;quot;
+group_name &amp;lt;- strsplit(group_name,&amp;quot;;&amp;quot;)[[1]]
+measure_input &amp;lt;- &amp;quot;sum(disp);mean(mpg)&amp;quot;
+measure_input &amp;lt;- strsplit(measure_input,&amp;quot;;&amp;quot;)[[1]]
+
+group_name &amp;lt;- c(&amp;quot;cyl&amp;quot;,&amp;quot;carb&amp;quot;)
+measure_input &amp;lt;- c(&amp;quot;sum(disp)&amp;quot;,&amp;quot;mean(mpg)&amp;quot;)
+myfun1(data = data, group_name = group_name, measure_input = measure_input)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.3&lt;/span&gt; 1.3 设置变量名&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;group_name &amp;lt;- c(&amp;quot;cyl&amp;quot;,&amp;quot;carb&amp;quot;)
+measure_input &amp;lt;- c(&amp;quot;sum(disp)&amp;quot;,&amp;quot;mean(mpg)&amp;quot;)
+
+measure_input &amp;lt;- as.list(measure_input)
+measure_input &amp;lt;- setNames(measure_input, c(&amp;quot;sum&amp;quot;, &amp;quot;mean&amp;quot;))
+myfun1(data = data, group_name = group_name, measure_input = measure_input)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.4&lt;/span&gt; 1.4 将更多信息参数化&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;myfun1 &amp;lt;- function(data, filter_input){
+  data %&amp;gt;%
+    filter_(.dots = filter_input) -&amp;gt; data
+  return(data)
+}
+## 多个筛选条件
+filter_input &amp;lt;- c(&amp;quot;cyl&amp;gt;4&amp;quot;,&amp;quot;vs==0&amp;quot;,&amp;quot;carb %in% c(3,4)&amp;quot;)
+myfun1(data = data, filter_input = filter_input)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;filter_vars &amp;lt;- c(&amp;quot;cyl&amp;quot;,&amp;quot;vs&amp;quot;,&amp;quot;carb&amp;quot;)
+filter_meausre &amp;lt;- c(&amp;quot;&amp;gt;&amp;quot;,&amp;quot;==&amp;quot;,&amp;quot;in&amp;quot;)
+filter_value &amp;lt;- c(&amp;quot;4&amp;quot;,&amp;quot;0&amp;quot;,&amp;quot;c(3,4)&amp;quot;)
+filter_meausre &amp;lt;- sub(pattern=&amp;quot;in&amp;quot;, replacement=&amp;quot;%in%&amp;quot;, filter_meausre)
+
+filter_input &amp;lt;- paste(filter_vars, filter_meausre, filter_value)
+myfun1(data = data, filter_input = filter_input)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;examples&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;2&lt;/span&gt; 2. examples&lt;/h1&gt;
+&lt;div id=&#34;select_&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 select_&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- mtcars
+select_name &amp;lt;- c(&amp;quot;mpg&amp;quot;,&amp;quot;disp&amp;quot;,&amp;quot;cyl&amp;quot;)
+mtcars %&amp;gt;% select(mpg,disp,cyl) %&amp;gt;% head()
+mtcars %&amp;gt;% select(one_of(select_name)) %&amp;gt;% head()
+
+mtcars %&amp;gt;% select_(.dots = select_name) %&amp;gt;% head()
+mtcars %&amp;gt;% select_(as.name(select_name[1]),as.name(select_name[2]),as.name(select_name[3])) %&amp;gt;% head()
+
+myfun2 &amp;lt;- function(data, select_name){
+  data %&amp;gt;%
+    select_(.dots = select_name) -&amp;gt; data
+  return(data)
+}
+select_name &amp;lt;- c(&amp;quot;mpg&amp;quot;,&amp;quot;disp&amp;quot;,&amp;quot;cyl&amp;quot;,&amp;quot;carb&amp;quot;)
+myfun2(data = data, select_name = select_name)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;filter_&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 filter_&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;myfun2 &amp;lt;- function(data, select_name, filter_input){
+  data %&amp;gt;%
+    filter_(.dots = filter_input) %&amp;gt;%
+    select_(.dots = select_name) -&amp;gt; data
+  return(data)
+}
+select_name &amp;lt;- c(&amp;quot;mpg&amp;quot;,&amp;quot;disp&amp;quot;,&amp;quot;cyl&amp;quot;,&amp;quot;carb&amp;quot;)
+
+filter_input &amp;lt;- &amp;quot;cyl&amp;gt;4;vs==0;carb %in% c(3,4)&amp;quot;
+filter_input &amp;lt;- as.list(strsplit(filter_input,&amp;quot;;&amp;quot;)[[1]])
+
+filter_input &amp;lt;- c(&amp;quot;cyl&amp;gt;4&amp;quot;,&amp;quot;vs==0&amp;quot;,&amp;quot;carb %in% c(3,4)&amp;quot;)
+
+myfun2(data = mtcars, select_name = select_name, 
+       filter_input = filter_input)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;group_by_summarise_&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 group_by_和summarise_&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;myfun2 &amp;lt;- function(data, select_name = NULL, 
+                   filter_input = NULL, 
+                   group_name = NULL, 
+                   measure_input = NULL, 
+                   measure_rename = NULL){
+  if(is.null(select_name)){
+    select_name &amp;lt;- names(data)
+  }
+  if(!is.null(measure_rename)){
+    measure_input &amp;lt;- as.list(measure_input) %&amp;gt;% 
+      setNames(measure_rename)
+  }
+  data %&amp;gt;%
+    filter_(.dots = filter_input) %&amp;gt;%
+    select_(.dots = select_name) %&amp;gt;%
+    group_by_(.dots = group_name) %&amp;gt;%
+    summarise_(.dots = measure_input) %&amp;gt;%
+    ungroup() %&amp;gt;%
+    as.data.frame() -&amp;gt; data
+  return(data)
+}
+
+
+select_name &amp;lt;- c(&amp;quot;mpg&amp;quot;,&amp;quot;disp&amp;quot;,&amp;quot;cyl&amp;quot;,&amp;quot;carb&amp;quot;)
+filter_input &amp;lt;- c(&amp;quot;cyl&amp;gt;4&amp;quot;,&amp;quot;vs==0&amp;quot;,&amp;quot;carb %in% c(3,4)&amp;quot;)
+group_name &amp;lt;- c(&amp;quot;cyl&amp;quot;,&amp;quot;carb&amp;quot;)
+measure_input &amp;lt;- &amp;quot;sum(disp);mean(mpg)&amp;quot;
+measure_input &amp;lt;- as.list(strsplit(measure_input,&amp;quot;;&amp;quot;)[[1]])
+measure_input &amp;lt;- c(&amp;quot;sum(disp)&amp;quot;,&amp;quot;mean(mpg)&amp;quot;)
+measure_rename &amp;lt;- c(&amp;quot;disp_sum&amp;quot;,&amp;quot;mpg_mean&amp;quot;)
+
+myfun2(data=mtcars, select_name = select_name, 
+       filter_input = filter_input, group_name = group_name, 
+       measure_input = measure_input, measure_rename = measure_rename)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;mutete_&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.4&lt;/span&gt; 2.4 mutete_&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;myfun2 &amp;lt;- function(data, mutate_input = NULL,
+                   mutate_name = NULL,
+                   select_name = NULL, 
+                   filter_input = NULL, 
+                   group_name = NULL, 
+                   measure_input = NULL, 
+                   measure_rename = NULL){
+  if(is.null(select_name)){
+    select_name &amp;lt;- names(data)
+  }
+  if(!is.null(measure_rename)){
+    measure_input &amp;lt;- as.list(measure_input) %&amp;gt;% 
+      setNames(measure_rename)
+  }
+  if(!is.null(mutate_name)){
+    mutate_input &amp;lt;- as.list(mutate_input) %&amp;gt;% 
+        setNames(mutate_name)
+  }
+  data %&amp;gt;%
+    mutate_(.dots = mutate_input) %&amp;gt;%
+    filter_(.dots = filter_input) %&amp;gt;%
+    select_(.dots = select_name) %&amp;gt;%
+    group_by_(.dots = group_name) %&amp;gt;%
+    summarise_(.dots = measure_input) %&amp;gt;%
+    ungroup() %&amp;gt;%
+    as.data.frame() -&amp;gt; data
+  return(data)
+}
+mutate_input &amp;lt;- c(&amp;quot;cyl*carb&amp;quot;,&amp;quot;disp+mpg&amp;quot;)
+mutate_name &amp;lt;- c(&amp;quot;cc&amp;quot;,&amp;quot;dm&amp;quot;)
+select_name &amp;lt;- c(&amp;quot;mpg&amp;quot;,&amp;quot;disp&amp;quot;,&amp;quot;cyl&amp;quot;,&amp;quot;carb&amp;quot;,&amp;quot;cc&amp;quot;)
+myfun2(data=mtcars, 
+       mutate_input = mutate_input, mutate_name = mutate_name, 
+       select_name = select_name, 
+       filter_input = filter_input, group_name = group_name, 
+       measure_input = measure_input, measure_rename = measure_rename)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;lazyeval&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;3&lt;/span&gt; 3. lazyeval包&lt;/h1&gt;
+&lt;p&gt;lazyeval包提供了一种NSE的使用方法，让我们在其他地方也可以使用NSE方法进行数据操作。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;4&lt;/span&gt; 4. 参考&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://adv-r.had.co.nz/Computing-on-the-language.html&#34;&gt;Advanced R: Non-standard evaluation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cran.r-project.org/web/packages/dplyr/vignettes/nse.html&#34;&gt;vignette(“nse”)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.win-vector.com/blog/2017/06/non-standard-evaluation-and-function-composition-in-r/&#34;&gt;Non-Standard Evaluation and Function Composition in R&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>R读取并处理较大数据</title>
+      <link>https://jeevanyue.github.io/post/2017-04-02-read_and_handle_big_data/</link>
+      <pubDate>Sun, 02 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2017-04-02-read_and_handle_big_data/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1&lt;/span&gt; 1. 概述&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2&lt;/span&gt; 2. 读取数据&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#data.table&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 使用data.table&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rmysql&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 使用RMySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 读取数据比较&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3&lt;/span&gt; 3. 处理数据&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#data.table-1&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.1&lt;/span&gt; 3.1 使用data.table&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#dplyr&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.2&lt;/span&gt; 3.2 使用dplyr&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sqldf&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.3&lt;/span&gt; 3.3 使用sqldf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rmysql-1&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.4&lt;/span&gt; 3.4 使用RMySQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.5&lt;/span&gt; 3.5 处理数据比较&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;4&lt;/span&gt; 4. 总结&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;1&lt;/span&gt; 1. 概述&lt;/h1&gt;
+&lt;p&gt;之前在读取和处理较大的csv数据时，在尝试了一次直接读取处理后发现非常耗时，就改用导入数据库，再通过RMySQL或者RODBC来读取处理数据。今天来比较一下。&lt;/p&gt;
+&lt;p&gt;加载相关packages&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)
+library(dplyr)
+library(sqldf)
+library(lubridate)
+library(RMySQL)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;2&lt;/span&gt; 2. 读取数据&lt;/h1&gt;
+&lt;div id=&#34;data.table&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 使用data.table&lt;/h2&gt;
+&lt;p&gt;首先通过data.table的&lt;code&gt;fread()&lt;/code&gt;读取数据，&lt;code&gt;fread()&lt;/code&gt;比&lt;code&gt;read.csv()&lt;/code&gt;的效率高很多，这里不进行详细比较。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;time_fread &amp;lt;- system.time(
+test &amp;lt;- fread(&amp;quot;test.csv&amp;quot;)
+)
+## 数据的大小
+paste(&amp;quot;数据的大小为：&amp;quot;,format(object.size(test),units=&amp;quot;auto&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;数据的大小为： 573.1 Mb&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rmysql&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 使用RMySQL&lt;/h2&gt;
+&lt;p&gt;导入数据库后效率最高，虽然导入数据库消耗的时间较长，但便于后续统计.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;con &amp;lt;- dbConnect(MySQL(),host=&amp;quot;localhost&amp;quot;,dbname=&amp;quot;test_db&amp;quot;,user=&amp;quot;root&amp;quot;,password=&amp;quot;root&amp;quot;)
+# dbListTables(con)
+# dbRemoveTable(con,&amp;quot;test&amp;quot;)
+# 将数据写入数据库
+time_mysql_write &amp;lt;- system.time(
+  dbWriteTable(con,&amp;quot;test&amp;quot;,test)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过R导入数据库的效率，相对比较耗时，建议通过其他方式导入。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;user.self&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;sys.self&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;elapsed&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;user.child&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;sys.child&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;124.757&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.822&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;151.031&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.779&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.053&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;读取数据库中的数据表&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;time_mysql_read &amp;lt;- system.time(
+  db_test &amp;lt;- dbReadTable(con,&amp;quot;test&amp;quot;)
+)
+time_mysql_query &amp;lt;- system.time(
+  db_test &amp;lt;- dbGetQuery(con,&amp;quot;select * from test&amp;quot;)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 读取数据比较&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(rbind(time_fread,time_mysql_read))&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;name&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;user.self&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;sys.self&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;elapsed&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;user.child&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;sys.child&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;time_fread&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6.534&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.455&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7.265&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;time_mysql_read&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13.185&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.441&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;25.888&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;time_mysql_query&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6.338&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.298&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;18.143&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;很明显&lt;code&gt;fread()&lt;/code&gt;的效率最高，所以如果只是读取数据，还是强烈推荐&lt;code&gt;fread()&lt;/code&gt;。针对读取数据库表全部数据，&lt;code&gt;dbReadTable()&lt;/code&gt;比&lt;code&gt;dbGetQuery()&lt;/code&gt;读取数据的效率还差。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;3&lt;/span&gt; 3. 处理数据&lt;/h1&gt;
+&lt;p&gt;分别通过&lt;code&gt;data.table、dplyr、sqldf、RMySQL&lt;/code&gt;这四种方式来统计相关数据。&lt;/p&gt;
+&lt;div id=&#34;data.table-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1&lt;/span&gt; 3.1 使用data.table&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;time_DT &amp;lt;- system.time(
+test_month1 &amp;lt;- test[,.(value = sum(数据)), by=.(year=year(日期), month = month(日期))]
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;dplyr&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2&lt;/span&gt; 3.2 使用dplyr&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;time_dplyr &amp;lt;- system.time(
+test_month2 &amp;lt;- test %&amp;gt;%
+  group_by(year=year(日期),month=month(日期)) %&amp;gt;%
+  summarise(value=sum(数据)) %&amp;gt;%
+  ungroup()
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sqldf&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.3&lt;/span&gt; 3.3 使用sqldf&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 需要先卸载RMySQL
+detach(&amp;quot;package:RMySQL&amp;quot;, unload=TRUE)
+time_sqldf_s &amp;lt;- proc.time()
+test$日期 &amp;lt;- as.Date(test[,日期])
+
+test_month3 &amp;lt;- sqldf(&amp;quot;select strftime(&amp;#39;%Y&amp;#39;, 日期 * 3600 * 24, &amp;#39;unixepoch&amp;#39;) as year,
+strftime(&amp;#39;%m&amp;#39;,日期) as month,sum(数据) as test_amount from test group by strftime(&amp;#39;%Y&amp;#39;, 日期 * 3600 * 24, &amp;#39;unixepoch&amp;#39;),
+strftime(&amp;#39;%m&amp;#39;,日期)&amp;quot;)
+time_sqldf &amp;lt;- proc.time()-time_sqldf_s&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rmysql-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.4&lt;/span&gt; 3.4 使用RMySQL&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RMySQL)
+con &amp;lt;- dbConnect(MySQL(),host=&amp;quot;localhost&amp;quot;,dbname=&amp;quot;test_db&amp;quot;,user=&amp;quot;root&amp;quot;,password=&amp;quot;root&amp;quot;)
+test_month_sql &amp;lt;- &amp;quot;SELECT YEAR(日期) as year, month(日期) as month,
+sum(数据) as test_amount FROM test GROUP BY YEAR(日期),month(日期)&amp;quot;
+time_mysql &amp;lt;- system.time(
+  test_month4 &amp;lt;- dbGetQuery(con, test_month_sql)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.5&lt;/span&gt; 3.5 处理数据比较&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rbind(time_DT,time_dplyr,time_sqldf,time_mysql)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;name&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;user.self&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;sys.self&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;elapsed&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;user.child&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;sys.child&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;time_DT&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7.846&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.112&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9.063&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;time_dplyr&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8.155&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.182&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9.487&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;time_sqldf&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;37.343&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.650&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;40.868&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;time_mysql&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.001&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.000&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.449&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;通过数据库来处理数据效率最高，其次为&lt;code&gt;data.table&lt;/code&gt;和&lt;code&gt;dplyr&lt;/code&gt;，二者不相伯仲，data.table语法更加优雅易读，dplyr语法更加简洁，看自己的喜好啦。而&lt;code&gt;sqldf&lt;/code&gt;的效率最差，不推荐。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;4&lt;/span&gt; 4. 总结&lt;/h1&gt;
+&lt;p&gt;推荐使用data.table的&lt;code&gt;fread()&lt;/code&gt;读取数据，再导入数据库（通过R导入数据库比较耗时，推荐用其他方式导入），再通过加载数据库包通过&lt;code&gt;dbGetQuery()&lt;/code&gt;读取数据。&lt;code&gt;dbReadTable()&lt;/code&gt;读取全部数据，效率较差，不推荐。&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>上海驾照考试情况</title>
+      <link>https://jeevanyue.github.io/post/2017-01-08-shanghai_driver_license/</link>
+      <pubDate>Sun, 08 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2017-01-08-shanghai_driver_license/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;0.1&lt;/span&gt; 1.考试人数&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;0.2&lt;/span&gt; 2.考试合格率&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;最近刚完成驾驶证科目二的考试，教练说科目三要等3个月左右。因为希望能在年前拿到驾照，所以在&lt;a href=&#34;http://sh.122.gov.cn/&#34;&gt;交通安全综合服务管理平台&lt;/a&gt;爬取到了相关考试数据。&lt;/p&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;0.1&lt;/span&gt; 1.考试人数&lt;/h2&gt;
+&lt;p&gt;考试人数有从2015年7月到2016年9月的各科的考试人数数据，其中科目三指“科目三 道路驾驶技能考试”，科目四指“科目三 安全文明常识”。&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://jeevanyue.github.io/post/2017-01-08-shanghai_driver_license_files/figure-html/shanghai_driver_license.png&#34; alt=&#34;SH driver&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;SH driver&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;科目二考试高峰期是6、7月份，我选择的那个科目三考场，现在科目三的考试轮到7月底完成科目二的人，今年拿到驾照不太乐观。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;0.2&lt;/span&gt; 2.考试合格率&lt;/h2&gt;
+&lt;p&gt;因为考试合格率数据较少，用上海驾校培训质量公布的&lt;strong&gt;科目二&lt;/strong&gt;考试合格率计算了平均合格率为&lt;strong&gt;40%&lt;/strong&gt;左右，用上海考试员考试合格率的&lt;strong&gt;科目三&lt;/strong&gt;考试合格率计算了加权平均合格率为&lt;strong&gt;50%&lt;/strong&gt;左右。&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>上海地铁数据可视化</title>
+      <link>https://jeevanyue.github.io/post/2016-09-07-shmetro-visual/</link>
+      <pubDate>Wed, 07 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2016-09-07-shmetro-visual/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1&lt;/span&gt; 1. 地铁数据&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.1&lt;/span&gt; 1.1 地铁站经纬度&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.2&lt;/span&gt; 1.2 交通卡交易数据&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.3&lt;/span&gt; 1.3 处理异常值&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.4&lt;/span&gt; 1.4 进/出站数据&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.5&lt;/span&gt; 1.5 虚拟换乘&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.6&lt;/span&gt; 1.6 地铁站进站数据&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.7&lt;/span&gt; 1.7 地铁站出站数据&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.8&lt;/span&gt; 1.8 地铁线路起始和终点&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2&lt;/span&gt; 2. 绘图&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 相关数据及地图&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#chord&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 chord图数据&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 图形参数&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#ui--server&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.4&lt;/span&gt; 2.4 UI 和 SERVER&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#shinyapp&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.5&lt;/span&gt; 2.5 运行shinyApp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## encoding
+options(encoding = &amp;quot;UTF-8&amp;quot;)      ## for chines
+## use getOption(&amp;quot;encoding&amp;quot;) to see if things were changed
+
+loc &amp;lt;- function(os, language = &amp;quot;english&amp;quot;) {
+  switch(language,
+         english = ifelse(os == &amp;quot;Windows&amp;quot;, &amp;quot;English_United States.1252&amp;quot;, &amp;quot;en_US.UTF-8&amp;quot;),
+         chinese = ifelse(os == &amp;quot;Windows&amp;quot;, &amp;quot;Chinese&amp;quot;, &amp;quot;zh_CN.utf-8&amp;quot;))
+}
+## set locale
+Sys.setlocale(category = &amp;quot;LC_ALL&amp;quot;, loc(Sys.info()[[&amp;quot;sysname&amp;quot;]], &amp;quot;chinese&amp;quot;))
+
+##加载工作环境和所需包
+setwd(&amp;quot;/Users/jeevanyue/Rproject/map/SHMetro&amp;quot;)
+library(data.table)
+library(bit64)
+library(dplyr)
+library(tidyr)
+library(scales)
+library(lubridate)  #日期处理包
+library(shiny)
+library(leaflet)
+library(lattice)
+library(plotly)
+library(chorddiag)  #绘制chord&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;1&lt;/span&gt; 1. 地铁数据&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#地铁站进站数据和出站数据
+shmetro_in &amp;lt;- fread(&amp;quot;data/shmetro_in.csv&amp;quot;,encoding=&amp;quot;UTF-8&amp;quot;)
+shmetro_out &amp;lt;- fread(&amp;quot;data/shmetro_out.csv&amp;quot;,encoding=&amp;quot;UTF-8&amp;quot;)
+
+## 进出地铁站数据
+shmetro_line_in_out &amp;lt;- fread(&amp;quot;data/shmetro_line_in_out.csv&amp;quot;,encoding=&amp;quot;UTF-8&amp;quot;)
+
+## 进出地铁站关联
+in_out &amp;lt;- shmetro_line_in_out %&amp;gt;%
+  spread(line_out,count)
+in_out[is.na(in_out)]&amp;lt;-0
+
+## 地铁站经纬度
+stations &amp;lt;- fread(&amp;quot;data/stations.csv&amp;quot;,encoding=&amp;quot;UTF-8&amp;quot;)
+stations &amp;lt;- stations %&amp;gt;% 
+  select(c(1:5)) %&amp;gt;%
+  arrange(line,line_id)
+stations_no &amp;lt;- nrow(stations)
+for (i in 1:stations_no) {
+    s &amp;lt;- stations$station[i]
+    stations$lines[i] &amp;lt;- paste(stations[stations$station==s,]$line,sep=&amp;quot;&amp;quot;,collapse=&amp;quot;/&amp;quot;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.1&lt;/span&gt; 1.1 地铁站经纬度&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stations &amp;lt;- fread(&amp;quot;data/stations.csv&amp;quot;,encoding=&amp;quot;UTF-8&amp;quot;)
+stations &amp;lt;- stations %&amp;gt;% 
+  select(c(1:5)) %&amp;gt;%
+  arrange(line,line_id)
+
+stations_no &amp;lt;- nrow(stations)
+for (i in 1:stations_no) {
+    s &amp;lt;- stations$station[i]
+    stations$lines[i] &amp;lt;- paste(stations[stations$station==s,]$line,sep=&amp;quot;&amp;quot;,collapse=&amp;quot;/&amp;quot;)
+}
+invisible(gc())&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.2&lt;/span&gt; 1.2 交通卡交易数据&lt;/h2&gt;
+&lt;p&gt;交通卡的交易信息有7个字段，分别是:卡号、交易日期、交易时间、站点名称、行业名称、交易金额、交易性质。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;卡号:交通卡卡号&lt;/li&gt;
+&lt;li&gt;交易日期:日期格式yyyy-mm-dd&lt;/li&gt;
+&lt;li&gt;交易时间:时间个是hh:mm:ss&lt;/li&gt;
+&lt;li&gt;站点名称:内容包括线路和站名，如:“1号线莘庄”&lt;/li&gt;
+&lt;li&gt;行业名称:都是“地铁”&lt;/li&gt;
+&lt;li&gt;交易金额:0和大于0的值，0表示进站，大于0的值表示出战&lt;/li&gt;
+&lt;li&gt;交易性质:“优惠”和“非优惠”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#mac下用如下读取
+system.time(trade &amp;lt;- read.csv(&amp;quot;/Users/jeevanyue/Desktop/SPTCC-20150401.csv&amp;quot;,header = F,sep=&amp;quot;,&amp;quot;, fileEncoding = &amp;quot;GB2312&amp;quot;))
+#windows下用如下读取
+#system.time(trade &amp;lt;- fread(&amp;quot;SPTCC-20150401/SPTCC-20150401.csv&amp;quot;,integer64=&amp;#39;character&amp;#39;,stringsAsFactors=F))
+#trade &amp;lt;- read.csv(&amp;#39;data/SPTCC-20150401_Sample.txt&amp;#39;,header=T,encoding=&amp;#39;UTF-8&amp;#39;,stringsAsFactors = F)
+
+#重命名
+names(trade) &amp;lt;- c(&amp;#39;card_id&amp;#39;,&amp;#39;date&amp;#39;,&amp;#39;time&amp;#39;,&amp;#39;station&amp;#39;,&amp;#39;vehicle&amp;#39;,&amp;#39;money&amp;#39;,&amp;#39;property&amp;#39;)
+#筛选地铁数据
+trade_metro &amp;lt;- trade %&amp;gt;%
+  filter(vehicle==&amp;#39;地铁&amp;#39;)
+rm(trade)
+invisible(gc())
+
+#将&amp;quot;station&amp;quot;(原含义为线路和站名),分为&amp;quot;line&amp;quot;和&amp;quot;station&amp;quot;
+trade_metro &amp;lt;- trade_metro %&amp;gt;% 
+  separate(station, c(&amp;#39;line&amp;#39;, &amp;#39;station&amp;#39;), sep = &amp;#39;号线&amp;#39;)
+invisible(gc())
+
+#按五分钟统计时间，向上取整
+trade_metro &amp;lt;- trade_metro %&amp;gt;%
+  mutate(M5=ceiling(period_to_seconds(hms(time))/300))
+invisible(gc())
+
+#删除不需要的字段
+trade_metro &amp;lt;- trade_metro %&amp;gt;%
+  select(-vehicle,-property,-date)
+invisible(gc())
+
+#时间格式
+#trade_metro$time &amp;lt;-  strptime(paste(&amp;quot;2015-04-01&amp;quot;, trade_metro$time, sep=&amp;#39; &amp;#39;), &amp;quot;%Y-%m-%d %H:%M:%S&amp;quot;, tz = &amp;quot;GMT&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.3&lt;/span&gt; 1.3 处理异常值&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 对与stations地铁站名不一致的trade数据进行处理
+trade_metro[trade_metro$station==&amp;quot;淞浜路&amp;quot;,]$station &amp;lt;- &amp;quot;淞滨路&amp;quot;
+trade_metro[trade_metro$station==&amp;quot;大木桥路 &amp;quot;,]$station &amp;lt;- &amp;quot;大木桥路&amp;quot;
+trade_metro[trade_metro$station==&amp;quot;上海大学站&amp;quot;,]$station &amp;lt;- &amp;quot;上海大学&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.4&lt;/span&gt; 1.4 进/出站数据&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 进站数据
+trade_metro_in &amp;lt;- trade_metro %&amp;gt;%
+  filter(money==0) %&amp;gt;%
+  select(card_id,&amp;quot;time_in&amp;quot;=time,&amp;quot;line_in&amp;quot;=line,&amp;quot;station_in&amp;quot;=station,&amp;quot;M5_in&amp;quot;=M5)
+## 出站数据
+trade_metro_out &amp;lt;- trade_metro %&amp;gt;%
+  filter(money&amp;gt;0)%&amp;gt;%
+  select(card_id,&amp;quot;time_out&amp;quot;=time,&amp;quot;line_out&amp;quot;=line,&amp;quot;station_out&amp;quot;=station,money,&amp;quot;M5_out&amp;quot;=M5)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.5&lt;/span&gt; 1.5 虚拟换乘&lt;/h2&gt;
+&lt;p&gt;上海火车站为虚拟换乘，删除半小时内3/4换1和1换3/4的数据&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3/4换1的数据&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 3/4换1的数据，统计发现在上海火车站3/4号线出站以3号线名义出站
+trade_metro_out_34 &amp;lt;- trade_metro_out %&amp;gt;%
+  filter(station_out==&amp;#39;上海火车站&amp;#39;) %&amp;gt;%
+  filter(line_out==3 | line_out==4)
+trade_metro_in_1 &amp;lt;- trade_metro_in %&amp;gt;%
+  filter(station_in==&amp;#39;上海火车站&amp;#39;, line_in==1)
+
+## merge出站和进站的数据
+trade_metro_out34_in1 &amp;lt;- merge(trade_metro_out_34,trade_metro_in_1,all.x=T) %&amp;gt;%
+  mutate(duration=period_to_seconds(hms(time_in)) - period_to_seconds(hms(time_out))) %&amp;gt;%
+  filter(duration&amp;gt;0,duration&amp;lt;=60*30)
+
+### 数据大了什么样的数据都有，发现有几个人在3/4号线出站后，半小时内在1号线进站多次
+
+#trade_metro_out34_in1 &amp;lt;- na.omit(trade_metro_out34_in1)
+
+## 根据卡号和进站时间，查询最近的进站时间，作为本次进站时间
+trade_metro_out34_in1 &amp;lt;- data.table(trade_metro_out34_in1)
+trade_metro_out34_in1[, duration_min := min(duration), by=list(card_id, M5_in)]
+trade_metro_out34_in1 &amp;lt;- trade_metro_out34_in1 %&amp;gt;%
+  filter(duration==duration_min) %&amp;gt;%
+  select(-duration_min)
+
+## 统计发现绝大部分人在10分钟内完成换乘
+#histogram(ceiling(trade_metro_out34_in1$duration/60))
+
+## rbind出站数据
+trade_metro_out &amp;lt;- rbind(trade_metro_out, trade_metro_out34_in1[,c(1:6)])
+## 删除全部重复的出站数据
+trade_metro_out &amp;lt;- trade_metro_out[!(duplicated(trade_metro_out) | duplicated(trade_metro_out, fromLast = TRUE)), ]
+
+## rbind进站数据
+trade_metro_in &amp;lt;- rbind(trade_metro_in, trade_metro_out34_in1[,c(1,7:10)])
+## 删除全部重复的进站数据
+trade_metro_in &amp;lt;- trade_metro_in[!(duplicated(trade_metro_in) | duplicated(trade_metro_in, fromLast = TRUE)), ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;1换3/4的数据&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 1换3/4的数据，统计发现在3/4号线上海火车站以3号线名义进站
+trade_metro_out_1 &amp;lt;- trade_metro_out %&amp;gt;%
+  filter(station_out==&amp;#39;上海火车站&amp;#39;,line_out==1) 
+trade_metro_in_34 &amp;lt;- trade_metro_in %&amp;gt;%
+  filter(station_in==&amp;#39;上海火车站&amp;#39;) %&amp;gt;%
+  filter(line_in==3 | line_in==4)
+
+## merge出站和进站的数据
+trade_metro_out1_in34 &amp;lt;- merge(trade_metro_out_1,trade_metro_in_34,all.x=T, all.y=F) %&amp;gt;%
+  mutate(duration=period_to_seconds(hms(time_in)) - period_to_seconds(hms(time_out))) %&amp;gt;%
+  filter(duration&amp;gt;0,duration&amp;lt;=60*30)
+
+#trade_metro_out1_in34 &amp;lt;- na.omit(trade_metro_out1_in34)
+
+## 根据卡号和进站时间，查询最近的进站时间，作为本次进站时间
+trade_metro_out1_in34 &amp;lt;- data.table(trade_metro_out1_in34)
+trade_metro_out1_in34[, duration_min := min(duration), by=list(card_id, M5_in)]
+trade_metro_out1_in34 &amp;lt;- trade_metro_out1_in34 %&amp;gt;%
+  filter(duration==duration_min) %&amp;gt;%
+  select(-duration_min)
+
+## 统计发现绝大部分人在10分钟内完成换乘
+#histogram(ceiling(trade_metro_out1_in34$duration/60))
+
+## rbind出站数据
+trade_metro_out &amp;lt;- rbind(trade_metro_out, trade_metro_out1_in34[,c(1:6)])
+## 删除全部重复的出站数据
+trade_metro_out &amp;lt;- trade_metro_out[!(duplicated(trade_metro_out) | duplicated(trade_metro_out, fromLast = TRUE)), ]
+
+## rbind进站数据
+trade_metro_in &amp;lt;- rbind(trade_metro_in, trade_metro_out1_in34[,c(1,7:10)])
+## 删除全部重复的进站数据
+trade_metro_in &amp;lt;- trade_metro_in[!(duplicated(trade_metro_in) | duplicated(trade_metro_in, fromLast = TRUE)), ]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.6&lt;/span&gt; 1.6 地铁站进站数据&lt;/h2&gt;
+&lt;p&gt;根据消费金额为0,每5分钟统计每站地铁的进站人数&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trade_metro_in_station &amp;lt;- trade_metro_in %&amp;gt;%
+  group_by(station_in, M5_in) %&amp;gt;%
+  summarise(count=n()) %&amp;gt;%
+  select(station=station_in, M5=M5_in, count)
+
+#trade_metro_in_station &amp;lt;- na.omit(trade_metro_in_station)
+invisible(gc())
+
+## 合并地铁站坐标
+shmetro_in &amp;lt;- merge(trade_metro_in_station,stations,all.x=T, all.y=F)
+#rm(trade_metro_in_station)
+
+## 查看未匹配到的地铁站
+#l &amp;lt;- shmetro_in[is.na(shmetro_in$gps_lat),]
+#unique(l$station)
+#trade_metro_in_station[trade_metro_in_station$station==&amp;quot;淞浜路&amp;quot;,]$station &amp;lt;- &amp;quot;淞滨路&amp;quot;
+#trade_metro_in_station[trade_metro_in_station$station==&amp;quot;大木桥路 &amp;quot;,]$station &amp;lt;- &amp;quot;大木桥路&amp;quot;
+#trade_metro_in_station[trade_metro_in_station$station==&amp;quot;上海大学站&amp;quot;,]$station &amp;lt;- &amp;quot;上海大学&amp;quot;
+#stations[grepl(&amp;quot;淞滨路&amp;quot;, stations$station),]$station
+#trade_metro_in_station[grepl(&amp;quot;淞浜路&amp;quot;, trade_metro_in_station$station),]$station &amp;lt;- &amp;quot;淞滨路&amp;quot;
+
+#shmetro_in &amp;lt;- na.omit(shmetro_in)
+invisible(gc())
+#write.csv(shmetro_in,&amp;quot;shmetro_in.csv&amp;quot;,row.names = F,fileEncoding=&amp;quot;UTF-8&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.7&lt;/span&gt; 1.7 地铁站出站数据&lt;/h2&gt;
+&lt;p&gt;根据消费金额大雨0,每5分钟统计每站地铁的出站人数&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trade_metro_out_station &amp;lt;- trade_metro_out %&amp;gt;%
+  group_by(station_out, M5_out) %&amp;gt;%
+  summarise(count=n()) %&amp;gt;%
+  select(station=station_out, M5=M5_out, count)
+
+#trade_metro_out_station &amp;lt;- na.omit(trade_metro_out_station)
+invisible(gc())
+
+## 合并地铁站坐标
+shmetro_out &amp;lt;- merge(trade_metro_out_station,stations,all.x=T, all.y=F)
+#rm(trade_metro_out_station)
+
+#shmetro_out &amp;lt;- na.omit(shmetro_out)
+invisible(gc())
+#write.csv(shmetro_out,&amp;quot;shmetro_out.csv&amp;quot;,row.names = F,fileEncoding=&amp;quot;UTF-8&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.8&lt;/span&gt; 1.8 地铁线路起始和终点&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## merge进站和出站数据，并计算乘坐时间
+trade_metro_in_out &amp;lt;- merge(trade_metro_in, trade_metro_out, all.x=T, all.y=F) %&amp;gt;%
+  mutate(duration=period_to_seconds(hms(time_out)) - period_to_seconds(hms(time_in)), duration_M5=M5_out-M5_in) %&amp;gt;%
+  filter(duration&amp;gt;0)
+
+#根据卡号和进站时间，查询最近出站的时间，作为本次出站时间
+trade_metro_in_out &amp;lt;- data.table(trade_metro_in_out)
+trade_metro_in_out[, duration_min := min(duration), by=list(card_id, M5_in)]
+trade_metro_in_out &amp;lt;- trade_metro_in_out %&amp;gt;%
+  filter(duration==duration_min) %&amp;gt;%
+  select(-duration_min)
+
+#统计进站线路A-&amp;gt;出站线路B的笔数
+shmetro_line_in_out &amp;lt;- trade_metro_in_out %&amp;gt;%
+  group_by(line_in,line_out) %&amp;gt;%
+  summarise(count=n())
+
+shmetro_line_in_out$line_in &amp;lt;- as.numeric(shmetro_line_in_out$line_in)
+shmetro_line_in_out$line_out &amp;lt;- as.numeric(shmetro_line_in_out$line_out)
+
+#排序
+shmetro_line_in_out &amp;lt;- arrange(shmetro_line_in_out,line_in,line_out)
+
+#将出站线路数据转换为属性字段
+in_out &amp;lt;- shmetro_line_in_out %&amp;gt;%
+  spread(line_out,count)
+
+in_out[is.na(in_out)]&amp;lt;-0
+
+#write.csv(shmetro_line_in_out,&amp;quot;shmetro_line_in_out.csv&amp;quot;,row.names = F,fileEncoding=&amp;quot;UTF-8&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;2&lt;/span&gt; 2. 绘图&lt;/h1&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 相关数据及地图&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#地铁颜色
+lines_color &amp;lt;- data.frame(&amp;quot;line&amp;quot;=c(1:13,16),&amp;quot;color&amp;quot;=c(&amp;quot;#ED3229&amp;quot;,&amp;quot;#36B854&amp;quot;,&amp;quot;#FFD823&amp;quot;,&amp;quot;#320176&amp;quot;,&amp;quot;#823094&amp;quot;,&amp;quot;#CF047A&amp;quot;,&amp;quot;#F3560F&amp;quot;,&amp;quot;#008CC1&amp;quot;,&amp;quot;#91C5DB&amp;quot;,&amp;quot;#C7AFD3&amp;quot;,&amp;quot;#8C2222&amp;quot;,&amp;quot;#007a61&amp;quot;,&amp;quot;#ec91cc&amp;quot;,&amp;quot;#32D2CA&amp;quot;))
+
+pal &amp;lt;- colorFactor(as.character(lines_color$color), domain = stations$line)
+
+#辅助函数绘制线路
+draw_line_add &amp;lt;- function(l_no,line_s_id=NULL){
+  line_color &amp;lt;- lines_color[lines_color$line==l_no,]$color
+  line_data &amp;lt;- stations[stations$line==l_no,]
+  if(is.null(line_s_id)){
+    draw_lines &amp;lt;- Shanghai %&amp;gt;%
+      addPolylines(lat=line_data$gps_lat,lng=line_data$gps_lon,color=line_color,weight=2)
+  }else{
+    draw_lines &amp;lt;- Shanghai %&amp;gt;%
+      addPolylines(lat=line_data$gps_lat[line_s_id],lng=line_data$gps_lon[line_s_id],color=line_color,weight=2)
+  }
+  return(draw_lines)
+}
+
+## 上海线路地图
+Shanghai &amp;lt;- leaflet() %&amp;gt;% 
+  setView(lng = 121.60, lat = 31.20, zoom = 10) %&amp;gt;% 
+  addProviderTiles(&amp;quot;CartoDB.Positron&amp;quot;) %&amp;gt;%
+  addLegend(position = &amp;quot;bottomleft&amp;quot;,pal=pal,values = stations$line)
+
+for(l in unique(stations$line)){
+  line_length &amp;lt;- nrow(stations[stations$line==l,])
+  if(l==4){
+    #由于4号线为环线，需将首尾相连
+    Shanghai &amp;lt;- draw_line_add(l_no=l)
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(1,line_length))
+  }else if(l==10){
+    #由于10号线在龙溪路站以后分为两条线路，需分两端绘制
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(1:(line_length-3)))
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(24,(line_length-2):line_length))
+  }else if(l==11){
+    #由于11号线在嘉定新城站以后分为两条线路，需分两端绘制
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(1:(line_length-7)))
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(28,(line_length-6):line_length))
+  }else{
+    Shanghai &amp;lt;- draw_line_add(l_no=l)
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;chord&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 chord图数据&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;##绘制chord图
+metro_chord &amp;lt;- data.matrix(as.data.frame(in_out)[,c(2:15)])
+haircolors &amp;lt;- in_out$line_in
+dimnames(metro_chord) &amp;lt;- list(have = haircolors,
+                    prefer = colnames(metro_chord))
+
+groupColors &amp;lt;- c(&amp;quot;#ED3229&amp;quot;,&amp;quot;#36B854&amp;quot;,&amp;quot;#FFD823&amp;quot;,&amp;quot;#320176&amp;quot;,&amp;quot;#823094&amp;quot;,&amp;quot;#CF047A&amp;quot;,&amp;quot;#F3560F&amp;quot;,&amp;quot;#008CC1&amp;quot;,&amp;quot;#91C5DB&amp;quot;,&amp;quot;#C7AFD3&amp;quot;,&amp;quot;#8C2222&amp;quot;,&amp;quot;#007a61&amp;quot;,&amp;quot;#ec91cc&amp;quot;,&amp;quot;#32D2CA&amp;quot;)
+
+#chorddiag(metro_chord, groupColors = groupColors, margin=50, showTicks=F, groupnamePadding = 5)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 图形参数&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;b &amp;lt;- list(x = 0, y = 1,bgcolor = &amp;quot;#00FFFFFF&amp;quot;)
+yax &amp;lt;- list(
+  title = &amp;quot;&amp;quot;,
+  zeroline = FALSE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE
+)
+
+xax &amp;lt;- list(
+  title = &amp;quot;&amp;quot;,
+  titlefont = list(size = 8),
+  tickangle = -20,
+  color = &amp;quot;black&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ui--server&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.4&lt;/span&gt; 2.4 UI 和 SERVER&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ui &amp;lt;- shinyUI(navbarPage(&amp;quot;SHMetro&amp;quot;,
+
+  tabPanel(&amp;quot;进站流量&amp;quot;,
+    div(class=&amp;quot;outer&amp;quot;,
+            
+      #tags$style(type = &amp;quot;text/css&amp;quot;, &amp;quot;html, body {width:100%;height:100%}&amp;quot;),
+      tags$style(type = &amp;quot;text/css&amp;quot;, &amp;quot;.outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 0}&amp;quot;),
+      
+      leafletOutput(&amp;quot;map&amp;quot;, width = &amp;quot;100%&amp;quot;, height = &amp;quot;100%&amp;quot;),
+      absolutePanel(top = 10, right = 10,
+                    h4(textOutput(&amp;quot;output_slider_time&amp;quot;)),
+                    sliderInput(&amp;quot;slider_time&amp;quot;, &amp;quot;Time:&amp;quot;,
+                                #min=as.POSIXct(min(filter(shmetro_in, M5&amp;gt;30)$M5)*5*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                #max=as.POSIXct(max(shmetro_in$M5)*5*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                #value=as.POSIXct(min(shmetro_in$M5)*5*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                min = as.POSIXct(5*60*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                max = as.POSIXct(24*60*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                value = as.POSIXct(5*60*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                step = 60*5,
+                                timeFormat = &amp;quot;%T&amp;quot;,
+                                timezone = &amp;quot;GMT&amp;quot;),
+                    selectInput(&amp;quot;select_line&amp;quot;, &amp;quot;Line&amp;quot;,
+                                c(&amp;quot;All&amp;quot;,lines_color$line)),
+                    h4(&amp;quot;TOP 5&amp;quot;),
+                    plotlyOutput(&amp;quot;in_top5&amp;quot;,height = 200),
+                    checkboxInput(&amp;quot;legend&amp;quot;, &amp;quot;Show legend&amp;quot;, TRUE)
+                    )
+      )
+    ),
+    tabPanel(&amp;quot;出站流量&amp;quot;,
+      div(class=&amp;quot;outer&amp;quot;,
+              
+        #tags$style(type = &amp;quot;text/css&amp;quot;, &amp;quot;html, body {width:100%;height:100%}&amp;quot;),
+        tags$style(type = &amp;quot;text/css&amp;quot;, &amp;quot;.outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 0}&amp;quot;),
+        
+        leafletOutput(&amp;quot;map_out&amp;quot;, width = &amp;quot;100%&amp;quot;, height = &amp;quot;100%&amp;quot;),
+        absolutePanel(top = 10, right = 10,
+                      h4(textOutput(&amp;quot;output_slider_time_out&amp;quot;)),
+                      sliderInput(&amp;quot;slider_time_out&amp;quot;, &amp;quot;Time:&amp;quot;,
+                                  #min=as.POSIXct(min(filter(shmetro_in, M5&amp;gt;30)$M5)*5*60, origin = &amp;quot;1960-01-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                  #max=as.POSIXct(max(shmetro_in$M5)*5*60, origin = &amp;quot;1960-01-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                  #value=as.POSIXct(min(shmetro_in$M5)*5*60, origin = &amp;quot;1960-01-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                min = as.POSIXct(5*60*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                max = as.POSIXct(24*60*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                value = as.POSIXct(5*60*60, origin = &amp;quot;2015-04-01&amp;quot;, tz = &amp;quot;GMT&amp;quot;),
+                                  step = 60*5,
+                                  timeFormat = &amp;quot;%T&amp;quot;,
+                                  timezone = &amp;quot;GMT&amp;quot;),
+                      selectInput(&amp;quot;select_line_out&amp;quot;, &amp;quot;Line&amp;quot;,
+                                  c(&amp;quot;All&amp;quot;,lines_color$line)),
+                      h4(&amp;quot;TOP 5&amp;quot;),
+                      plotlyOutput(&amp;quot;out_top5&amp;quot;,height = 200),
+                      checkboxInput(&amp;quot;legend_out&amp;quot;, &amp;quot;Show legend&amp;quot;, TRUE)
+                      )
+        )
+    ),
+    tabPanel(&amp;quot;线路关联&amp;quot;,
+      div(class=&amp;quot;outer&amp;quot;,
+              
+        #tags$style(type = &amp;quot;text/css&amp;quot;, &amp;quot;html, body {width:100%;height:100%}&amp;quot;),
+        tags$style(type = &amp;quot;text/css&amp;quot;, &amp;quot;.outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 0}&amp;quot;),
+        chorddiagOutput(&amp;quot;line_chord&amp;quot;, width = &amp;quot;100%&amp;quot;,height=&amp;quot;100%&amp;quot;)
+      )
+    )
+  )
+)
+
+server &amp;lt;- shinyServer(function(input, output, session) {
+  ## 进站流量统计
+  # Reactive expression for the data subsetted to what the user selected
+  filteredData &amp;lt;- reactive({
+    if(input$select_line==&amp;quot;All&amp;quot;){
+      shmetro_in %&amp;gt;%
+        filter(M5==ceiling(period_to_seconds(hms(format(input$slider_time,&amp;quot;%H:%M:%S&amp;quot;)))/300))
+    }else{
+      shmetro_in %&amp;gt;%
+        filter(M5==ceiling(period_to_seconds(hms(format(input$slider_time,&amp;quot;%H:%M:%S&amp;quot;)))/300),line==as.numeric(input$select_line))
+    }
+  })
+  
+  stations_in_top5 &amp;lt;- reactive({
+    filteredData() %&amp;gt;%
+      group_by(station) %&amp;gt;%
+      summarise(count=sum(count),line=min(line)) %&amp;gt;%
+      arrange(desc(count)) %&amp;gt;%
+      head(5) %&amp;gt;%
+      as.data.frame()
+  })
+
+  ## time
+  output$output_slider_time  &amp;lt;- renderText({
+    paste0(&amp;quot;Time: &amp;quot;, format(input$slider_time,&amp;quot;%H:%M:%S&amp;quot;))
+  })
+  
+  output$map &amp;lt;- renderLeaflet({
+    Shanghai %&amp;gt;%
+      addCircles(stations$gps_lon, stations$gps_lat,color = pal(stations$line), radius=1,popup = paste(stations$station,stations$lines),fillOpacity = 1,stroke = FALSE) %&amp;gt;%
+      clearMarkerClusters() %&amp;gt;%
+      clearMarkers()
+  })
+
+  observe({
+    data_in_circle &amp;lt;- data.table(filteredData())[, count := sum(count), by=list(station, M5)] %&amp;gt;%
+      arrange(count)
+    
+    leafletProxy(&amp;quot;map&amp;quot;, data = data_in_circle) %&amp;gt;%
+      clearMarkerClusters() %&amp;gt;%
+      clearMarkers() %&amp;gt;%
+      addCircleMarkers(data_in_circle$gps_lon,data_in_circle$gps_lat, color = pal(data_in_circle$line), fillOpacity = 0.5,stroke = FALSE, popup=paste(data_in_circle$station,data_in_circle$line,data_in_circle$count,sep=&amp;quot;,&amp;quot;), radius=(data_in_circle$count)^(1/2.5))
+  })
+  
+  # top5
+  output$in_top5 &amp;lt;- renderPlotly({
+    # If no stations_in_top5 are in view, don&amp;#39;t plot
+    if (nrow(stations_in_top5()) == 0)
+      return(NULL)
+
+    plot_ly(stations_in_top5(),
+            x = stations_in_top5()$station,
+            y = stations_in_top5()$count,
+            type = &amp;quot;bar&amp;quot;,
+            marker = list(color = pal(stations_in_top5()$line)),
+            bgcolor = &amp;quot;#00FFFFFF&amp;quot;) %&amp;gt;%
+      layout(showlegend=FALSE,
+             yaxis=yax,xaxis=xax,plot_bgcolor=&amp;#39;#00FFFFFF&amp;#39;,
+             paper_bgcolor=&amp;#39;#00FFFFFF&amp;#39;)
+  })
+  
+  # Use a separate observer to recreate the legend as needed.
+  observe({
+    proxy &amp;lt;- leafletProxy(&amp;quot;map&amp;quot;)
+    # Remove any existing legend, and only if the legend is
+    # enabled, create a new one.
+    proxy %&amp;gt;% clearControls()
+    if (input$legend) {
+      proxy %&amp;gt;% addLegend(position = &amp;quot;bottomleft&amp;quot;,pal=pal,values = stations$line)
+    }
+  })
+
+  ## 出站流量统计
+  # Reactive expression for the data subsetted to what the user selected
+  filteredData_out &amp;lt;- reactive({
+    if(input$select_line_out==&amp;quot;All&amp;quot;){
+      shmetro_out %&amp;gt;%
+        filter(M5==ceiling(period_to_seconds(hms(format(input$slider_time_out,&amp;quot;%H:%M:%S&amp;quot;)))/300))
+    }else{
+      shmetro_in %&amp;gt;%
+        filter(M5==ceiling(period_to_seconds(hms(format(input$slider_time_out,&amp;quot;%H:%M:%S&amp;quot;)))/300),line==as.numeric(input$select_line_out))
+    }
+  })
+  
+  stations_out_top5 &amp;lt;- reactive({
+    filteredData_out() %&amp;gt;%
+      group_by(station) %&amp;gt;%
+      summarise(count=sum(count),line=min(line)) %&amp;gt;%
+      arrange(desc(count)) %&amp;gt;%
+      head(5) %&amp;gt;%
+      as.data.frame()
+  })
+
+  ## time
+  output$output_slider_time_out  &amp;lt;- renderText({
+    paste0(&amp;quot;Time: &amp;quot;, format(input$slider_time_out,&amp;quot;%H:%M:%S&amp;quot;))
+  })
+  
+  output$map_out &amp;lt;- renderLeaflet({
+    Shanghai %&amp;gt;%
+      addCircles(stations$gps_lon, stations$gps_lat,color = pal(stations$line), radius=1,popup = paste(stations$station,stations$lines),fillOpacity = 1,stroke = FALSE) %&amp;gt;%
+      clearMarkerClusters() %&amp;gt;%
+      clearMarkers()
+  })
+
+  observe({
+    data_out_circle &amp;lt;- data.table(filteredData_out())[, count := sum(count), by=list(station, M5)] %&amp;gt;%
+      arrange(count)
+    
+    leafletProxy(&amp;quot;map_out&amp;quot;, data = filteredData_out()) %&amp;gt;%
+      clearMarkerClusters() %&amp;gt;%
+      clearMarkers() %&amp;gt;%
+      addCircleMarkers(data_out_circle$gps_lon, data_out_circle$gps_lat, color = pal(data_out_circle$line),fillOpacity = 0.5,stroke = FALSE,  popup=paste(data_out_circle$station,data_out_circle$line,data_out_circle$count,sep=&amp;quot;,&amp;quot;), radius=(data_out_circle$count)^(1/2.5))
+  })
+
+  # top5
+  output$out_top5 &amp;lt;- renderPlotly({
+    # If no stations_in_top5 are in view, don&amp;#39;t plot
+    if (nrow(stations_out_top5()) == 0)
+      return(NULL)
+
+    plot_ly(stations_out_top5(),
+            x = stations_out_top5()$station,
+            y = stations_out_top5()$count,
+            type = &amp;quot;bar&amp;quot;,
+            marker = list(color = pal(stations_out_top5()$line)),
+            bgcolor = &amp;quot;#00FFFFFF&amp;quot;) %&amp;gt;%
+      layout(showlegend=FALSE,
+             yaxis=yax,xaxis=xax,plot_bgcolor=&amp;#39;#00FFFFFF&amp;#39;,
+             paper_bgcolor=&amp;#39;#00FFFFFF&amp;#39;)
+  })
+  
+  # Use a separate observer to recreate the legend as needed.
+  observe({
+    proxy &amp;lt;- leafletProxy(&amp;quot;map_out&amp;quot;)
+    # Remove any existing legend, and only if the legend is
+    # enabled, create a new one.
+    proxy %&amp;gt;% clearControls()
+    if (input$legend_out) {
+      proxy %&amp;gt;% addLegend(position = &amp;quot;bottomleft&amp;quot;,pal=pal,values = stations$line)
+    }
+  })
+  
+  ## 线路关联
+  output$line_chord &amp;lt;- renderChorddiag({
+    chorddiag(metro_chord, groupColors = groupColors, showTicks=F, groupnamePadding = 5)
+  })
+})&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;shinyapp&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.5&lt;/span&gt; 2.5 运行shinyApp&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shinyApp(ui = ui,server = server)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;进站流量&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io//post/2016-09-07-shmetro-visual_files/figure-html/shmetro_in.gif&#34; width=&#34;750&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;出站流量&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io//post/2016-09-07-shmetro-visual_files/figure-html/shmetro_out.gif&#34; width=&#34;750&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;进出地铁&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io//post/2016-09-07-shmetro-visual_files/figure-html/shmetro_rel.gif&#34; width=&#34;750&#34;&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>R语言中的色彩</title>
+      <link>https://jeevanyue.github.io/post/2016-08-31-color-in-r/</link>
+      <pubDate>Wed, 31 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2016-08-31-color-in-r/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1&lt;/span&gt; 1. 基本颜色&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#palette&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.1&lt;/span&gt; 1.1 palette()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#colors&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;1.2&lt;/span&gt; 1.2 colors()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2&lt;/span&gt; 2. 色彩空间&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#rgb&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 RGB颜色&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#hsv&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 HSV颜色&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#hclhue-chroma-luminance&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 HCL色彩(Hue, Chroma, Luminance)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#color-gradientscolor-ramps-&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3&lt;/span&gt; 3. Color Gradients/Color Ramps 渐变色&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.1&lt;/span&gt; 3.1 自带的渐变色&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#colorramp--colorramppalette&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.2&lt;/span&gt; 3.2 colorRamp() 和 colorRampPalette()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rcolorbrewer&#34;&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.3&lt;/span&gt; 3.3 RColorBrewer包&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;3.4&lt;/span&gt; 3.4 创建渐变色&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a&gt;&lt;span class=&#34;toc-section-number&#34;&gt;4&lt;/span&gt; 参考资料&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;1&lt;/span&gt; 1. 基本颜色&lt;/h1&gt;
+&lt;div id=&#34;palette&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.1&lt;/span&gt; 1.1 palette()&lt;/h2&gt;
+&lt;div id=&#34;palette&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.1.1&lt;/span&gt; 1.1.1 palette的默认颜色&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;palette()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;black&amp;quot;   &amp;quot;red&amp;quot;     &amp;quot;green3&amp;quot;  &amp;quot;blue&amp;quot;    &amp;quot;cyan&amp;quot;    &amp;quot;magenta&amp;quot; &amp;quot;yellow&amp;quot; 
+## [8] &amp;quot;gray&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pie(rep(1,8), col=palette(), border = palette(), labels = palette(), main = &amp;quot;palette&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/palette-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;palette&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.1.2&lt;/span&gt; 1.1.2 重新定义palette&lt;/h3&gt;
+&lt;p&gt;超过palette(rainbow(10))的颜色数量后，颜色会循环使用&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mfrow = c(1, 2),mai=c(0.1,0.1,0.5,0.1))
+palette(rainbow(10))
+pie(rep(1,20), col=palette(), border = palette(), labels = &amp;quot;&amp;quot;, main = &amp;quot;palette(rainbow(10))&amp;quot;)
+
+palette(gray(0:12 / 12))
+pie(rep(1,12), col=palette(), border = palette(), labels = &amp;quot;&amp;quot;, main = &amp;quot;palette(gray(0:8/12))&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/palette_redefine-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;改为palette默认的基本颜色，R重启后会自动恢复&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;palette(&amp;quot;default&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;colors&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;1.2&lt;/span&gt; 1.2 colors()&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://research.stowers-institute.org/efg/R/Color/Chart/ColorChart.pdf&#34;&gt;colors()&lt;/a&gt;含有657种颜色名称&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mfrow = c(1, 2),mai=c(0.1,0.1,0.5,0.1))
+pie(rep(1,657), col=colors(), border = colors(), labels = &amp;quot;&amp;quot;, main = &amp;quot;colors()&amp;quot;)
+pie(rep(1,27), col=colors()[grep(&amp;#39;red&amp;#39;, colors())], 
+    border = colors()[grep(&amp;#39;red&amp;#39;, colors())], 
+    labels = &amp;quot;&amp;quot;, main = &amp;quot;colors()[grep(&amp;#39;red&amp;#39;, colors())]&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/colors_name-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;2&lt;/span&gt; 2. 色彩空间&lt;/h1&gt;
+&lt;div id=&#34;rgb&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.1&lt;/span&gt; 2.1 RGB颜色&lt;/h2&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/RGB_color_model.png&#34; alt=&#34;RGB&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;RGB&lt;/p&gt;
+&lt;/div&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pie(rep(1,3), col = c(rgb(1,0,0),rgb(0,1,0),rgb(0,0,1)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/color_RGB-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;将颜色名称转换为RGB色彩&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;col2rgb(c(&amp;quot;blue&amp;quot;, &amp;quot;yellow&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       [,1] [,2]
+## red      0  255
+## green    0  255
+## blue   255    0&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;hsv&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.2&lt;/span&gt; 2.2 HSV颜色&lt;/h2&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/HSV_color_model.png&#34; alt=&#34;HSV&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;HSV&lt;/p&gt;
+&lt;/div&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mfrow = c(1, 2),mai=c(0.1,0.1,0.5,0.1))
+hsv_seq &amp;lt;- seq(0.0, 1.0, by=1/30)
+pie(rep(1,30),col=hsv(hsv_seq, 1.0, 1.0),main=&amp;quot;HSV(S=1,V=1)&amp;quot;,labels=&amp;quot;&amp;quot;)
+## hsv(hsv_seq, 1.0, 1.0)与rainbow(30)获取的颜色相同
+pie(rep(1,30), col = rainbow(30), labels = &amp;quot;&amp;quot;, main = paste(&amp;quot;rainbow&amp;quot;,30))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/color_HSV-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;将RGB色彩转换为HSV色彩&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rgb2hsv(col2rgb(&amp;quot;blue&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##        [,1]
+## h 0.6666667
+## s 1.0000000
+## v 1.0000000&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;hclhue-chroma-luminance&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;2.3&lt;/span&gt; 2.3 HCL色彩(Hue, Chroma, Luminance)&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pie(rep(1,30), col = hcl(seq(0, 360, length = 30)), labels = &amp;quot;&amp;quot;, main = &amp;quot;HCL&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/color_HCL-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;color-gradientscolor-ramps-&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;3&lt;/span&gt; 3. Color Gradients/Color Ramps 渐变色&lt;/h1&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.1&lt;/span&gt; 3.1 自带的渐变色&lt;/h2&gt;
+&lt;p&gt;R自带的grDevices包有如下6个调色板，传入获取颜色的个数，就获得相应个数的颜色列表，gray()的参数需在[0,1]。&lt;/p&gt;
+&lt;p&gt;rainbow()、heat.colors()、terrain.colors()、topo.colors()、cm.colors()、gray()&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mfrow = c(2, 3),mai=c(0.1,0.1,0.5,0.1))
+pie(rep(1, 12), col = rainbow(12), labels = &amp;quot;&amp;quot;, main = &amp;quot;rainbow&amp;quot;)
+pie(rep(1, 12), col = heat.colors(12), labels = &amp;quot;&amp;quot;, main = &amp;quot;heat&amp;quot;)
+pie(rep(1, 12), col = terrain.colors(12), labels = &amp;quot;&amp;quot;, main = &amp;quot;terrain&amp;quot;)
+pie(rep(1, 12), col = topo.colors(12), labels = &amp;quot;&amp;quot;, main = &amp;quot;topo&amp;quot;)
+pie(rep(1, 12), col = cm.colors(12), labels = &amp;quot;&amp;quot;, main = &amp;quot;cm&amp;quot;)
+pie(rep(1, 12), col = gray(0:12 / 12), labels = &amp;quot;&amp;quot;, main = &amp;quot;gray&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/color_rainbow-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;colorramp--colorramppalette&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2&lt;/span&gt; 3.2 colorRamp() 和 colorRampPalette()&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;colorRamp()和colorRampPalette()都可用于建立颜色板。通过传入希望的主要颜色如蓝、紫，colorRamp()和colorRampPalette都返回一个函数。 二者返回的函数区别为：colorRamp()返回的函数像grey()一样，入参为[0,1]之间的数列，数列中数字个数即为函数返回的颜色板色彩数。colorRampPalette()返回的参数则像rainbow()一样，入参为希望返回颜色板色彩的数量。而且通过下例可知，colorRampPalette()返回&lt;strong&gt;渐变颜色板函数&lt;/strong&gt;，而colorRamp()返回&lt;strong&gt;对比颜色板函数&lt;/strong&gt;。虽然都是用同样的颜色，结果不同。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mfrow = c(1, 2),mai=c(0.1,0.1,0.5,0.1))
+b2p1 &amp;lt;- colorRampPalette(c(&amp;quot;blue&amp;quot;, &amp;quot;purple&amp;quot;))
+b2p2 &amp;lt;- colorRamp(c(&amp;quot;blue&amp;quot;, &amp;quot;purple&amp;quot;))
+pie(rep(1, 12), labels = &amp;quot;&amp;quot;, col = b2p1(12), border = b2p1(12), main = &amp;quot;colorRampPalette&amp;quot;)
+pie(rep(1, 12), labels = &amp;quot;&amp;quot;, col = b2p2(seq(0, 1, len = 12)), border = b2p2(seq(0, 1, len = 12)), main = &amp;quot;colorRamp&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/colorRamp-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcolorbrewer&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.3&lt;/span&gt; 3.3 RColorBrewer包&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;虽然说RColorBrewer包中实际用到的就只有brewer.pal()函数，但是包中的两个优点使得其非常实用。一是，包中颜色板被划分为序列型(sequential)、离散型(diverging)、分类型（qualitative)这三种基本能满足统计作图需要的类型；二是，颜色都比较协调。更多指引见其官网&lt;a href=&#34;http://colorbrewer2.org/&#34;&gt;ColorBrewer&lt;/a&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;每个系列颜色数量是固定的。&lt;/p&gt;
+&lt;p&gt;序列型颜色板适用于从低到高排序明显的数据，浅色数字小，深色数字大。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RColorBrewer)
+display.brewer.all(type = &amp;quot;seq&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/RColorBrewer_seq-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;离散型颜色板适合带“正、负”的，对极值和中间值比较注重的数据。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;display.brewer.all(type = &amp;quot;qual&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/RColorBrewer_qual-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;分类型颜色板比较适合区分分类型的数据。&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;display.brewer.all(type = &amp;quot;div&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/RColorBrewer_div-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.4&lt;/span&gt; 3.4 创建渐变色&lt;/h2&gt;
+&lt;p&gt;利用HSV和HCL创建自己想要的渐变色&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mfrow = c(1, 2),mai=c(0.1,0.1,0.5,0.1))
+hsv_seq &amp;lt;- seq(0.0, 1.0, by=1/30)
+pie(rep(1,30),col=hsv(hsv_seq, 1.0, 1.0),main=&amp;quot;HSV(S=1,V=1)&amp;quot;,labels=&amp;quot;&amp;quot;)
+pie(rep(1,30), col = hcl(seq(0, 360, length = 30)), labels = &amp;quot;&amp;quot;, main = &amp;quot;HCL&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://jeevanyue.github.io/post/2016-08-31-color-in-R_files/figure-html/create_ramps-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;section level1&#34;&gt;
+&lt;h1&gt;&lt;span class=&#34;header-section-number&#34;&gt;4&lt;/span&gt; 参考资料&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://iccm.cc/colors-and-palettes-in-r-language/&#34;&gt;R语言中的色彩和调色板&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.r-chart.com/2010/06/color-palettes-in-r.html&#34;&gt;Color Palettes in R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://research.stowers-institute.org/efg/Report/UsingColorInR.pdf&#34;&gt;Using Color in R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://hclwizard.org/hcl-color-scheme/&#34;&gt;HCL Color scheme&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>上海地铁线路</title>
+      <link>https://jeevanyue.github.io/post/2016-08-25-shanghai-metro-line/</link>
+      <pubDate>Thu, 25 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeevanyue.github.io/post/2016-08-25-shanghai-metro-line/</guid>
+      <description>&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(leaflet)
+library(data.table)
+library(dplyr)
+stations &amp;lt;- fread(&amp;#39;https://raw.githubusercontent.com/jeevanyue/jeevanyue.github.io/master/data/stations.csv&amp;#39;,encoding=&amp;#39;UTF-8&amp;#39;)
+
+stations &amp;lt;- arrange(stations,line,line_id)
+#地铁颜色，从上海地铁官网获取
+lines_color &amp;lt;- data.frame(&amp;quot;line&amp;quot;=c(1:13,16),&amp;quot;color&amp;quot;=c(&amp;quot;#ED3229&amp;quot;,&amp;quot;#36B854&amp;quot;,&amp;quot;#FFD823&amp;quot;,&amp;quot;#320176&amp;quot;,&amp;quot;#823094&amp;quot;,&amp;quot;#CF047A&amp;quot;,&amp;quot;#F3560F&amp;quot;,&amp;quot;#008CC1&amp;quot;,&amp;quot;#91C5DB&amp;quot;,&amp;quot;#C7AFD3&amp;quot;,&amp;quot;#8C2222&amp;quot;,&amp;quot;#007a61&amp;quot;,&amp;quot;#ec91cc&amp;quot;,&amp;quot;#32D2CA&amp;quot;))
+
+pal &amp;lt;- colorFactor(as.character(lines_color$color), domain = stations$line)
+
+Shanghai &amp;lt;- leaflet() %&amp;gt;% 
+  setView(lng = 121.468888888889, lat = 31.2358333333333, zoom = 10) %&amp;gt;% 
+  addProviderTiles(&amp;quot;CartoDB.Positron&amp;quot;)
+
+## 辅助函数绘制线路
+draw_line_add &amp;lt;- function(l_no,line_s_id=NULL){
+  line_color &amp;lt;- lines_color[lines_color$line==l_no,]$color
+  line_data &amp;lt;- stations[stations$line==l_no,]
+  if(is.null(line_s_id)){
+  draw_lines &amp;lt;- Shanghai %&amp;gt;%
+    addPolylines(lat=line_data$gps_lat,lng=line_data$gps_lon,color=line_color)
+  }else{
+    draw_lines &amp;lt;- Shanghai %&amp;gt;%
+      addPolylines(lat=line_data$gps_lat[line_s_id],lng=line_data$gps_lon[line_s_id],color=line_color)
+  }
+  return(draw_lines)
+}
+
+for(l in unique(stations$line)){
+  line_length &amp;lt;- nrow(stations[stations$line==l,])
+  if(l==4){
+    #由于4号线为环线，需将首尾相连
+    Shanghai &amp;lt;- draw_line_add(l_no=l)
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(1,line_length))
+  }else if(l==10){
+    #由于10号线在龙溪路站以后分为两条线路，需分两端绘制
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(1:(line_length-3)))
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(24,(line_length-2):line_length))
+  }else if(l==11){
+    #由于11号线在嘉定新城站以后分为两条线路，需分两端绘制
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(1:(line_length-7)))
+    Shanghai &amp;lt;- draw_line_add(l_no=l,line_s_id=c(28,(line_length-6):line_length))
+  }else{
+    Shanghai &amp;lt;- draw_line_add(l_no=l)
+  }
+}
+
+stations_no &amp;lt;- nrow(stations)
+for (i in 1:stations_no) {
+  s &amp;lt;- stations$station[i]
+  stations$lines[i] &amp;lt;- paste(stations[stations$station==s,]$line,sep=&amp;quot;&amp;quot;,collapse=&amp;quot;/&amp;quot;)
+}
+#添加地铁站名
+Shanghai &amp;lt;- Shanghai %&amp;gt;%
+  addCircleMarkers(stations$gps_lon, stations$gps_lat, popup =paste(stations$station,stations$lines,sep=&amp;quot;,&amp;quot;),color = pal(stations$line), radius=1.5) %&amp;gt;%
+  addLegend(pal=pal,values = stations$line)
+Shanghai&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;https://jeevanyue.github.io/img/posts/2016-08-25-shanghai-metro-line_files/figure-html/shmetro_line.html&#34; style=&#34;border: none; width: 100%; height: 600px&#34;&gt;
+&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
       <title>基于blogdown搭建的第一篇文章</title>
       <link>https://jeevanyue.github.io/post/2016-08-24-my-first-post/</link>
       <pubDate>Wed, 24 Aug 2016 00:00:00 +0000</pubDate>
@@ -94,7 +2589,7 @@ gg_plotly &amp;lt;- ggplotly(gg, session=&amp;quot;knitr&amp;quot;)
 #saveWidget(as.widget(gg_plotly), file=&amp;quot;gg_plotly.html&amp;quot;)
 gg_plotly&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:100%;height:480px;&#34; class=&#34;plotly html-widget&#34;&gt;&lt;/div&gt;
-&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;data&#34;:[{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],&#34;base&#34;:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],&#34;x&#34;:[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],&#34;y&#34;:[2,0,0,1,1,5,2,1,2,3,1,5,0,2,1,0,1,1,0,0,2,0,1,0,1],&#34;text&#34;:[&#34;mpg: 10&#34;,&#34;mpg: 11&#34;,&#34;mpg: 12&#34;,&#34;mpg: 13&#34;,&#34;mpg: 14&#34;,&#34;mpg: 15&#34;,&#34;mpg: 16&#34;,&#34;mpg: 17&#34;,&#34;mpg: 18&#34;,&#34;mpg: 19&#34;,&#34;mpg: 20&#34;,&#34;mpg: 21&#34;,&#34;mpg: 22&#34;,&#34;mpg: 23&#34;,&#34;mpg: 24&#34;,&#34;mpg: 25&#34;,&#34;mpg: 26&#34;,&#34;mpg: 27&#34;,&#34;mpg: 28&#34;,&#34;mpg: 29&#34;,&#34;mpg: 30&#34;,&#34;mpg: 31&#34;,&#34;mpg: 32&#34;,&#34;mpg: 33&#34;,&#34;mpg: 34&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(89,89,89,1)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;showlegend&#34;:false,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null}],&#34;layout&#34;:{&#34;margin&#34;:{&#34;t&#34;:26.2283105022831,&#34;r&#34;:7.30593607305936,&#34;b&#34;:40.1826484018265,&#34;l&#34;:31.4155251141553},&#34;plot_bgcolor&#34;:&#34;rgba(235,235,235,1)&#34;,&#34;paper_bgcolor&#34;:&#34;rgba(255,255,255,1)&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;xaxis&#34;:{&#34;domain&#34;:[0,1],&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[8.25,35.75],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;10&#34;,&#34;15&#34;,&#34;20&#34;,&#34;25&#34;,&#34;30&#34;,&#34;35&#34;],&#34;tickvals&#34;:[10,15,20,25,30,35],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;10&#34;,&#34;15&#34;,&#34;20&#34;,&#34;25&#34;,&#34;30&#34;,&#34;35&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;outside&#34;,&#34;tickcolor&#34;:&#34;rgba(51,51,51,1)&#34;,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0.66417600664176,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:true,&#34;gridcolor&#34;:null,&#34;gridwidth&#34;:0,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;y&#34;,&#34;title&#34;:&#34;mpg&#34;,&#34;titlefont&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;yaxis&#34;:{&#34;domain&#34;:[0,1],&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[-0.25,5.25],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;0&#34;,&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;],&#34;tickvals&#34;:[0,1,2,3,4,5],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;0&#34;,&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;outside&#34;,&#34;tickcolor&#34;:&#34;rgba(51,51,51,1)&#34;,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0.66417600664176,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:true,&#34;gridcolor&#34;:null,&#34;gridwidth&#34;:0,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;x&#34;,&#34;title&#34;:&#34;count&#34;,&#34;titlefont&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;shapes&#34;:[{&#34;type&#34;:&#34;rect&#34;,&#34;fillcolor&#34;:null,&#34;line&#34;:{&#34;color&#34;:null,&#34;width&#34;:0,&#34;linetype&#34;:[]},&#34;yref&#34;:&#34;paper&#34;,&#34;xref&#34;:&#34;paper&#34;,&#34;x0&#34;:0,&#34;x1&#34;:1,&#34;y0&#34;:0,&#34;y1&#34;:1}],&#34;showlegend&#34;:false,&#34;legend&#34;:{&#34;bgcolor&#34;:&#34;rgba(255,255,255,1)&#34;,&#34;bordercolor&#34;:&#34;transparent&#34;,&#34;borderwidth&#34;:1.88976377952756,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895}},&#34;hovermode&#34;:&#34;closest&#34;,&#34;barmode&#34;:&#34;relative&#34;},&#34;config&#34;:{&#34;doubleClick&#34;:&#34;reset&#34;,&#34;modeBarButtonsToAdd&#34;:[{&#34;name&#34;:&#34;Collaborate&#34;,&#34;icon&#34;:{&#34;width&#34;:1000,&#34;ascent&#34;:500,&#34;descent&#34;:-50,&#34;path&#34;:&#34;M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z&#34;},&#34;click&#34;:&#34;function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == &#39;?viewer_pane=1&#39;) {\n          alert(&#39;To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html&#39;);\n        } else {\n          window.open(&#39;https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html&#39;, &#39;_blank&#39;);\n        }\n      }&#34;}],&#34;cloud&#34;:false},&#34;source&#34;:&#34;A&#34;,&#34;attrs&#34;:{&#34;90622eed168&#34;:{&#34;x&#34;:{},&#34;type&#34;:&#34;bar&#34;}},&#34;cur_data&#34;:&#34;90622eed168&#34;,&#34;visdat&#34;:{&#34;90622eed168&#34;:[&#34;function (y) &#34;,&#34;x&#34;]},&#34;highlight&#34;:{&#34;on&#34;:&#34;plotly_click&#34;,&#34;persistent&#34;:false,&#34;dynamic&#34;:false,&#34;selectize&#34;:false,&#34;opacityDim&#34;:0.2,&#34;selected&#34;:{&#34;opacity&#34;:1}},&#34;base_url&#34;:&#34;https://plot.ly&#34;},&#34;evals&#34;:[&#34;config.modeBarButtonsToAdd.0.click&#34;],&#34;jsHooks&#34;:{&#34;render&#34;:[{&#34;code&#34;:&#34;function(el, x) { var ctConfig = crosstalk.var(&#39;plotlyCrosstalkOpts&#39;).set({\&#34;on\&#34;:\&#34;plotly_click\&#34;,\&#34;persistent\&#34;:false,\&#34;dynamic\&#34;:false,\&#34;selectize\&#34;:false,\&#34;opacityDim\&#34;:0.2,\&#34;selected\&#34;:{\&#34;opacity\&#34;:1}}); }&#34;,&#34;data&#34;:null}]}}&lt;/script&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;data&#34;:[{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],&#34;base&#34;:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],&#34;x&#34;:[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],&#34;y&#34;:[2,0,0,1,1,5,2,1,2,3,1,5,0,2,1,0,1,1,0,0,2,0,1,0,1],&#34;text&#34;:[&#34;mpg: 10&#34;,&#34;mpg: 11&#34;,&#34;mpg: 12&#34;,&#34;mpg: 13&#34;,&#34;mpg: 14&#34;,&#34;mpg: 15&#34;,&#34;mpg: 16&#34;,&#34;mpg: 17&#34;,&#34;mpg: 18&#34;,&#34;mpg: 19&#34;,&#34;mpg: 20&#34;,&#34;mpg: 21&#34;,&#34;mpg: 22&#34;,&#34;mpg: 23&#34;,&#34;mpg: 24&#34;,&#34;mpg: 25&#34;,&#34;mpg: 26&#34;,&#34;mpg: 27&#34;,&#34;mpg: 28&#34;,&#34;mpg: 29&#34;,&#34;mpg: 30&#34;,&#34;mpg: 31&#34;,&#34;mpg: 32&#34;,&#34;mpg: 33&#34;,&#34;mpg: 34&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(89,89,89,1)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;showlegend&#34;:false,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null}],&#34;layout&#34;:{&#34;margin&#34;:{&#34;t&#34;:26.2283105022831,&#34;r&#34;:7.30593607305936,&#34;b&#34;:40.1826484018265,&#34;l&#34;:31.4155251141553},&#34;plot_bgcolor&#34;:&#34;rgba(235,235,235,1)&#34;,&#34;paper_bgcolor&#34;:&#34;rgba(255,255,255,1)&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;xaxis&#34;:{&#34;domain&#34;:[0,1],&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[8.25,35.75],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;10&#34;,&#34;15&#34;,&#34;20&#34;,&#34;25&#34;,&#34;30&#34;,&#34;35&#34;],&#34;tickvals&#34;:[10,15,20,25,30,35],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;10&#34;,&#34;15&#34;,&#34;20&#34;,&#34;25&#34;,&#34;30&#34;,&#34;35&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;outside&#34;,&#34;tickcolor&#34;:&#34;rgba(51,51,51,1)&#34;,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0.66417600664176,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:true,&#34;gridcolor&#34;:null,&#34;gridwidth&#34;:0,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;y&#34;,&#34;title&#34;:&#34;mpg&#34;,&#34;titlefont&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;yaxis&#34;:{&#34;domain&#34;:[0,1],&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[-0.25,5.25],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;0&#34;,&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;],&#34;tickvals&#34;:[0,1,2,3,4,5],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;0&#34;,&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;outside&#34;,&#34;tickcolor&#34;:&#34;rgba(51,51,51,1)&#34;,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0.66417600664176,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:true,&#34;gridcolor&#34;:null,&#34;gridwidth&#34;:0,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;x&#34;,&#34;title&#34;:&#34;count&#34;,&#34;titlefont&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;shapes&#34;:[{&#34;type&#34;:&#34;rect&#34;,&#34;fillcolor&#34;:null,&#34;line&#34;:{&#34;color&#34;:null,&#34;width&#34;:0,&#34;linetype&#34;:[]},&#34;yref&#34;:&#34;paper&#34;,&#34;xref&#34;:&#34;paper&#34;,&#34;x0&#34;:0,&#34;x1&#34;:1,&#34;y0&#34;:0,&#34;y1&#34;:1}],&#34;showlegend&#34;:false,&#34;legend&#34;:{&#34;bgcolor&#34;:&#34;rgba(255,255,255,1)&#34;,&#34;bordercolor&#34;:&#34;transparent&#34;,&#34;borderwidth&#34;:1.88976377952756,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895}},&#34;hovermode&#34;:&#34;closest&#34;,&#34;barmode&#34;:&#34;relative&#34;},&#34;config&#34;:{&#34;doubleClick&#34;:&#34;reset&#34;,&#34;modeBarButtonsToAdd&#34;:[{&#34;name&#34;:&#34;Collaborate&#34;,&#34;icon&#34;:{&#34;width&#34;:1000,&#34;ascent&#34;:500,&#34;descent&#34;:-50,&#34;path&#34;:&#34;M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z&#34;},&#34;click&#34;:&#34;function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == &#39;?viewer_pane=1&#39;) {\n          alert(&#39;To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html&#39;);\n        } else {\n          window.open(&#39;https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html&#39;, &#39;_blank&#39;);\n        }\n      }&#34;}],&#34;cloud&#34;:false},&#34;source&#34;:&#34;A&#34;,&#34;attrs&#34;:{&#34;f6301394ae9c&#34;:{&#34;x&#34;:{},&#34;type&#34;:&#34;bar&#34;}},&#34;cur_data&#34;:&#34;f6301394ae9c&#34;,&#34;visdat&#34;:{&#34;f6301394ae9c&#34;:[&#34;function (y) &#34;,&#34;x&#34;]},&#34;highlight&#34;:{&#34;on&#34;:&#34;plotly_click&#34;,&#34;persistent&#34;:false,&#34;dynamic&#34;:false,&#34;selectize&#34;:false,&#34;opacityDim&#34;:0.2,&#34;selected&#34;:{&#34;opacity&#34;:1}},&#34;base_url&#34;:&#34;https://plot.ly&#34;},&#34;evals&#34;:[&#34;config.modeBarButtonsToAdd.0.click&#34;],&#34;jsHooks&#34;:{&#34;render&#34;:[{&#34;code&#34;:&#34;function(el, x) { var ctConfig = crosstalk.var(&#39;plotlyCrosstalkOpts&#39;).set({\&#34;on\&#34;:\&#34;plotly_click\&#34;,\&#34;persistent\&#34;:false,\&#34;dynamic\&#34;:false,\&#34;selectize\&#34;:false,\&#34;opacityDim\&#34;:0.2,\&#34;selected\&#34;:{\&#34;opacity\&#34;:1}}); }&#34;,&#34;data&#34;:null}]}}&lt;/script&gt;
 &lt;/div&gt;
 &lt;div id=&#34;leaflet&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;3.2&lt;/span&gt; leaflet&lt;/h2&gt;

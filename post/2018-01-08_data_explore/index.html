@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.32.2" />
+  <meta name="author" content="Jeevan Yue">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="1 1. R自带函数 1.1 1.1 转置 1.2 1.2 整合数据aggregate 1.3 1.3 apply 1.4 1.4 union和intersect 1.5 1.5 合并 cbind和rbind 1.6 1.6 匹配合并 merge 1.7 1.7 排除重复数据 unique  2 2. reshape2包 2.1 2.1融合-melt 2.2 2.2重铸-dcast和acast 2.3 2.3 练习  3 3. dplyr 3.1 3.1 基本操作 3.2 3.2 分组group_by 3.3 3.3 链式操作(管道) %&gt;% 或 %.% 3.4 3.5 数据匹配合并join 3.5 3.6 连接数据库 3.6 3.7 利用窗体函数变换数据  4 4. tidyr 5 5. 字符串处理 5.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://jeevanyue.github.io/post/2018-01-08_data_explore/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/blue.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  <link rel="feed" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://jeevanyue.github.io/post/2018-01-08_data_explore/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@https://twitter.com/Yuejeevan">
+  <meta property="twitter:creator" content="@https://twitter.com/Yuejeevan">
+  
+  <meta property="og:site_name" content="Jeevan Yue">
+  <meta property="og:url" content="https://jeevanyue.github.io/post/2018-01-08_data_explore/">
+  <meta property="og:title" content="在R中处理数据 | Jeevan Yue">
+  <meta property="og:description" content="1 1. R自带函数 1.1 1.1 转置 1.2 1.2 整合数据aggregate 1.3 1.3 apply 1.4 1.4 union和intersect 1.5 1.5 合并 cbind和rbind 1.6 1.6 匹配合并 merge 1.7 1.7 排除重复数据 unique  2 2. reshape2包 2.1 2.1融合-melt 2.2 2.2重铸-dcast和acast 2.3 2.3 练习  3 3. dplyr 3.1 3.1 基本操作 3.2 3.2 分组group_by 3.3 3.3 链式操作(管道) %&gt;% 或 %.% 3.4 3.5 数据匹配合并join 3.5 3.6 连接数据库 3.6 3.7 利用窗体函数变换数据  4 4. tidyr 5 5. 字符串处理 5.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-01-08T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-01-08T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>在R中处理数据 | Jeevan Yue</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Jeevan Yue</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">在R中处理数据</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-01-08 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-01-08
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Jeevan Yue">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    9 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=%e5%9c%a8R%e4%b8%ad%e5%a4%84%e7%90%86%e6%95%b0%e6%8d%ae&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08_data_explore%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08_data_explore%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08_data_explore%2f&amp;title=%e5%9c%a8R%e4%b8%ad%e5%a4%84%e7%90%86%e6%95%b0%e6%8d%ae"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08_data_explore%2f&amp;title=%e5%9c%a8R%e4%b8%ad%e5%a4%84%e7%90%86%e6%95%b0%e6%8d%ae"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=%e5%9c%a8R%e4%b8%ad%e5%a4%84%e7%90%86%e6%95%b0%e6%8d%ae&amp;body=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08_data_explore%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <div id="TOC">
+<ul>
+<li><a href="#r"><span class="toc-section-number">1</span> 1. R自带函数</a><ul>
+<li><a><span class="toc-section-number">1.1</span> 1.1 转置</a></li>
+<li><a href="#aggregate"><span class="toc-section-number">1.2</span> 1.2 整合数据aggregate</a></li>
+<li><a href="#apply"><span class="toc-section-number">1.3</span> 1.3 apply</a></li>
+<li><a href="#unionintersect"><span class="toc-section-number">1.4</span> 1.4 union和intersect</a></li>
+<li><a href="#-cbindrbind"><span class="toc-section-number">1.5</span> 1.5 合并 cbind和rbind</a></li>
+<li><a href="#-merge"><span class="toc-section-number">1.6</span> 1.6 匹配合并 merge</a></li>
+<li><a href="#-unique"><span class="toc-section-number">1.7</span> 1.7 排除重复数据 unique</a></li>
+</ul></li>
+<li><a href="#reshape2"><span class="toc-section-number">2</span> 2. reshape2包</a><ul>
+<li><a href="#-melt"><span class="toc-section-number">2.1</span> 2.1融合-melt</a></li>
+<li><a href="#-dcastacast"><span class="toc-section-number">2.2</span> 2.2重铸-dcast和acast</a></li>
+<li><a><span class="toc-section-number">2.3</span> 2.3 练习</a></li>
+</ul></li>
+<li><a href="#dplyr"><span class="toc-section-number">3</span> 3. dplyr</a><ul>
+<li><a><span class="toc-section-number">3.1</span> 3.1 基本操作</a></li>
+<li><a href="#group_by"><span class="toc-section-number">3.2</span> 3.2 分组group_by</a></li>
+<li><a href="#--."><span class="toc-section-number">3.3</span> 3.3 链式操作(管道) %&gt;% 或 %.%</a></li>
+<li><a href="#join"><span class="toc-section-number">3.4</span> 3.5 数据匹配合并join</a></li>
+<li><a><span class="toc-section-number">3.5</span> 3.6 连接数据库</a></li>
+<li><a><span class="toc-section-number">3.6</span> 3.7 利用窗体函数变换数据</a></li>
+</ul></li>
+<li><a href="#tidyr"><span class="toc-section-number">4</span> 4. tidyr</a></li>
+<li><a><span class="toc-section-number">5</span> 5. 字符串处理</a><ul>
+<li><a href="#-nchar"><span class="toc-section-number">5.1</span> 5.1 字符个数 nchar</a></li>
+<li><a href="#-paste"><span class="toc-section-number">5.2</span> 5.2 连接字符 paste</a></li>
+<li><a href="#-strsplit"><span class="toc-section-number">5.3</span> 5.3 分割字符 strsplit</a></li>
+<li><a href="#-substrsubstring"><span class="toc-section-number">5.4</span> 5.4 提取字符 substr与substring</a></li>
+<li><a href="#-subgsub"><span class="toc-section-number">5.5</span> 5.5 替换字符 sub和gsub</a></li>
+<li><a href="#-grep"><span class="toc-section-number">5.6</span> 5.6 字符查询匹配 grep</a></li>
+<li><a><span class="toc-section-number">5.7</span> 5.5 其他</a></li>
+<li><a href="#stringr"><span class="toc-section-number">5.8</span> 5.6 stringr包</a></li>
+</ul></li>
+<li><a href="#a-"><span class="toc-section-number">6</span> 附录A 正则表达式</a></li>
+<li><a href="#b"><span class="toc-section-number">7</span> 附录B</a></li>
+</ul>
+</div>
+
+<p>▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%</p>
+<div id="r" class="section level1">
+<h1><span class="header-section-number">1</span> 1. R自带函数</h1>
+<div class="section level2">
+<h2><span class="header-section-number">1.1</span> 1.1 转置</h2>
+<p>使用函数t()可对一个矩阵或数据框进行转置，对于数据框，行名将变成变量（列）名。</p>
+<pre class="r"><code>cars &lt;- mtcars(1:5,1:4)
+cars
+t(cars)</code></pre>
+<p>数列array进行维度转换 aperm</p>
+<pre class="r"><code>x &lt;- array(1:24, 2:4)
+xt &lt;- aperm(x, c(2,1,3))
+dim(x)
+dim(xt)</code></pre>
+</div>
+<div id="aggregate" class="section level2">
+<h2><span class="header-section-number">1.2</span> 1.2 整合数据aggregate</h2>
+<p>在R中使用一个或多个by变量和一个预先定义好的函数来折叠（collapse）数据。调用格式为：</p>
+<pre class="r"><code>aggregate(x,by,FUN)</code></pre>
+<p>其中<em>x</em>是待折叠的数据对象，<em>by</em>饰一个变量名组成的列表，这些变量将被去掉以新的观测，而<em>FUN</em>则是用来计算表述性统计量的标量函数，它将被用来计算新观测中的值。</p>
+<pre class="r"><code>options(digits=2)
+attach(mtcars)
+mydata &lt;- aggregate(mtcars, by=list(cyl,gear), FUN=mean, na.rm=TRUE)
+mydata</code></pre>
+<p>by中的变量必须在一个列表中（即使只有一个变量）。也可以在列表中为各组声明自定义的名称，例如by＝list(Group.cyl=cyl,Group.gears=gear)。</p>
+<pre class="r"><code>## example with character variables and NAs
+testDF &lt;- data.frame(v1 = c(1,3,5,7,8,3,5,NA,4,5,7,9),
+                     v2 = c(11,33,55,77,88,33,55,NA,44,55,77,99) )
+by1 &lt;- c(&quot;red&quot;, &quot;blue&quot;, 1, 2, NA, &quot;big&quot;, 1, 2, &quot;red&quot;, 1, NA, 12)
+by2 &lt;- c(&quot;wet&quot;, &quot;dry&quot;, 99, 95, NA, &quot;damp&quot;, 95, 99, &quot;red&quot;, 99, NA, NA)
+aggregate(x = testDF, by = list(by1, by2), FUN = &quot;mean&quot;)
+
+# and if you want to treat NAs as a group
+fby1 &lt;- factor(by1, exclude = &quot;&quot;)
+fby2 &lt;- factor(by2, exclude = &quot;&quot;)
+aggregate(x = testDF, by = list(fby1, fby2), FUN = &quot;mean&quot;)
+
+## Formulas, one ~ one, one ~ many, many ~ one, and many ~ many:
+aggregate(weight ~ feed, data = chickwts, mean)
+aggregate(breaks ~ wool + tension, data = warpbreaks, mean)
+aggregate(cbind(Ozone, Temp) ~ Month, data = airquality, mean)
+aggregate(cbind(ncases, ncontrols) ~ alcgp + tobgp, data = esoph, sum)
+
+## Dot notation:
+aggregate(. ~ Species, data = iris, mean)
+aggregate(len ~ ., data = ToothGrowth, mean)
+
+## Often followed by xtabs():
+ag &lt;- aggregate(len ~ ., data = ToothGrowth, mean)
+xtabs(len ~ ., data = ag)
+
+## Compute the average annual approval ratings for American presidents.
+aggregate(presidents, nfrequency = 1, FUN = mean)
+## Give the summer less weight.
+aggregate(presidents, nfrequency = 1,
+          FUN = weighted.mean, w = c(1, 1, 0.5, 1))</code></pre>
+</div>
+<div id="apply" class="section level2">
+<h2><span class="header-section-number">1.3</span> 1.3 apply</h2>
+<p>待整理</p>
+</div>
+<div id="unionintersect" class="section level2">
+<h2><span class="header-section-number">1.4</span> 1.4 union和intersect</h2>
+<pre class="r"><code>x &lt;- c(sort(sample(1:20, 9)), NA)
+y &lt;- c(sort(sample(3:23, 7)), NA)
+union(x, y)
+intersect(x, y)
+setdiff(x, y)
+setdiff(y, x)
+setequal(x, y)
+#%in%
+(1:10) %in% c(3,7,12)
+&quot;%w/o%&quot; &lt;- function(x, y) x[!x %in% y]
+(1:10) %w/o% c(3,7,12)
+sstr &lt;- c(&quot;c&quot;,&quot;ab&quot;,&quot;B&quot;,&quot;bba&quot;,&quot;c&quot;,NA,&quot;@&quot;,&quot;bla&quot;,&quot;a&quot;,&quot;Ba&quot;,&quot;%&quot;)
+sstr %in% c(letters, LETTERS)</code></pre>
+</div>
+<div id="-cbindrbind" class="section level2">
+<h2><span class="header-section-number">1.5</span> 1.5 合并 cbind和rbind</h2>
+<p>纵向合并数据通常用于向数据框中添加观测。</p>
+<ul>
+<li>rbind() ：纵向合并两个数据框（数据集）</li>
+<li>cbind() ：横向合并两个数据框（数据集）</li>
+</ul>
+<p>注：两个数据框行（列）数必须相同。如果x中拥有y中没有的变量，在合并它们之前需做以下处理：</p>
+<p>(1)删除dataframeA中的多余变量；</p>
+<p>(2)在dataframeB中创建追加的变量并将其值设为NA(缺失)。</p>
+<pre class="r"><code>x1 &lt;- c(1:5)
+x2 &lt;- c(21:25)
+x3 &lt;- c(31:35)
+r1 &lt;- cbind(x1, x2)
+r2 &lt;- rbind(x1, x2)
+r31 &lt;- cbind(r1, x3)
+r32 &lt;- rbind(r2, x3)</code></pre>
+</div>
+<div id="-merge" class="section level2">
+<h2><span class="header-section-number">1.6</span> 1.6 匹配合并 merge</h2>
+<p>merge效果同dplyr的join，join的效力更高。</p>
+<ul>
+<li>inner_join 等价于 merge(all=F)</li>
+<li>left_join 等价于 merge(all.x=T, all.y=F)</li>
+<li>right_join 等价于 merge(all.x=F, all.y=T)</li>
+<li>full_join 等价于 merge(all=T)</li>
+</ul>
+<pre class="r"><code>#authors和books
+authors &lt;- data.frame(
+    surname = I(c(&quot;Tukey&quot;, &quot;Venables&quot;, &quot;Tierney&quot;, &quot;Ripley&quot;, &quot;McNeil&quot;)),
+    nationality = c(&quot;US&quot;, &quot;Australia&quot;, &quot;US&quot;, &quot;UK&quot;, &quot;Australia&quot;),
+    deceased = c(&quot;yes&quot;, rep(&quot;no&quot;, 4)))
+books &lt;- data.frame(
+    name = I(c(&quot;Tukey&quot;, &quot;Venables&quot;, &quot;Tierney&quot;,
+             &quot;Ripley&quot;, &quot;Ripley&quot;, &quot;McNeil&quot;, &quot;R Core&quot;)),
+    title = c(&quot;Exploratory Data Analysis&quot;,
+              &quot;Modern Applied Statistics ...&quot;,
+              &quot;LISP-STAT&quot;,
+              &quot;Spatial Statistics&quot;, &quot;Stochastic Simulation&quot;,
+              &quot;Interactive Data Analysis&quot;,
+              &quot;An Introduction to R&quot;),
+    other.author = c(NA, &quot;Ripley&quot;, NA, NA, NA, NA,
+                     &quot;Venables &amp; Smith&quot;))
+
+m1 &lt;- merge(authors, books, by.x = &quot;surname&quot;, by.y = &quot;name&quot;)
+m2 &lt;- merge(books, authors, by.x = &quot;name&quot;, by.y = &quot;surname&quot;)
+#m1和m2结果相同，只是结果的列名不同。
+#left_join
+m3 &lt;- merge(authors, books, by.x = &quot;surname&quot;, by.y = &quot;name&quot;, all.x = T, all.y = F)
+#right_join
+m4 &lt;- merge(authors, books, by.x = &quot;surname&quot;, by.y = &quot;name&quot;, all.x = F, all.y = T)
+#full_join
+m5 &lt;- merge(authors, books, by.x = &quot;surname&quot;, by.y = &quot;name&quot;, all = TRUE)
+
+m11 &lt;- inner_join(authors, books, by=c(&quot;surname&quot;=&quot;name&quot;))
+m22 &lt;- inner_join(books, authors, by=c(&quot;name&quot;=&quot;surname&quot;))
+m33 &lt;- left_join(authors, books, by=c(&quot;surname&quot;=&quot;name&quot;))
+m44 &lt;- right_join(authors, books, by=c(&quot;surname&quot;=&quot;name&quot;))
+m55 &lt;- full_join(authors, books, by=c(&quot;surname&quot;=&quot;name&quot;))</code></pre>
+</div>
+<div id="-unique" class="section level2">
+<h2><span class="header-section-number">1.7</span> 1.7 排除重复数据 unique</h2>
+<p>unique 函数可以去掉向量、数据框或类似数列的数据中重复的元素。</p>
+<pre class="r"><code>x &lt;- c(9:20, 1:5, 3:7, 0:8)
+y &lt;- unique(x)
+#下列方式业可以，但unique方式效率更高.
+#duplicated 函数返回了元素是否重复的逻辑值.
+y1 &lt;- x[!duplicated(x)]</code></pre>
+</div>
+</div>
+<div id="reshape2" class="section level1">
+<h1><span class="header-section-number">2</span> 2. reshape2包</h1>
+<p>首先将数据“融合”（melt），以使每一行都是一个唯一的标识符-变量组合。</p>
+<p>然后将数据“重铸”（cast），可以使用任何函数对数据进行整合成想要的任何形状。</p>
+<p><strong><em>注：reshape包的重铸函数为cast()，reshape2包的重铸函数为dcast()和acast()</em></strong></p>
+<pre class="r"><code>#数据集mydata
+ID &lt;- c(1,1,2,2)
+Time &lt;- c(1,2,1,2)
+X1 &lt;- c(5,3,6,2)
+X2 &lt;- c(6,5,1,4)
+mydata &lt;- data.frame(ID,Time,X1,X2)</code></pre>
+<div id="-melt" class="section level2">
+<h2><span class="header-section-number">2.1</span> 2.1融合-melt</h2>
+<p>数据集的融合是将它重构为这样一种格式：每个测量变量独占一行，行中带有要唯一确定这个测量所需的标识符变量。</p>
+<pre class="r"><code>library(reshape2)
+md &lt;- melt(mydata, id=c(&quot;ID&quot;,&quot;Time&quot;))
+md &lt;- melt(mydata, id=1:2)</code></pre>
+</div>
+<div id="-dcastacast" class="section level2">
+<h2><span class="header-section-number">2.2</span> 2.2重铸-dcast和acast</h2>
+<p>Use <strong>acast</strong> or <strong>dcast</strong> depending on whether you want vector/matrix/array output or data frame output. Data frames can have at most two dimensions.</p>
+<ol style="list-style-type: decimal">
+<li><p>dcast——返回的结果是一个数据框</p></li>
+<li><p>acast——返回的结果可以是向量、矩阵或者数组</p></li>
+</ol>
+<p>调用格式为：</p>
+<pre class="r"><code>newdata &lt;- dcast(data, formula, fun.aggregate = NULL, ..., 
+  margins = NULL, subset = NULL, fill = NULL, drop = TRUE, 
+  value.var = guess_value(data))
+newdata &lt;- acast(data, formula, fun.aggregate = NULL, ..., 
+  margins = NULL, subset = NULL, fill = NULL, drop = TRUE, 
+  value.var = guess_value(data))</code></pre>
+<p>其中<em>md</em>为已融合的数据，<em>formula</em>描述想要的结果，<em>FUN</em>是（可选的）数据整合函数。</p>
+<p>接受的公式形如：</p>
+<pre class="r"><code>rowvar1 + rowvar2 + ... ~ colvar1 + colvar2 + ...</code></pre>
+<p>在这个公式中，<em>rowvar1 + rowvar2 + … </em>定义了要划掉的变量集合，以确定各行的内容，而<em>colvar1 + colvar2 + … </em>则定义了要划掉的、确定各列内容的变量集合。</p>
+<pre class="r"><code>#执行整合
+acast(md, ID~variable, mean)
+dcast(md, ID~variable, mean)
+dcast(md, tTime~variable, mean)
+dcast(md, ID~Time, mean)
+#不执行整合
+dcast(md, ID+Time~variable)
+dcast(md, ID+variable~Time)
+dcast(md, ID~variable+Time)</code></pre>
+<div class="figure">
+<img src="/post/2018-01-08_data_explore_files/figure-html/data_explore.png" title="R语言实战截图" alt="R语言实战截图" />
+<p class="caption">R语言实战截图</p>
+</div>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">2.3</span> 2.3 练习</h2>
+<pre class="r"><code>library(reshape2)
+head(airquality)
+mydata &lt;- airquality
+mydata1 &lt;- melt(mydata, id=c(&quot;Month&quot;, &quot;Day&quot;),
+  variable.name = &quot;type&quot;,value.name = &quot;val&quot;)
+#选定测量变量为Ozone、Wind
+mydata2 &lt;- melt(mydata, id=c(&quot;Month&quot;, &quot;Day&quot;),
+  measure = c(&quot;Ozone&quot;,&quot;Wind&quot;),
+  variable.name = &quot;type&quot;,value.name = &quot;val&quot;)
+str(mydata1)
+str(mydata2)
+#大写转换为小写
+names(mydata) &lt;- tolower(names(mydata))
+a &lt;- melt(mydata, id=c(&quot;month&quot;, &quot;day&quot;), na.rm=TRUE)
+#数据b和原始数据airquality一样，数据复原了。
+b &lt;- dcast(a , month + day ~variable)
+result1 &lt;- dcast(a , month  ~variable ,mean)
+#查看缺失值数量的函数
+myfun &lt;- function(x){return(sum(is.na(x)))}
+result2 &lt;- dcast(a, month  ~variable ,myfun)
+result3 &lt;- melt(mydata, id=c(&quot;month&quot;, &quot;day&quot;))
+result4 &lt;- dcast(result3 , month  ~variable ,myfun)
+result5 &lt;- recast(mydata , month ~ variable , 
+  id.var = c(&#39;month&#39;,&#39;day&#39;) , fun = myfun)</code></pre>
+</div>
+</div>
+<div id="dplyr" class="section level1">
+<h1><span class="header-section-number">3</span> 3. dplyr</h1>
+<div class="section level2">
+<h2><span class="header-section-number">3.1</span> 3.1 基本操作</h2>
+<div class="section level3">
+<h3><span class="header-section-number">3.1.1</span> 3.1.1 数据类型</h3>
+<p>将过长过大的数据集转换为显示更友好的 tbl_df 类型</p>
+<pre class="r"><code>library(dplyr)
+iris_df &lt;- tbl_df(iris)</code></pre>
+</div>
+<div id="filter" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> 3.1.2 筛选filter</h3>
+<p>按给定的逻辑判断筛选出符合要求的子数据集, 类似于 base::subset() 函数</p>
+<pre class="r"><code>filter(iris_df, Species == &#39;setosa&#39; , Sepal.Length &gt;=5)
+filter(iris_df, Species == &#39;setosa&#39; &amp; Sepal.Length &gt;=5)</code></pre>
+<p>用R自带函数实现:</p>
+<pre class="r"><code>iris_df[iris_df$Species == &#39;setosa&#39; &amp; iris_df$Sepal.Length &gt;=5, ]</code></pre>
+<p>除了代码简洁外, 还支持对同一对象的任意个条件组合, 如:</p>
+<pre class="r"><code>filter(iris_df, Species == &#39;setosa&#39; | Sepal.Length &gt;=5)</code></pre>
+<p><em>注意: 表示 AND 时要使用 &amp; 而避免 &amp;&amp;</em></p>
+</div>
+<div id="-arrange" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> 3.1.3 排列 arrange</h3>
+<pre class="r"><code>arrange(iris_df, Sepal.Length, Sepal.Width)
+arrange(iris_df, desc(Sepal.Length))
+#这个函数和 plyr::arrange() 是一样的, 类似于 order()</code></pre>
+<p>用R自带函数实现:</p>
+<pre class="r"><code>iris_df[order(iris_df$Sepal.Length, iris_df$Sepal.Width), ]
+iris_df[order(desc(iris_df$Sepal.Length)), ]</code></pre>
+</div>
+<div id="select" class="section level3">
+<h3><span class="header-section-number">3.1.4</span> 3.1.4 选择select</h3>
+<p>用列名作参数来选择子数据集:</p>
+<pre class="r"><code>select(iris_df, 5, 1:2)
+select(iris_df, Species, Sepal.Length, Sepal.Width)
+select(iris, Species, everything())
+#重命名列名
+select(iris_df, Species, Length=Sepal.Length, Width=Sepal.Width)
+select(iris_df, petal = starts_with(&quot;Petal&quot;))</code></pre>
+<p>排除列名:</p>
+<pre class="r"><code>select(iris_df, -Petal.Length, -Petal.Width)</code></pre>
+<p><strong>select的特殊函数</strong></p>
+<ul>
+<li>starts_with(x, ignore.case = TRUE): names starts with x</li>
+<li>ends_with(x, ignore.case = TRUE): names ends in x</li>
+<li>contains(x, ignore.case = TRUE): selects all variables whose name contains</li>
+<li>matches(x, ignore.case = TRUE): selects all variables whose name matches the regular expression x</li>
+<li>num_range(“x”, 1:5, width = 2): selects all variables (numerically) from x01 to x05.</li>
+<li>one_of(“x”, “y”, “z”): selects variables provided in a character vector.</li>
+<li>everything(): selects all variables.</li>
+</ul>
+<pre class="r"><code>select(iris_df, everything())
+select(iris_df, starts_with(&quot;Petal&quot;))
+select(iris_df, ends_with(&quot;Width&quot;))
+select(iris_df, contains(&quot;etal&quot;))
+select(iris_df, matches(&quot;.t.&quot;))
+#选取名称符合指定表达式规则的列
+select(iris_df, Sepal.Length:Petal.Width)
+select(iris_df, Petal.Length, Petal.Width)
+vars &lt;- c(&quot;Petal.Length&quot;, &quot;Petal.Width&quot;)
+select(iris_df, one_of(vars))
+df &lt;- as.data.frame(matrix(runif(100), nrow = 10))
+df &lt;- tbl_df(df)
+select(df, V4:V6)
+select(df, num_range(&quot;V&quot;, 4:6))</code></pre>
+<p>“:” 选择连续列，contains来匹配列名</p>
+<p>同样类似于R自带的<strong>subset() 函数</strong>.</p>
+<pre class="r"><code>subset(iris,select=c(1,2))
+subset(iris,select=c(3,4))
+subset(iris,select=c(Petal.Length, Petal.Width))</code></pre>
+<p><strong>Programming with select 存疑??</strong></p>
+<pre class="r"><code>select_(iris_df, ~Petal.Length)
+select_(iris_df, &quot;Petal.Length&quot;)
+select_(iris_df, lazyeval::interp(~matches(x), x = &quot;.t.&quot;))
+select_(iris_df, quote(-Petal.Length), quote(-Petal.Width))
+select_(iris_df, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))</code></pre>
+</div>
+<div id="mutate" class="section level3">
+<h3><span class="header-section-number">3.1.5</span> 3.1.5 添加新变量mutate</h3>
+<p>对已有列进行数据运算并添加为新列:</p>
+<pre class="r"><code>mtcars_df &lt;- tbl_df(mtcars)
+mutate(mtcars_df, displ_l = disp / 61.0237)
+#transmute结果只有计算的字段
+transmute(mtcars_df, displ_l = disp / 61.0237)</code></pre>
+<p><strong>mutate_each()</strong></p>
+<p>对每一列运行窗体函数。</p>
+<pre class="r"><code>mutate_each(iris, funs(min_rank))</code></pre>
+<p>plyr::mutate() 与 base::transform() 相似, 优势在于可以在同一语句中<strong>对刚增加的列进行操作。</strong></p>
+<pre class="r"><code>mutate(hflights_df, 
+  gain = ArrDelay - DepDelay, 
+  gain_per_hour = gain / (AirTime / 60)
+)
+#而同样操作用R自带函数 transform() 的话就会报错:
+transform(hflights, 
+  gain = ArrDelay - DepDelay, 
+  gain_per_hour = gain / (AirTime / 60)
+)</code></pre>
+<p>通过data.frame有可以实现</p>
+<pre class="r"><code>mtcars_df &lt;- data.frame(mtcars_df,displ_l = mtcars_df$disp / 61.0237)</code></pre>
+</div>
+<div id="summarise" class="section level3">
+<h3><span class="header-section-number">3.1.6</span> 3.1.6 汇总summarise</h3>
+<pre class="r"><code>summarise(mtcars_df, mean(disp, na.rm = TRUE), n())
+summarise(group_by(mtcars_df, cyl), mean(disp), n())
+summarise(group_by(mtcars_df, cyl), m = mean(disp), sd = sd(disp))
+#对每⼀一列运⾏行概述函数。
+summarise_each(iris, funs(mean))
+by_species &lt;- iris %&gt;% group_by(Species)
+by_species %&gt;% summarise_each(funs(length))
+by_species %&gt;% summarise_each(funs(mean))
+by_species %&gt;% summarise_each(funs(mean), Petal.Width)
+by_species %&gt;% summarise_each(funs(mean), matches(&quot;Width&quot;))</code></pre>
+<p><strong>count()</strong></p>
+<pre class="r"><code>#计算各变量中每⼀一个特定值的⾏行数(带权重或不带权重)。
+count(iris, Species, wt = Sepal.Length)
+count(iris, Species, mycount = n())</code></pre>
+</div>
+<div id="tally" class="section level3">
+<h3><span class="header-section-number">3.1.7</span> 3.1.7 tally</h3>
+<pre class="r"><code>mtcars %&gt;%
+    group_by(cyl, vs) %&gt;%
+    tally(sort = TRUE)
+#与下列方式相同
+mtcars %&gt;%
+    group_by(cyl, vs) %&gt;%
+    summarise(n = n()) %&gt;%
+    arrange(cyl,vs,n)</code></pre>
+</div>
+</div>
+<div id="group_by" class="section level2">
+<h2><span class="header-section-number">3.2</span> 3.2 分组group_by</h2>
+<p>当对数据集通过 group_by() 添加了分组信息后,mutate(), arrange() 和 summarise() 函数会自动对这些 tbl 类数据执行分组操作 (R语言泛型函数的优势).</p>
+<pre class="r"><code>summarise(mtcars_df, mean(disp, na.rm = TRUE), n())
+summarise(group_by(mtcars_df, cyl), mean(disp), n(),n_distinct(gear))
+summarise(group_by(mtcars_df, cyl), m = mean(disp), sd = sd(disp))
+#a mutate/rename followed by a simple group_by
+group_by(mtcars_df, vsam = vs + am)
+group_by(mtcars_df, vs2 = vs)
+summarise(group_by(mtcars_df, cyl2=cyl), m = mean(disp), sd = sd(disp))</code></pre>
+<p><strong>另: 一些汇总时的小函数</strong></p>
+<p>n(): 计算个数<br />
+n_distinct(x): 计算 x 中唯一值的个数</p>
+</div>
+<div id="--." class="section level2">
+<h2><span class="header-section-number">3.3</span> 3.3 链式操作(管道) %&gt;% 或 %.%</h2>
+<p>dplyr包还新引进了一个操作符，<em>读成then</em>，使用时把数据名作为开头, 然后依次对此数据进行多步操作。比如:</p>
+<pre class="r"><code>mtcars %&gt;%
+    group_by(cyl) %&gt;%
+    summarise(total = sum(disp)) %&gt;%
+    arrange(desc(total)) %&gt;%
+    head(5)
+(x1-x2)^2%&gt;%sum()%&gt;%sqrt()</code></pre>
+<p>按数据处理的思路写代码, 一步步深入, <strong>既易写又易读</strong>, 接近于从左到右的自然语言顺序， 对比一下用R自带函数实现的.</p>
+<pre class="r"><code>head(arrange(summarise(group_by(mtcars, cyl), total = sum(disp)) , desc(total)), 5)
+x1 &lt;- 1:5
+x2 &lt;- 2:6
+sqrt(sum((x1-x2)^2))</code></pre>
+<p>或者像<a href="http://blog.revolutionanalytics.com/2014/01/fast-and-easy-data-munging-with-dplyr.html">这篇文章</a>所用的方法:</p>
+<pre class="r"><code>totals &lt;- aggregate(. ~ cyl, data=mtcars[,c(&quot;cyl&quot;,&quot;disp&quot;)], sum)
+ranks &lt;- sort.list(-totals$disp)
+#ranks &lt;- order(-totals$disp)
+totals[ranks[1:5],]</code></pre>
+<p>文章里还表示: 通过 %&gt;% 那段代码比跑上面这段代码，运算速度提升很多倍.</p>
+<p>至于这个新鲜的概念会不会和 ggplot2 里的 + 连接号一样, 发挥出种种奇妙的功能呢? 还是在实际使用中多体验感受吧.</p>
+</div>
+<div id="join" class="section level2">
+<h2><span class="header-section-number">3.4</span> 3.5 数据匹配合并join</h2>
+<ul>
+<li>inner_join(x, y) ：只包含同时出现在x,y表中的行</li>
+<li>left_join(x, y) ：包含<strong>所有</strong>x中以及y中匹配的行</li>
+<li>semi_join(x, y) ：包含x中，在y中有匹配的行，结果为x的子集</li>
+<li>anti_join(x, y) ：包含x中，不匹配y的行，结果为x的子集，与semi_join相反</li>
+<li>full_join(x, y) ：包含所以x、y中的行</li>
+<li>right_join(x, y) ：包含所有y中以及x中匹配的行</li>
+</ul>
+<pre class="r"><code>x &lt;- data.frame(name = c(&quot;John&quot;, &quot;Paul&quot;, &quot;George&quot;, &quot;Ringo&quot;, &quot;Stuart&quot;, &quot;Pete&quot;),
+  instrument = c(&quot;guitar&quot;, &quot;bass&quot;, &quot;guitar&quot;, &quot;drums&quot;, &quot;bass&quot;,&quot;drums&quot;))
+y &lt;- data.frame(name = c(&quot;John&quot;, &quot;Paul&quot;, &quot;George&quot;, &quot;Ringo&quot;, &quot;Brian&quot;),
+  band = c(&quot;TRUE&quot;, &quot;TRUE&quot;, &quot;TRUE&quot;, &quot;TRUE&quot;, &quot;FALSE&quot;))
+inner_join(x, y)
+left_join(x, y)
+semi_join(x, y)
+anti_join(x, y)
+full_join(x, y)
+right_join(x,y)</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">3.5</span> 3.6 连接数据库</h2>
+<ul>
+<li>dplyr 可以连接数据库</li>
+<li>使用与本地数据框操作一样的语法</li>
+<li>只支持生成SELECT语句</li>
+<li>支持SQLite, PostgreSQL/Redshift, MySQL/MariaDB, BigQuery, MonetDB</li>
+</ul>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">3.6</span> 3.7 利用窗体函数变换数据</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">dplyr::lead</td>
+<td align="left">把除第一个值以外的所有元素提前，最后一个元素为NA</td>
+</tr>
+<tr class="even">
+<td align="left">dplyr::lag</td>
+<td align="left">把除第一个值以外的所有元素延后，第一个元素为NA</td>
+</tr>
+<tr class="odd">
+<td align="left">dplyr::dense_rank</td>
+<td align="left">无缝排序</td>
+</tr>
+<tr class="even">
+<td align="left">dplyr::min_rank</td>
+<td align="left">排序。并列时，其他序号顺延</td>
+</tr>
+<tr class="odd">
+<td align="left">dplyr::percent_rank</td>
+<td align="left">把数据在[0,1]中充足并排列</td>
+</tr>
+<tr class="even">
+<td align="left">dplyr::row_number</td>
+<td align="left">排序。并列时，位置在前的并列数据序号在前</td>
+</tr>
+<tr class="odd">
+<td align="left">dplyr::ntile</td>
+<td align="left">把向量分为n份</td>
+</tr>
+<tr class="even">
+<td align="left">dplyr::between</td>
+<td align="left">数据是否在a和b之间</td>
+</tr>
+<tr class="odd">
+<td align="left">dplyr::cume_dist</td>
+<td align="left">累计分布</td>
+</tr>
+<tr class="even">
+<td align="left">dplyr::cumal</td>
+<td align="left">累计all函数</td>
+</tr>
+<tr class="odd">
+<td align="left">dplyr::cumany</td>
+<td align="left">累计any函数</td>
+</tr>
+<tr class="even">
+<td align="left">dplyr::cummean</td>
+<td align="left">累计mean函数</td>
+</tr>
+<tr class="odd">
+<td align="left">cumsum</td>
+<td align="left">累计sum函数</td>
+</tr>
+<tr class="even">
+<td align="left">cummax</td>
+<td align="left">累计max函数</td>
+</tr>
+<tr class="odd">
+<td align="left">cummin</td>
+<td align="left">累计min函数</td>
+</tr>
+<tr class="even">
+<td align="left">cumprod</td>
+<td align="left">累计prod函数</td>
+</tr>
+<tr class="odd">
+<td align="left">pmax</td>
+<td align="left">针对元素的max函数</td>
+</tr>
+<tr class="even">
+<td align="left">pmin</td>
+<td align="left">针对元素的min函数</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="tidyr" class="section level1">
+<h1><span class="header-section-number">4</span> 4. tidyr</h1>
+<p>tidyr包的作者也是Hadley Wickham, 与dplyr包结合使用，是reshape2包的替代。 （先挖坑…）</p>
+</div>
+<div class="section level1">
+<h1><span class="header-section-number">5</span> 5. 字符串处理</h1>
+<div id="-nchar" class="section level2">
+<h2><span class="header-section-number">5.1</span> 5.1 字符个数 nchar</h2>
+<p>nchar()能够获取字符串的长度，它和length()的结果是有区别的。</p>
+<pre class="r"><code>nchar(c(&quot;abc&quot;, &quot;abcd&quot;))    ＃求字符串中的字符个数，返回向量c(3, 4)
+length(c(&quot;abc&quot;, &quot;abcd&quot;))  ＃返回2，向量中元素的个数</code></pre>
+</div>
+<div id="-paste" class="section level2">
+<h2><span class="header-section-number">5.2</span> 5.2 连接字符 paste</h2>
+<p>paste()不仅可以连接多个字符串，还可以将对象自动转换为字符串再相连，另外它还能处理向量，所以功能更强大。</p>
+<pre class="r"><code>paste(&quot;fitbit&quot;, month, &quot;.jpg&quot;, sep=&quot;&quot;)
+paste(&quot;fitbit&quot;, 1:12, &quot;.jpg&quot;, sep = &quot;&quot;)</code></pre>
+<p>paste默认的分隔符是空格，必须指定sep=“”。还有一个<strong>collapse参数</strong>，可以把这些字符串拼成一个长字符串，而不是放在一个向量中。</p>
+<pre class="r"><code>paste(&quot;fitbit&quot;, 1:3, &quot;.jpg&quot;, sep = &quot;&quot;, collapse = &quot;; &quot;)</code></pre>
+<p>另外还有一个paste0函数，默认就是sep=“”</p>
+</div>
+<div id="-strsplit" class="section level2">
+<h2><span class="header-section-number">5.3</span> 5.3 分割字符 strsplit</h2>
+<pre class="r"><code>strsplit(x, split, fixed = FALSE, perl = FALSE, useBytes = FALSE)</code></pre>
+<pre class="r"><code>x &lt;- c(as = &quot;asfef&quot;, qu = &quot;qwerty&quot;, &quot;yuiop[&quot;, &quot;b&quot;, &quot;stuff.blah.yech&quot;)
+strsplit(x,&quot;e&quot;)
+#需要注意的细节
+strsplit(paste(c(&quot;&quot;, &quot;a&quot;, &quot;&quot;)
+strsplit(&quot;&quot;, &quot; &quot;)[[1]]
+strsplit(&quot; &quot;, &quot; &quot;)[[1]]
+
+##倒序运用：
+strReverse &lt;- function(x)
+        sapply(lapply(strsplit(x, NULL), rev), paste, collapse = &quot;&quot;)
+strReverse(c(&quot;abc&quot;, &quot;Statistics&quot;))</code></pre>
+</div>
+<div id="-substrsubstring" class="section level2">
+<h2><span class="header-section-number">5.4</span> 5.4 提取字符 substr与substring</h2>
+<pre class="r"><code>substr(x, start, stop)
+substring(text, first, last = 1000000L)
+substr(x, start, stop) &lt;- value
+substring(text, first, last = 1000000L) &lt;- value</code></pre>
+<pre class="r"><code>substr(&quot;abcdef&quot;, 2, 4)
+substring(&quot;abcdef&quot;, 1:6, 1:6)
+
+substr(rep(&quot;abcdef&quot;, 4), 1:4, 4:5)
+x &lt;- c(&quot;asfef&quot;, &quot;qwerty&quot;, &quot;yuiop[&quot;, &quot;b&quot;, &quot;stuff.blah.yech&quot;)
+substr(x, 2, 5)
+substring(x, 2, 4:6)
+substring(x, 2) &lt;- c(&quot;..&quot;, &quot;+++&quot;)</code></pre>
+</div>
+<div id="-subgsub" class="section level2">
+<h2><span class="header-section-number">5.5</span> 5.5 替换字符 sub和gsub</h2>
+<ul>
+<li>sub 只做一次替换（不管有几次匹配）</li>
+<li>gsub 把满足条件的匹配都做替换</li>
+</ul>
+<pre class="r"><code>sub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
+    fixed = FALSE, useBytes = FALSE)
+gsub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
+     fixed = FALSE, useBytes = FALSE)</code></pre>
+<p>虽然sub和gsub是用于字符串替换的函数，但严格地说R语言没有字符串替换的函数，因为R语言不管什么操作对参数都是传值不传址。所以原字符串并没有改变，要改变原变量我们只能通过再赋值的方式。</p>
+<pre class="r"><code>text &lt;- &quot;Hello Adam!\nHello Ava!&quot;
+sub(pattern=&quot;Adam&quot;, replacement=&quot;World&quot;, text)
+text
+sub(pattern=&quot;Adam|Ava&quot;, replacement=&quot;World&quot;, text)
+gsub(pattern=&quot;Adam|Ava&quot;, replacement=&quot;world&quot;, text)</code></pre>
+<p><strong>sub和gsub函数可以使用提取表达式（转义字符+数字）让部分变成全部</strong></p>
+<pre class="r"><code>sub(pattern=&quot;.*(Adam).*&quot;, replacement=&quot;\\1&quot;, text)
+str &lt;- &quot;Now is the time      &quot;
+sub(&quot; +$&quot;, &quot;&quot;, str)
+sub(&quot;[[:space:]]+$&quot;, &quot;&quot;, str)
+sub(&quot;\\s+$&quot;, &quot;&quot;, str, perl = TRUE)
+txt &lt;- &quot;a test of capitalizing&quot;
+gsub(&quot;(\\w)(\\w*)&quot;, &quot;\\U\\1\\L\\2&quot;, txt, perl=TRUE)
+gsub(&quot;\\b(\\w)&quot;,    &quot;\\U\\1&quot;,       txt, perl=TRUE)</code></pre>
+</div>
+<div id="-grep" class="section level2">
+<h2><span class="header-section-number">5.6</span> 5.6 字符查询匹配 grep</h2>
+<ul>
+<li>grep 返回匹配项的下标</li>
+<li>grepl 返回所有查询结果的逻辑向量</li>
+<li>regexpr</li>
+<li>gregexpr</li>
+<li>regexec regexpr、gregexpr和regexec这三个函数返回的结果包含了匹配的具体位置和字符串长度信息，可以用于字符串的提取操作。</li>
+</ul>
+<pre class="r"><code>x &lt;- c(&quot;abc&quot;,&quot;abcdef&quot;,&quot;def&quot;)
+grep(&quot;def&quot;, x)
+# grep返回匹配项的下标
+# grepl返回所有查询结果的逻辑向量。两者的结果都可用于提取数据子集
+grepl(&quot;def&quot;, x)
+# regexpr、gregexpr和regexec</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">5.7</span> 5.5 其他</h2>
+<ul>
+<li>大小写转换 tolower与toupper</li>
+<li>列表转换为向量unlist，<code>unlist(x, recursive = TRUE, use.names = TRUE)</code></li>
+<li>重复输入<strong>rep()</strong></li>
+</ul>
+<pre class="r"><code>rep(1:4, 2)
+rep(1:4, each = 2)
+rep(1:4, c(2,2,2,2))
+rep(1:4, c(2,1,2,1))
+rep(1:4, each = 2, len = 4)
+rep(1:4, each = 2, len = 10)
+rep(1:4, each = 2, times = 3) </code></pre>
+</div>
+<div id="stringr" class="section level2">
+<h2><span class="header-section-number">5.8</span> 5.6 stringr包</h2>
+<p>stringr包是用来处理字符串的。(先挖坑…)</p>
+</div>
+</div>
+<div id="a-" class="section level1">
+<h1><span class="header-section-number">6</span> 附录A 正则表达式</h1>
+<p>待整理</p>
+</div>
+<div id="b" class="section level1">
+<h1><span class="header-section-number">7</span> 附录B</h1>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/explore">Explore</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/2018-01-08-read_xml_data_in_r/">在R中读取数据-XML</a></li>
+    
+    <li><a href="/post/2018-01-08-read_data_in_r/">在R中读取数据</a></li>
+    
+    <li><a href="/post/2017-04-06-dplyr_transfer_parameter/">dplyr之参数传递</a></li>
+    
+    <li><a href="/post/2017-04-02-read_and_handle_big_data/">R读取并处理较大数据</a></li>
+    
+    <li><a href="/post/2017-01-08-shanghai_driver_license/">上海驾照考试情况</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Jeevan Yue &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.32.2" />
+  <meta name="author" content="Jeevan Yue">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="1 1. 地铁数据 1.1 1.1 地铁站经纬度 1.2 1.2 交通卡交易数据 1.3 1.3 处理异常值 1.4 1.4 进/出站数据 1.5 1.5 虚拟换乘 1.6 1.6 地铁站进站数据 1.7 1.7 地铁站出站数据 1.8 1.8 地铁线路起始和终点  2 2. 绘图 2.1 2.1 相关数据及地图 2.2 2.2 chord图数据 2.3 2.3 图形参数 2.4 2.4 UI 和 SERVER 2.5 2.5 运行shinyApp    ## encoding options(encoding = &quot;UTF-8&quot;) ## for chines ## use getOption(&quot;encoding&quot;) to see if things were changed loc &lt;- function(os, language = &quot;english&quot;) { switch(language, english = ifelse(os == &quot;Windows&quot;, &quot;English_United States.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://jeevanyue.github.io/post/2016-09-07-shmetro-visual/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/blue.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  <link rel="feed" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://jeevanyue.github.io/post/2016-09-07-shmetro-visual/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@https://twitter.com/Yuejeevan">
+  <meta property="twitter:creator" content="@https://twitter.com/Yuejeevan">
+  
+  <meta property="og:site_name" content="Jeevan Yue">
+  <meta property="og:url" content="https://jeevanyue.github.io/post/2016-09-07-shmetro-visual/">
+  <meta property="og:title" content="上海地铁数据可视化 | Jeevan Yue">
+  <meta property="og:description" content="1 1. 地铁数据 1.1 1.1 地铁站经纬度 1.2 1.2 交通卡交易数据 1.3 1.3 处理异常值 1.4 1.4 进/出站数据 1.5 1.5 虚拟换乘 1.6 1.6 地铁站进站数据 1.7 1.7 地铁站出站数据 1.8 1.8 地铁线路起始和终点  2 2. 绘图 2.1 2.1 相关数据及地图 2.2 2.2 chord图数据 2.3 2.3 图形参数 2.4 2.4 UI 和 SERVER 2.5 2.5 运行shinyApp    ## encoding options(encoding = &quot;UTF-8&quot;) ## for chines ## use getOption(&quot;encoding&quot;) to see if things were changed loc &lt;- function(os, language = &quot;english&quot;) { switch(language, english = ifelse(os == &quot;Windows&quot;, &quot;English_United States."><meta property="og:image" content="https://jeevanyue.github.io/img/headers/shmetro-viz.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2016-09-07T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2016-09-07T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>上海地铁数据可视化 | Jeevan Yue</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Jeevan Yue</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/headers/shmetro-viz.png" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">上海地铁数据可视化</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2016-09-07 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2016-09-07
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Jeevan Yue">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=%e4%b8%8a%e6%b5%b7%e5%9c%b0%e9%93%81%e6%95%b0%e6%8d%ae%e5%8f%af%e8%a7%86%e5%8c%96&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2016-09-07-shmetro-visual%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2016-09-07-shmetro-visual%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2016-09-07-shmetro-visual%2f&amp;title=%e4%b8%8a%e6%b5%b7%e5%9c%b0%e9%93%81%e6%95%b0%e6%8d%ae%e5%8f%af%e8%a7%86%e5%8c%96"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2016-09-07-shmetro-visual%2f&amp;title=%e4%b8%8a%e6%b5%b7%e5%9c%b0%e9%93%81%e6%95%b0%e6%8d%ae%e5%8f%af%e8%a7%86%e5%8c%96"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=%e4%b8%8a%e6%b5%b7%e5%9c%b0%e9%93%81%e6%95%b0%e6%8d%ae%e5%8f%af%e8%a7%86%e5%8c%96&amp;body=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2016-09-07-shmetro-visual%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <div id="TOC">
+<ul>
+<li><a><span class="toc-section-number">1</span> 1. 地铁数据</a><ul>
+<li><a><span class="toc-section-number">1.1</span> 1.1 地铁站经纬度</a></li>
+<li><a><span class="toc-section-number">1.2</span> 1.2 交通卡交易数据</a></li>
+<li><a><span class="toc-section-number">1.3</span> 1.3 处理异常值</a></li>
+<li><a><span class="toc-section-number">1.4</span> 1.4 进/出站数据</a></li>
+<li><a><span class="toc-section-number">1.5</span> 1.5 虚拟换乘</a></li>
+<li><a><span class="toc-section-number">1.6</span> 1.6 地铁站进站数据</a></li>
+<li><a><span class="toc-section-number">1.7</span> 1.7 地铁站出站数据</a></li>
+<li><a><span class="toc-section-number">1.8</span> 1.8 地铁线路起始和终点</a></li>
+</ul></li>
+<li><a><span class="toc-section-number">2</span> 2. 绘图</a><ul>
+<li><a><span class="toc-section-number">2.1</span> 2.1 相关数据及地图</a></li>
+<li><a href="#chord"><span class="toc-section-number">2.2</span> 2.2 chord图数据</a></li>
+<li><a><span class="toc-section-number">2.3</span> 2.3 图形参数</a></li>
+<li><a href="#ui--server"><span class="toc-section-number">2.4</span> 2.4 UI 和 SERVER</a></li>
+<li><a href="#shinyapp"><span class="toc-section-number">2.5</span> 2.5 运行shinyApp</a></li>
+</ul></li>
+</ul>
+</div>
+
+<pre class="r"><code>## encoding
+options(encoding = &quot;UTF-8&quot;)      ## for chines
+## use getOption(&quot;encoding&quot;) to see if things were changed
+
+loc &lt;- function(os, language = &quot;english&quot;) {
+  switch(language,
+         english = ifelse(os == &quot;Windows&quot;, &quot;English_United States.1252&quot;, &quot;en_US.UTF-8&quot;),
+         chinese = ifelse(os == &quot;Windows&quot;, &quot;Chinese&quot;, &quot;zh_CN.utf-8&quot;))
+}
+## set locale
+Sys.setlocale(category = &quot;LC_ALL&quot;, loc(Sys.info()[[&quot;sysname&quot;]], &quot;chinese&quot;))
+
+##加载工作环境和所需包
+setwd(&quot;/Users/jeevanyue/Rproject/map/SHMetro&quot;)
+library(data.table)
+library(bit64)
+library(dplyr)
+library(tidyr)
+library(scales)
+library(lubridate)  #日期处理包
+library(shiny)
+library(leaflet)
+library(lattice)
+library(plotly)
+library(chorddiag)  #绘制chord</code></pre>
+<div class="section level1">
+<h1><span class="header-section-number">1</span> 1. 地铁数据</h1>
+<pre class="r"><code>#地铁站进站数据和出站数据
+shmetro_in &lt;- fread(&quot;data/shmetro_in.csv&quot;,encoding=&quot;UTF-8&quot;)
+shmetro_out &lt;- fread(&quot;data/shmetro_out.csv&quot;,encoding=&quot;UTF-8&quot;)
+
+## 进出地铁站数据
+shmetro_line_in_out &lt;- fread(&quot;data/shmetro_line_in_out.csv&quot;,encoding=&quot;UTF-8&quot;)
+
+## 进出地铁站关联
+in_out &lt;- shmetro_line_in_out %&gt;%
+  spread(line_out,count)
+in_out[is.na(in_out)]&lt;-0
+
+## 地铁站经纬度
+stations &lt;- fread(&quot;data/stations.csv&quot;,encoding=&quot;UTF-8&quot;)
+stations &lt;- stations %&gt;% 
+  select(c(1:5)) %&gt;%
+  arrange(line,line_id)
+stations_no &lt;- nrow(stations)
+for (i in 1:stations_no) {
+    s &lt;- stations$station[i]
+    stations$lines[i] &lt;- paste(stations[stations$station==s,]$line,sep=&quot;&quot;,collapse=&quot;/&quot;)
+}</code></pre>
+<div class="section level2">
+<h2><span class="header-section-number">1.1</span> 1.1 地铁站经纬度</h2>
+<pre class="r"><code>stations &lt;- fread(&quot;data/stations.csv&quot;,encoding=&quot;UTF-8&quot;)
+stations &lt;- stations %&gt;% 
+  select(c(1:5)) %&gt;%
+  arrange(line,line_id)
+
+stations_no &lt;- nrow(stations)
+for (i in 1:stations_no) {
+    s &lt;- stations$station[i]
+    stations$lines[i] &lt;- paste(stations[stations$station==s,]$line,sep=&quot;&quot;,collapse=&quot;/&quot;)
+}
+invisible(gc())</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.2</span> 1.2 交通卡交易数据</h2>
+<p>交通卡的交易信息有7个字段，分别是:卡号、交易日期、交易时间、站点名称、行业名称、交易金额、交易性质。</p>
+<ul>
+<li>卡号:交通卡卡号</li>
+<li>交易日期:日期格式yyyy-mm-dd</li>
+<li>交易时间:时间个是hh:mm:ss</li>
+<li>站点名称:内容包括线路和站名，如:“1号线莘庄”</li>
+<li>行业名称:都是“地铁”</li>
+<li>交易金额:0和大于0的值，0表示进站，大于0的值表示出战</li>
+<li>交易性质:“优惠”和“非优惠”</li>
+</ul>
+<pre class="r"><code>#mac下用如下读取
+system.time(trade &lt;- read.csv(&quot;/Users/jeevanyue/Desktop/SPTCC-20150401.csv&quot;,header = F,sep=&quot;,&quot;, fileEncoding = &quot;GB2312&quot;))
+#windows下用如下读取
+#system.time(trade &lt;- fread(&quot;SPTCC-20150401/SPTCC-20150401.csv&quot;,integer64=&#39;character&#39;,stringsAsFactors=F))
+#trade &lt;- read.csv(&#39;data/SPTCC-20150401_Sample.txt&#39;,header=T,encoding=&#39;UTF-8&#39;,stringsAsFactors = F)
+
+#重命名
+names(trade) &lt;- c(&#39;card_id&#39;,&#39;date&#39;,&#39;time&#39;,&#39;station&#39;,&#39;vehicle&#39;,&#39;money&#39;,&#39;property&#39;)
+#筛选地铁数据
+trade_metro &lt;- trade %&gt;%
+  filter(vehicle==&#39;地铁&#39;)
+rm(trade)
+invisible(gc())
+
+#将&quot;station&quot;(原含义为线路和站名),分为&quot;line&quot;和&quot;station&quot;
+trade_metro &lt;- trade_metro %&gt;% 
+  separate(station, c(&#39;line&#39;, &#39;station&#39;), sep = &#39;号线&#39;)
+invisible(gc())
+
+#按五分钟统计时间，向上取整
+trade_metro &lt;- trade_metro %&gt;%
+  mutate(M5=ceiling(period_to_seconds(hms(time))/300))
+invisible(gc())
+
+#删除不需要的字段
+trade_metro &lt;- trade_metro %&gt;%
+  select(-vehicle,-property,-date)
+invisible(gc())
+
+#时间格式
+#trade_metro$time &lt;-  strptime(paste(&quot;2015-04-01&quot;, trade_metro$time, sep=&#39; &#39;), &quot;%Y-%m-%d %H:%M:%S&quot;, tz = &quot;GMT&quot;)</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.3</span> 1.3 处理异常值</h2>
+<pre class="r"><code>## 对与stations地铁站名不一致的trade数据进行处理
+trade_metro[trade_metro$station==&quot;淞浜路&quot;,]$station &lt;- &quot;淞滨路&quot;
+trade_metro[trade_metro$station==&quot;大木桥路 &quot;,]$station &lt;- &quot;大木桥路&quot;
+trade_metro[trade_metro$station==&quot;上海大学站&quot;,]$station &lt;- &quot;上海大学&quot;</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.4</span> 1.4 进/出站数据</h2>
+<pre class="r"><code>## 进站数据
+trade_metro_in &lt;- trade_metro %&gt;%
+  filter(money==0) %&gt;%
+  select(card_id,&quot;time_in&quot;=time,&quot;line_in&quot;=line,&quot;station_in&quot;=station,&quot;M5_in&quot;=M5)
+## 出站数据
+trade_metro_out &lt;- trade_metro %&gt;%
+  filter(money&gt;0)%&gt;%
+  select(card_id,&quot;time_out&quot;=time,&quot;line_out&quot;=line,&quot;station_out&quot;=station,money,&quot;M5_out&quot;=M5)</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.5</span> 1.5 虚拟换乘</h2>
+<p>上海火车站为虚拟换乘，删除半小时内3/4换1和1换3/4的数据</p>
+<p><strong>3/4换1的数据</strong></p>
+<pre class="r"><code>## 3/4换1的数据，统计发现在上海火车站3/4号线出站以3号线名义出站
+trade_metro_out_34 &lt;- trade_metro_out %&gt;%
+  filter(station_out==&#39;上海火车站&#39;) %&gt;%
+  filter(line_out==3 | line_out==4)
+trade_metro_in_1 &lt;- trade_metro_in %&gt;%
+  filter(station_in==&#39;上海火车站&#39;, line_in==1)
+
+## merge出站和进站的数据
+trade_metro_out34_in1 &lt;- merge(trade_metro_out_34,trade_metro_in_1,all.x=T) %&gt;%
+  mutate(duration=period_to_seconds(hms(time_in)) - period_to_seconds(hms(time_out))) %&gt;%
+  filter(duration&gt;0,duration&lt;=60*30)
+
+### 数据大了什么样的数据都有，发现有几个人在3/4号线出站后，半小时内在1号线进站多次
+
+#trade_metro_out34_in1 &lt;- na.omit(trade_metro_out34_in1)
+
+## 根据卡号和进站时间，查询最近的进站时间，作为本次进站时间
+trade_metro_out34_in1 &lt;- data.table(trade_metro_out34_in1)
+trade_metro_out34_in1[, duration_min := min(duration), by=list(card_id, M5_in)]
+trade_metro_out34_in1 &lt;- trade_metro_out34_in1 %&gt;%
+  filter(duration==duration_min) %&gt;%
+  select(-duration_min)
+
+## 统计发现绝大部分人在10分钟内完成换乘
+#histogram(ceiling(trade_metro_out34_in1$duration/60))
+
+## rbind出站数据
+trade_metro_out &lt;- rbind(trade_metro_out, trade_metro_out34_in1[,c(1:6)])
+## 删除全部重复的出站数据
+trade_metro_out &lt;- trade_metro_out[!(duplicated(trade_metro_out) | duplicated(trade_metro_out, fromLast = TRUE)), ]
+
+## rbind进站数据
+trade_metro_in &lt;- rbind(trade_metro_in, trade_metro_out34_in1[,c(1,7:10)])
+## 删除全部重复的进站数据
+trade_metro_in &lt;- trade_metro_in[!(duplicated(trade_metro_in) | duplicated(trade_metro_in, fromLast = TRUE)), ]</code></pre>
+<p><strong>1换3/4的数据</strong></p>
+<pre class="r"><code>## 1换3/4的数据，统计发现在3/4号线上海火车站以3号线名义进站
+trade_metro_out_1 &lt;- trade_metro_out %&gt;%
+  filter(station_out==&#39;上海火车站&#39;,line_out==1) 
+trade_metro_in_34 &lt;- trade_metro_in %&gt;%
+  filter(station_in==&#39;上海火车站&#39;) %&gt;%
+  filter(line_in==3 | line_in==4)
+
+## merge出站和进站的数据
+trade_metro_out1_in34 &lt;- merge(trade_metro_out_1,trade_metro_in_34,all.x=T, all.y=F) %&gt;%
+  mutate(duration=period_to_seconds(hms(time_in)) - period_to_seconds(hms(time_out))) %&gt;%
+  filter(duration&gt;0,duration&lt;=60*30)
+
+#trade_metro_out1_in34 &lt;- na.omit(trade_metro_out1_in34)
+
+## 根据卡号和进站时间，查询最近的进站时间，作为本次进站时间
+trade_metro_out1_in34 &lt;- data.table(trade_metro_out1_in34)
+trade_metro_out1_in34[, duration_min := min(duration), by=list(card_id, M5_in)]
+trade_metro_out1_in34 &lt;- trade_metro_out1_in34 %&gt;%
+  filter(duration==duration_min) %&gt;%
+  select(-duration_min)
+
+## 统计发现绝大部分人在10分钟内完成换乘
+#histogram(ceiling(trade_metro_out1_in34$duration/60))
+
+## rbind出站数据
+trade_metro_out &lt;- rbind(trade_metro_out, trade_metro_out1_in34[,c(1:6)])
+## 删除全部重复的出站数据
+trade_metro_out &lt;- trade_metro_out[!(duplicated(trade_metro_out) | duplicated(trade_metro_out, fromLast = TRUE)), ]
+
+## rbind进站数据
+trade_metro_in &lt;- rbind(trade_metro_in, trade_metro_out1_in34[,c(1,7:10)])
+## 删除全部重复的进站数据
+trade_metro_in &lt;- trade_metro_in[!(duplicated(trade_metro_in) | duplicated(trade_metro_in, fromLast = TRUE)), ]</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.6</span> 1.6 地铁站进站数据</h2>
+<p>根据消费金额为0,每5分钟统计每站地铁的进站人数</p>
+<pre class="r"><code>trade_metro_in_station &lt;- trade_metro_in %&gt;%
+  group_by(station_in, M5_in) %&gt;%
+  summarise(count=n()) %&gt;%
+  select(station=station_in, M5=M5_in, count)
+
+#trade_metro_in_station &lt;- na.omit(trade_metro_in_station)
+invisible(gc())
+
+## 合并地铁站坐标
+shmetro_in &lt;- merge(trade_metro_in_station,stations,all.x=T, all.y=F)
+#rm(trade_metro_in_station)
+
+## 查看未匹配到的地铁站
+#l &lt;- shmetro_in[is.na(shmetro_in$gps_lat),]
+#unique(l$station)
+#trade_metro_in_station[trade_metro_in_station$station==&quot;淞浜路&quot;,]$station &lt;- &quot;淞滨路&quot;
+#trade_metro_in_station[trade_metro_in_station$station==&quot;大木桥路 &quot;,]$station &lt;- &quot;大木桥路&quot;
+#trade_metro_in_station[trade_metro_in_station$station==&quot;上海大学站&quot;,]$station &lt;- &quot;上海大学&quot;
+#stations[grepl(&quot;淞滨路&quot;, stations$station),]$station
+#trade_metro_in_station[grepl(&quot;淞浜路&quot;, trade_metro_in_station$station),]$station &lt;- &quot;淞滨路&quot;
+
+#shmetro_in &lt;- na.omit(shmetro_in)
+invisible(gc())
+#write.csv(shmetro_in,&quot;shmetro_in.csv&quot;,row.names = F,fileEncoding=&quot;UTF-8&quot;)</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.7</span> 1.7 地铁站出站数据</h2>
+<p>根据消费金额大雨0,每5分钟统计每站地铁的出站人数</p>
+<pre class="r"><code>trade_metro_out_station &lt;- trade_metro_out %&gt;%
+  group_by(station_out, M5_out) %&gt;%
+  summarise(count=n()) %&gt;%
+  select(station=station_out, M5=M5_out, count)
+
+#trade_metro_out_station &lt;- na.omit(trade_metro_out_station)
+invisible(gc())
+
+## 合并地铁站坐标
+shmetro_out &lt;- merge(trade_metro_out_station,stations,all.x=T, all.y=F)
+#rm(trade_metro_out_station)
+
+#shmetro_out &lt;- na.omit(shmetro_out)
+invisible(gc())
+#write.csv(shmetro_out,&quot;shmetro_out.csv&quot;,row.names = F,fileEncoding=&quot;UTF-8&quot;)</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.8</span> 1.8 地铁线路起始和终点</h2>
+<pre class="r"><code>## merge进站和出站数据，并计算乘坐时间
+trade_metro_in_out &lt;- merge(trade_metro_in, trade_metro_out, all.x=T, all.y=F) %&gt;%
+  mutate(duration=period_to_seconds(hms(time_out)) - period_to_seconds(hms(time_in)), duration_M5=M5_out-M5_in) %&gt;%
+  filter(duration&gt;0)
+
+#根据卡号和进站时间，查询最近出站的时间，作为本次出站时间
+trade_metro_in_out &lt;- data.table(trade_metro_in_out)
+trade_metro_in_out[, duration_min := min(duration), by=list(card_id, M5_in)]
+trade_metro_in_out &lt;- trade_metro_in_out %&gt;%
+  filter(duration==duration_min) %&gt;%
+  select(-duration_min)
+
+#统计进站线路A-&gt;出站线路B的笔数
+shmetro_line_in_out &lt;- trade_metro_in_out %&gt;%
+  group_by(line_in,line_out) %&gt;%
+  summarise(count=n())
+
+shmetro_line_in_out$line_in &lt;- as.numeric(shmetro_line_in_out$line_in)
+shmetro_line_in_out$line_out &lt;- as.numeric(shmetro_line_in_out$line_out)
+
+#排序
+shmetro_line_in_out &lt;- arrange(shmetro_line_in_out,line_in,line_out)
+
+#将出站线路数据转换为属性字段
+in_out &lt;- shmetro_line_in_out %&gt;%
+  spread(line_out,count)
+
+in_out[is.na(in_out)]&lt;-0
+
+#write.csv(shmetro_line_in_out,&quot;shmetro_line_in_out.csv&quot;,row.names = F,fileEncoding=&quot;UTF-8&quot;)</code></pre>
+</div>
+</div>
+<div class="section level1">
+<h1><span class="header-section-number">2</span> 2. 绘图</h1>
+<div class="section level2">
+<h2><span class="header-section-number">2.1</span> 2.1 相关数据及地图</h2>
+<pre class="r"><code>#地铁颜色
+lines_color &lt;- data.frame(&quot;line&quot;=c(1:13,16),&quot;color&quot;=c(&quot;#ED3229&quot;,&quot;#36B854&quot;,&quot;#FFD823&quot;,&quot;#320176&quot;,&quot;#823094&quot;,&quot;#CF047A&quot;,&quot;#F3560F&quot;,&quot;#008CC1&quot;,&quot;#91C5DB&quot;,&quot;#C7AFD3&quot;,&quot;#8C2222&quot;,&quot;#007a61&quot;,&quot;#ec91cc&quot;,&quot;#32D2CA&quot;))
+
+pal &lt;- colorFactor(as.character(lines_color$color), domain = stations$line)
+
+#辅助函数绘制线路
+draw_line_add &lt;- function(l_no,line_s_id=NULL){
+  line_color &lt;- lines_color[lines_color$line==l_no,]$color
+  line_data &lt;- stations[stations$line==l_no,]
+  if(is.null(line_s_id)){
+    draw_lines &lt;- Shanghai %&gt;%
+      addPolylines(lat=line_data$gps_lat,lng=line_data$gps_lon,color=line_color,weight=2)
+  }else{
+    draw_lines &lt;- Shanghai %&gt;%
+      addPolylines(lat=line_data$gps_lat[line_s_id],lng=line_data$gps_lon[line_s_id],color=line_color,weight=2)
+  }
+  return(draw_lines)
+}
+
+## 上海线路地图
+Shanghai &lt;- leaflet() %&gt;% 
+  setView(lng = 121.60, lat = 31.20, zoom = 10) %&gt;% 
+  addProviderTiles(&quot;CartoDB.Positron&quot;) %&gt;%
+  addLegend(position = &quot;bottomleft&quot;,pal=pal,values = stations$line)
+
+for(l in unique(stations$line)){
+  line_length &lt;- nrow(stations[stations$line==l,])
+  if(l==4){
+    #由于4号线为环线，需将首尾相连
+    Shanghai &lt;- draw_line_add(l_no=l)
+    Shanghai &lt;- draw_line_add(l_no=l,line_s_id=c(1,line_length))
+  }else if(l==10){
+    #由于10号线在龙溪路站以后分为两条线路，需分两端绘制
+    Shanghai &lt;- draw_line_add(l_no=l,line_s_id=c(1:(line_length-3)))
+    Shanghai &lt;- draw_line_add(l_no=l,line_s_id=c(24,(line_length-2):line_length))
+  }else if(l==11){
+    #由于11号线在嘉定新城站以后分为两条线路，需分两端绘制
+    Shanghai &lt;- draw_line_add(l_no=l,line_s_id=c(1:(line_length-7)))
+    Shanghai &lt;- draw_line_add(l_no=l,line_s_id=c(28,(line_length-6):line_length))
+  }else{
+    Shanghai &lt;- draw_line_add(l_no=l)
+  }
+}</code></pre>
+</div>
+<div id="chord" class="section level2">
+<h2><span class="header-section-number">2.2</span> 2.2 chord图数据</h2>
+<pre class="r"><code>##绘制chord图
+metro_chord &lt;- data.matrix(as.data.frame(in_out)[,c(2:15)])
+haircolors &lt;- in_out$line_in
+dimnames(metro_chord) &lt;- list(have = haircolors,
+                    prefer = colnames(metro_chord))
+
+groupColors &lt;- c(&quot;#ED3229&quot;,&quot;#36B854&quot;,&quot;#FFD823&quot;,&quot;#320176&quot;,&quot;#823094&quot;,&quot;#CF047A&quot;,&quot;#F3560F&quot;,&quot;#008CC1&quot;,&quot;#91C5DB&quot;,&quot;#C7AFD3&quot;,&quot;#8C2222&quot;,&quot;#007a61&quot;,&quot;#ec91cc&quot;,&quot;#32D2CA&quot;)
+
+#chorddiag(metro_chord, groupColors = groupColors, margin=50, showTicks=F, groupnamePadding = 5)</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">2.3</span> 2.3 图形参数</h2>
+<pre class="r"><code>b &lt;- list(x = 0, y = 1,bgcolor = &quot;#00FFFFFF&quot;)
+yax &lt;- list(
+  title = &quot;&quot;,
+  zeroline = FALSE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE
+)
+
+xax &lt;- list(
+  title = &quot;&quot;,
+  titlefont = list(size = 8),
+  tickangle = -20,
+  color = &quot;black&quot;
+)</code></pre>
+</div>
+<div id="ui--server" class="section level2">
+<h2><span class="header-section-number">2.4</span> 2.4 UI 和 SERVER</h2>
+<pre class="r"><code>ui &lt;- shinyUI(navbarPage(&quot;SHMetro&quot;,
+
+  tabPanel(&quot;进站流量&quot;,
+    div(class=&quot;outer&quot;,
+            
+      #tags$style(type = &quot;text/css&quot;, &quot;html, body {width:100%;height:100%}&quot;),
+      tags$style(type = &quot;text/css&quot;, &quot;.outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 0}&quot;),
+      
+      leafletOutput(&quot;map&quot;, width = &quot;100%&quot;, height = &quot;100%&quot;),
+      absolutePanel(top = 10, right = 10,
+                    h4(textOutput(&quot;output_slider_time&quot;)),
+                    sliderInput(&quot;slider_time&quot;, &quot;Time:&quot;,
+                                #min=as.POSIXct(min(filter(shmetro_in, M5&gt;30)$M5)*5*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                #max=as.POSIXct(max(shmetro_in$M5)*5*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                #value=as.POSIXct(min(shmetro_in$M5)*5*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                min = as.POSIXct(5*60*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                max = as.POSIXct(24*60*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                value = as.POSIXct(5*60*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                step = 60*5,
+                                timeFormat = &quot;%T&quot;,
+                                timezone = &quot;GMT&quot;),
+                    selectInput(&quot;select_line&quot;, &quot;Line&quot;,
+                                c(&quot;All&quot;,lines_color$line)),
+                    h4(&quot;TOP 5&quot;),
+                    plotlyOutput(&quot;in_top5&quot;,height = 200),
+                    checkboxInput(&quot;legend&quot;, &quot;Show legend&quot;, TRUE)
+                    )
+      )
+    ),
+    tabPanel(&quot;出站流量&quot;,
+      div(class=&quot;outer&quot;,
+              
+        #tags$style(type = &quot;text/css&quot;, &quot;html, body {width:100%;height:100%}&quot;),
+        tags$style(type = &quot;text/css&quot;, &quot;.outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 0}&quot;),
+        
+        leafletOutput(&quot;map_out&quot;, width = &quot;100%&quot;, height = &quot;100%&quot;),
+        absolutePanel(top = 10, right = 10,
+                      h4(textOutput(&quot;output_slider_time_out&quot;)),
+                      sliderInput(&quot;slider_time_out&quot;, &quot;Time:&quot;,
+                                  #min=as.POSIXct(min(filter(shmetro_in, M5&gt;30)$M5)*5*60, origin = &quot;1960-01-01&quot;, tz = &quot;GMT&quot;),
+                                  #max=as.POSIXct(max(shmetro_in$M5)*5*60, origin = &quot;1960-01-01&quot;, tz = &quot;GMT&quot;),
+                                  #value=as.POSIXct(min(shmetro_in$M5)*5*60, origin = &quot;1960-01-01&quot;, tz = &quot;GMT&quot;),
+                                min = as.POSIXct(5*60*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                max = as.POSIXct(24*60*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                value = as.POSIXct(5*60*60, origin = &quot;2015-04-01&quot;, tz = &quot;GMT&quot;),
+                                  step = 60*5,
+                                  timeFormat = &quot;%T&quot;,
+                                  timezone = &quot;GMT&quot;),
+                      selectInput(&quot;select_line_out&quot;, &quot;Line&quot;,
+                                  c(&quot;All&quot;,lines_color$line)),
+                      h4(&quot;TOP 5&quot;),
+                      plotlyOutput(&quot;out_top5&quot;,height = 200),
+                      checkboxInput(&quot;legend_out&quot;, &quot;Show legend&quot;, TRUE)
+                      )
+        )
+    ),
+    tabPanel(&quot;线路关联&quot;,
+      div(class=&quot;outer&quot;,
+              
+        #tags$style(type = &quot;text/css&quot;, &quot;html, body {width:100%;height:100%}&quot;),
+        tags$style(type = &quot;text/css&quot;, &quot;.outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 0}&quot;),
+        chorddiagOutput(&quot;line_chord&quot;, width = &quot;100%&quot;,height=&quot;100%&quot;)
+      )
+    )
+  )
+)
+
+server &lt;- shinyServer(function(input, output, session) {
+  ## 进站流量统计
+  # Reactive expression for the data subsetted to what the user selected
+  filteredData &lt;- reactive({
+    if(input$select_line==&quot;All&quot;){
+      shmetro_in %&gt;%
+        filter(M5==ceiling(period_to_seconds(hms(format(input$slider_time,&quot;%H:%M:%S&quot;)))/300))
+    }else{
+      shmetro_in %&gt;%
+        filter(M5==ceiling(period_to_seconds(hms(format(input$slider_time,&quot;%H:%M:%S&quot;)))/300),line==as.numeric(input$select_line))
+    }
+  })
+  
+  stations_in_top5 &lt;- reactive({
+    filteredData() %&gt;%
+      group_by(station) %&gt;%
+      summarise(count=sum(count),line=min(line)) %&gt;%
+      arrange(desc(count)) %&gt;%
+      head(5) %&gt;%
+      as.data.frame()
+  })
+
+  ## time
+  output$output_slider_time  &lt;- renderText({
+    paste0(&quot;Time: &quot;, format(input$slider_time,&quot;%H:%M:%S&quot;))
+  })
+  
+  output$map &lt;- renderLeaflet({
+    Shanghai %&gt;%
+      addCircles(stations$gps_lon, stations$gps_lat,color = pal(stations$line), radius=1,popup = paste(stations$station,stations$lines),fillOpacity = 1,stroke = FALSE) %&gt;%
+      clearMarkerClusters() %&gt;%
+      clearMarkers()
+  })
+
+  observe({
+    data_in_circle &lt;- data.table(filteredData())[, count := sum(count), by=list(station, M5)] %&gt;%
+      arrange(count)
+    
+    leafletProxy(&quot;map&quot;, data = data_in_circle) %&gt;%
+      clearMarkerClusters() %&gt;%
+      clearMarkers() %&gt;%
+      addCircleMarkers(data_in_circle$gps_lon,data_in_circle$gps_lat, color = pal(data_in_circle$line), fillOpacity = 0.5,stroke = FALSE, popup=paste(data_in_circle$station,data_in_circle$line,data_in_circle$count,sep=&quot;,&quot;), radius=(data_in_circle$count)^(1/2.5))
+  })
+  
+  # top5
+  output$in_top5 &lt;- renderPlotly({
+    # If no stations_in_top5 are in view, don&#39;t plot
+    if (nrow(stations_in_top5()) == 0)
+      return(NULL)
+
+    plot_ly(stations_in_top5(),
+            x = stations_in_top5()$station,
+            y = stations_in_top5()$count,
+            type = &quot;bar&quot;,
+            marker = list(color = pal(stations_in_top5()$line)),
+            bgcolor = &quot;#00FFFFFF&quot;) %&gt;%
+      layout(showlegend=FALSE,
+             yaxis=yax,xaxis=xax,plot_bgcolor=&#39;#00FFFFFF&#39;,
+             paper_bgcolor=&#39;#00FFFFFF&#39;)
+  })
+  
+  # Use a separate observer to recreate the legend as needed.
+  observe({
+    proxy &lt;- leafletProxy(&quot;map&quot;)
+    # Remove any existing legend, and only if the legend is
+    # enabled, create a new one.
+    proxy %&gt;% clearControls()
+    if (input$legend) {
+      proxy %&gt;% addLegend(position = &quot;bottomleft&quot;,pal=pal,values = stations$line)
+    }
+  })
+
+  ## 出站流量统计
+  # Reactive expression for the data subsetted to what the user selected
+  filteredData_out &lt;- reactive({
+    if(input$select_line_out==&quot;All&quot;){
+      shmetro_out %&gt;%
+        filter(M5==ceiling(period_to_seconds(hms(format(input$slider_time_out,&quot;%H:%M:%S&quot;)))/300))
+    }else{
+      shmetro_in %&gt;%
+        filter(M5==ceiling(period_to_seconds(hms(format(input$slider_time_out,&quot;%H:%M:%S&quot;)))/300),line==as.numeric(input$select_line_out))
+    }
+  })
+  
+  stations_out_top5 &lt;- reactive({
+    filteredData_out() %&gt;%
+      group_by(station) %&gt;%
+      summarise(count=sum(count),line=min(line)) %&gt;%
+      arrange(desc(count)) %&gt;%
+      head(5) %&gt;%
+      as.data.frame()
+  })
+
+  ## time
+  output$output_slider_time_out  &lt;- renderText({
+    paste0(&quot;Time: &quot;, format(input$slider_time_out,&quot;%H:%M:%S&quot;))
+  })
+  
+  output$map_out &lt;- renderLeaflet({
+    Shanghai %&gt;%
+      addCircles(stations$gps_lon, stations$gps_lat,color = pal(stations$line), radius=1,popup = paste(stations$station,stations$lines),fillOpacity = 1,stroke = FALSE) %&gt;%
+      clearMarkerClusters() %&gt;%
+      clearMarkers()
+  })
+
+  observe({
+    data_out_circle &lt;- data.table(filteredData_out())[, count := sum(count), by=list(station, M5)] %&gt;%
+      arrange(count)
+    
+    leafletProxy(&quot;map_out&quot;, data = filteredData_out()) %&gt;%
+      clearMarkerClusters() %&gt;%
+      clearMarkers() %&gt;%
+      addCircleMarkers(data_out_circle$gps_lon, data_out_circle$gps_lat, color = pal(data_out_circle$line),fillOpacity = 0.5,stroke = FALSE,  popup=paste(data_out_circle$station,data_out_circle$line,data_out_circle$count,sep=&quot;,&quot;), radius=(data_out_circle$count)^(1/2.5))
+  })
+
+  # top5
+  output$out_top5 &lt;- renderPlotly({
+    # If no stations_in_top5 are in view, don&#39;t plot
+    if (nrow(stations_out_top5()) == 0)
+      return(NULL)
+
+    plot_ly(stations_out_top5(),
+            x = stations_out_top5()$station,
+            y = stations_out_top5()$count,
+            type = &quot;bar&quot;,
+            marker = list(color = pal(stations_out_top5()$line)),
+            bgcolor = &quot;#00FFFFFF&quot;) %&gt;%
+      layout(showlegend=FALSE,
+             yaxis=yax,xaxis=xax,plot_bgcolor=&#39;#00FFFFFF&#39;,
+             paper_bgcolor=&#39;#00FFFFFF&#39;)
+  })
+  
+  # Use a separate observer to recreate the legend as needed.
+  observe({
+    proxy &lt;- leafletProxy(&quot;map_out&quot;)
+    # Remove any existing legend, and only if the legend is
+    # enabled, create a new one.
+    proxy %&gt;% clearControls()
+    if (input$legend_out) {
+      proxy %&gt;% addLegend(position = &quot;bottomleft&quot;,pal=pal,values = stations$line)
+    }
+  })
+  
+  ## 线路关联
+  output$line_chord &lt;- renderChorddiag({
+    chorddiag(metro_chord, groupColors = groupColors, showTicks=F, groupnamePadding = 5)
+  })
+})</code></pre>
+</div>
+<div id="shinyapp" class="section level2">
+<h2><span class="header-section-number">2.5</span> 2.5 运行shinyApp</h2>
+<pre class="r"><code>shinyApp(ui = ui,server = server)</code></pre>
+<p><strong>进站流量</strong></p>
+<p><img src="https://jeevanyue.github.io//post/2016-09-07-shmetro-visual_files/figure-html/shmetro_in.gif" width="750"></p>
+<p><strong>出站流量</strong></p>
+<p><img src="https://jeevanyue.github.io//post/2016-09-07-shmetro-visual_files/figure-html/shmetro_out.gif" width="750"></p>
+<p><strong>进出地铁</strong></p>
+<p><img src="https://jeevanyue.github.io//post/2016-09-07-shmetro-visual_files/figure-html/shmetro_rel.gif" width="750"></p>
+</div>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/shiny">Shiny</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/viz">Viz</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/map">Map</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/shmetro">SHMetro</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/sh">SH</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/2016-08-25-shanghai-metro-line/">上海地铁线路</a></li>
+    
+    <li><a href="/post/2016-08-31-color-in-r/">R语言中的色彩</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Jeevan Yue &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

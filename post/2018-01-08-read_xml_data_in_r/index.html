@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.32.2" />
+  <meta name="author" content="Jeevan Yue">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="1 1.XML包 1.1 1.1. 载入XML文件 1.2 1.2. 获取特定的节点 1.3 1.3 xmlSApply和xmlApply 1.4 1.4 xml格式转dataframe    ▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%
+因为要读取一个XML格式的数据，学习整理XML包。
+1 1.XML包 1.1 1.1. 载入XML文件 有两种方法：
+ 通过函数xmlTreeParse(“file.xml”)载入xml文件，如果不加入参数，将获得关于这个xml文件的所有信息。所以，这个函数通常配合xmlRoot()使用，比如xmlRoot(xmlTreeParse(“file.xml”))以得到xml主体文件。  通过函数xmlTreeParse(“file.xml”, useInternalNodes = TRUE)来得到加入首行的xml文件主体   library(RCurl) library(XML) url&lt;-&quot;http://www.w3school.com.cn/example/xdom/books.xml&quot; #注，也可以为url复制本地文件的路径 doc&lt;-xmlTreeParse(getURL(url),useInternal = TRUE) d &lt;- xmlRoot(doc)  1.2 1.2. 获取特定的节点 详细XPath语言见XPath 语法
+使用函数getNodeSet(doc, XPath)
+XPath的常见用法：
+获取第一个son元素  /root/son[1]
+getNodeSet(d, &quot;/bookstore/book[1]&quot;) 获取最后一个son元素  /root/son[last()]
+getNodeSet(d, &quot;/bookstore/book[last()]&quot;) 获取前两个son元素  /root/son[position() &lt; 3]">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://jeevanyue.github.io/post/2018-01-08-read_xml_data_in_r/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/blue.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  <link rel="feed" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://jeevanyue.github.io/post/2018-01-08-read_xml_data_in_r/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@https://twitter.com/Yuejeevan">
+  <meta property="twitter:creator" content="@https://twitter.com/Yuejeevan">
+  
+  <meta property="og:site_name" content="Jeevan Yue">
+  <meta property="og:url" content="https://jeevanyue.github.io/post/2018-01-08-read_xml_data_in_r/">
+  <meta property="og:title" content="在R中读取数据-XML | Jeevan Yue">
+  <meta property="og:description" content="1 1.XML包 1.1 1.1. 载入XML文件 1.2 1.2. 获取特定的节点 1.3 1.3 xmlSApply和xmlApply 1.4 1.4 xml格式转dataframe    ▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%
+因为要读取一个XML格式的数据，学习整理XML包。
+1 1.XML包 1.1 1.1. 载入XML文件 有两种方法：
+ 通过函数xmlTreeParse(“file.xml”)载入xml文件，如果不加入参数，将获得关于这个xml文件的所有信息。所以，这个函数通常配合xmlRoot()使用，比如xmlRoot(xmlTreeParse(“file.xml”))以得到xml主体文件。  通过函数xmlTreeParse(“file.xml”, useInternalNodes = TRUE)来得到加入首行的xml文件主体   library(RCurl) library(XML) url&lt;-&quot;http://www.w3school.com.cn/example/xdom/books.xml&quot; #注，也可以为url复制本地文件的路径 doc&lt;-xmlTreeParse(getURL(url),useInternal = TRUE) d &lt;- xmlRoot(doc)  1.2 1.2. 获取特定的节点 详细XPath语言见XPath 语法
+使用函数getNodeSet(doc, XPath)
+XPath的常见用法：
+获取第一个son元素  /root/son[1]
+getNodeSet(d, &quot;/bookstore/book[1]&quot;) 获取最后一个son元素  /root/son[last()]
+getNodeSet(d, &quot;/bookstore/book[last()]&quot;) 获取前两个son元素  /root/son[position() &lt; 3]">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-01-08T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-01-08T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>在R中读取数据-XML | Jeevan Yue</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Jeevan Yue</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">在R中读取数据-XML</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-01-08 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-01-08
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Jeevan Yue">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=%e5%9c%a8R%e4%b8%ad%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae-XML&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_xml_data_in_r%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_xml_data_in_r%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_xml_data_in_r%2f&amp;title=%e5%9c%a8R%e4%b8%ad%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae-XML"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_xml_data_in_r%2f&amp;title=%e5%9c%a8R%e4%b8%ad%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae-XML"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=%e5%9c%a8R%e4%b8%ad%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae-XML&amp;body=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_xml_data_in_r%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <div id="TOC">
+<ul>
+<li><a href="#xml"><span class="toc-section-number">1</span> 1.XML包</a><ul>
+<li><a href="#xml"><span class="toc-section-number">1.1</span> 1.1. 载入XML文件</a></li>
+<li><a><span class="toc-section-number">1.2</span> 1.2. 获取特定的节点</a></li>
+<li><a href="#xmlsapplyxmlapply"><span class="toc-section-number">1.3</span> 1.3 xmlSApply和xmlApply</a></li>
+<li><a href="#xmldataframe"><span class="toc-section-number">1.4</span> 1.4 xml格式转dataframe</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%</p>
+<p>因为要读取一个XML格式的数据，学习整理XML包。</p>
+<div id="xml" class="section level1">
+<h1><span class="header-section-number">1</span> 1.XML包</h1>
+<div id="xml" class="section level2">
+<h2><span class="header-section-number">1.1</span> 1.1. 载入XML文件</h2>
+<p>有两种方法：</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>通过函数xmlTreeParse(“file.xml”)载入xml文件，如果不加入参数，将获得关于这个xml文件的所有信息。所以，这个函数通常配合xmlRoot()使用，比如xmlRoot(xmlTreeParse(“file.xml”))以得到xml主体文件。</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>通过函数xmlTreeParse(“file.xml”, useInternalNodes = TRUE)来得到加入首行的xml文件主体</li>
+</ol></li>
+</ul>
+<pre class="r"><code>library(RCurl)
+library(XML)
+url&lt;-&quot;http://www.w3school.com.cn/example/xdom/books.xml&quot;  #注，也可以为url复制本地文件的路径
+doc&lt;-xmlTreeParse(getURL(url),useInternal = TRUE)
+d &lt;- xmlRoot(doc)</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.2</span> 1.2. 获取特定的节点</h2>
+<p>详细XPath语言见<a href="http://www.w3school.com.cn/xpath/xpath_syntax.asp">XPath 语法</a></p>
+<p>使用函数getNodeSet(doc, XPath)</p>
+<p>XPath的常见用法：</p>
+<ol style="list-style-type: decimal">
+<li>获取第一个son元素</li>
+</ol>
+<p>/root/son[1]</p>
+<pre class="r"><code>getNodeSet(d, &quot;/bookstore/book[1]&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>获取最后一个son元素</li>
+</ol>
+<p>/root/son[last()]</p>
+<pre class="r"><code>getNodeSet(d, &quot;/bookstore/book[last()]&quot;)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>获取前两个son元素</li>
+</ol>
+<p>/root/son[position() &lt; 3]</p>
+<pre class="r"><code>getNodeSet(d, &quot;/bookstore/book[position() &lt; 3]&quot;)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>获取任意son2元素</li>
+</ol>
+<p>//son2</p>
+<pre class="r"><code>getNodeSet(d, &quot;/bookstore/book&quot;)
+getNodeSet(d, &quot;/bookstore/book/title&quot;)</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>获取任意son2的age属性</li>
+</ol>
+<p>//son2<span class="citation">[@age]</span></p>
+<pre class="r"><code>getNodeSet(d, &quot;//book[@category]&quot;)</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>获取任意son2的age属性等于18的元素</li>
+</ol>
+<p>//son2<span class="citation">[@age=18]</span></p>
+<pre class="r"><code>getNodeSet(d, &quot;//book[@category=&#39;web&#39;]&quot;)</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>获取root下所有元素</li>
+</ol>
+<p>/root/*</p>
+<pre class="r"><code>getNodeSet(d, &quot;/bookstore/*&quot;)</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>获取所有带属性的son元素</li>
+</ol>
+<p>//son<span class="citation">[@*]</span></p>
+<pre class="r"><code>getNodeSet(d, &quot;//book[@*]&quot;)</code></pre>
+<p>节点相关函数</p>
+<ul>
+<li>class(xmltop) #查看类</li>
+<li>xmlName(node)：查看根目录名。 node[[1]]：查看第一个子目录 node[[1]][[2]]：查看第一个子目录的第二个节点</li>
+<li>xmlSize(node)：该节点下字节点数量。</li>
+<li>xmlAttrs(node)：该节点属性。</li>
+<li>xmlGetAttr(node, attr)：该节点某一属性。</li>
+<li>xmlValue(node)：该节点值。</li>
+<li>xmlChildren(node)：该节点下的子节点。</li>
+</ul>
+<pre class="r"><code>class(d)
+xmlName(d)
+xmlSize(d)
+xmlAttrs(d)
+xmlAttrs(d[[1]])
+xmlAttrs(d[[1]][[1]])
+xmlGetAttr(d[[1]][[1]], &quot;lang&quot;)
+xmlChildren(d[[1]])
+
+#通过以下方式获得的节点类型不同，建议使用getNodeSet
+d[[1]][[1]]
+getNodeSet(d, &quot;//book/title&quot;)[[1]]
+getNodeSet(d, &quot;//book[1]/title&quot;)</code></pre>
+</div>
+<div id="xmlsapplyxmlapply" class="section level2">
+<h2><span class="header-section-number">1.3</span> 1.3 xmlSApply和xmlApply</h2>
+<ol style="list-style-type: decimal">
+<li>读取节点的值</li>
+</ol>
+<pre class="r"><code>#读取第一本书的&quot;title&quot;的值
+d[[1]][[1]][[1]]
+xmlValue(d[[1]][[1]])
+xpathSApply(d, &quot;/bookstore/book[1]/title&quot;, xmlValue)
+xpathSApply(d, &quot;//book[1]/title&quot;, xmlValue)
+
+xpathSApply(d, &quot;//book/title&quot;, xmlValue)
+
+xpathSApply(d, &quot;//book[1]/title&quot;, xmlName)
+xpathSApply(d, &quot;//book[1]/title&quot;, xmlSize)
+xpathSApply(d, &quot;//book[1]/title&quot;, xmlAttrs)
+
+#xpathSApply和xpathApply的区别：
+#xpathSApply是xpathApply读取值的一个因子
+xpathApply(d, &quot;//book[1]/title&quot;, xmlName)
+xpathApply(d, &quot;//book[1]/title&quot;, xmlSize)
+xpathApply(d, &quot;//book[1]/title&quot;, xmlAttrs)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>读取节点的属性值</li>
+</ol>
+<pre class="r"><code>xmlGetAttr(d[[1]][[1]], &quot;lang&quot;)
+
+title&lt;-getNodeSet(d, &quot;//book[1]/title&quot;)
+title_lang&lt;-sapply(title, xmlGetAttr, &quot;lang&quot;)
+sapply(xmlChildren(d), xmlGetAttr, &quot;category&quot;)
+
+#也可以通过该方法读取节点的值
+title_value&lt;-sapply(title, xmlValue)
+sapply(xmlChildren(d[[&quot;book&quot;]]), xmlValue)</code></pre>
+</div>
+<div id="xmldataframe" class="section level2">
+<h2><span class="header-section-number">1.4</span> 1.4 xml格式转dataframe</h2>
+<pre class="r"><code>book &lt;- getNodeSet(d, &quot;//book&quot;)
+mybook &lt;- sapply(book,xmlValue)
+
+#第一种方式，直接用xmlToDataFrame()函数
+xmlToDataFrame(d)
+#由于book[4]不规范，导致转化失败
+xmlToDataFrame(xmlChildren(d)[[&quot;book&quot;]])
+xmlToDataFrame(getNodeSet(d, &quot;//book[1]&quot;))
+xmlToDataFrame(nodes = getNodeSet(d, &quot;//book/title&quot;))
+
+#第二种方式，数据格式处理专用包plyr
+library(&quot;plyr&quot;)
+#先转成list,再转dataframe
+MyBooks &lt;- ldply(xmlToList(d), data.frame)
+MyBooks &lt;- ldply(xmlToList(getNodeSet(d, &quot;//book&quot;)), data.frame)
+
+#第三种方式，读取单个值后组合为dataframe
+author &lt;- xpathSApply(d, &quot;//book/author&quot;, xmlValue)
+#对第四个book的author值做特殊处理
+author4 &lt;- xpathSApply(d, &quot;//book[4]/author&quot;, xmlValue)
+author4 &lt;- paste(author4, collapse = &quot;, &quot;)
+author &lt;- c(author[1:3],author4)
+MyBooks &lt;- data.frame(
+    category=sapply(xmlChildren(d), xmlGetAttr, &quot;category&quot;),
+    title=xpathSApply(d, &quot;//book/title&quot;, xmlValue),
+    author,
+    year=xpathSApply(d, &quot;//book/year&quot;, xmlValue),
+    price=xpathSApply(d, &quot;//book/price&quot;, xmlValue))</code></pre>
+</div>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/explore">Explore</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/2018-01-08_data_explore/">在R中处理数据</a></li>
+    
+    <li><a href="/post/2018-01-08-read_data_in_r/">在R中读取数据</a></li>
+    
+    <li><a href="/post/2017-04-06-dplyr_transfer_parameter/">dplyr之参数传递</a></li>
+    
+    <li><a href="/post/2017-04-02-read_and_handle_big_data/">R读取并处理较大数据</a></li>
+    
+    <li><a href="/post/2017-01-08-shanghai_driver_license/">上海驾照考试情况</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Jeevan Yue &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

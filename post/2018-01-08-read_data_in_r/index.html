@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.32.2" />
+  <meta name="author" content="Jeevan Yue">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="1 1. 文本格式 2 2. Excel格式 2.1 2.1 openxlsx包 2.2 2.2 用VBA把xlsx批量转化为csv格式 2.3 2.3 xlsx包 2.4 2.4 剪切板  3 3. 数据库 3.1 3.1 ACCESS 3.2 3.2 MYSQL    ▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%
+数据源
+ 文本格式 Excel格式 数据库 剪切板  1 1. 文本格式  read.table() 即是以数据框的格式在R中读取数据，可以直接读取txt文件。 read.csv() 与read.table函数类似，可以直接读取csv文件和txt文件。 data.table的fread() 比常规的read.table或者read.csv效率更高。  read.table(tf, header = T, fill = TRUE) read.csv(tf, header = T, fill = TRUE) #fread需先加载data.table library(data.table) fread(tf, sep=&quot;auto&quot;, header=T, select=NULL, drop=NULL) 筛选读取的列">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://jeevanyue.github.io/post/2018-01-08-read_data_in_r/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/blue.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  <link rel="feed" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://jeevanyue.github.io/post/2018-01-08-read_data_in_r/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@https://twitter.com/Yuejeevan">
+  <meta property="twitter:creator" content="@https://twitter.com/Yuejeevan">
+  
+  <meta property="og:site_name" content="Jeevan Yue">
+  <meta property="og:url" content="https://jeevanyue.github.io/post/2018-01-08-read_data_in_r/">
+  <meta property="og:title" content="在R中读取数据 | Jeevan Yue">
+  <meta property="og:description" content="1 1. 文本格式 2 2. Excel格式 2.1 2.1 openxlsx包 2.2 2.2 用VBA把xlsx批量转化为csv格式 2.3 2.3 xlsx包 2.4 2.4 剪切板  3 3. 数据库 3.1 3.1 ACCESS 3.2 3.2 MYSQL    ▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%
+数据源
+ 文本格式 Excel格式 数据库 剪切板  1 1. 文本格式  read.table() 即是以数据框的格式在R中读取数据，可以直接读取txt文件。 read.csv() 与read.table函数类似，可以直接读取csv文件和txt文件。 data.table的fread() 比常规的read.table或者read.csv效率更高。  read.table(tf, header = T, fill = TRUE) read.csv(tf, header = T, fill = TRUE) #fread需先加载data.table library(data.table) fread(tf, sep=&quot;auto&quot;, header=T, select=NULL, drop=NULL) 筛选读取的列">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-01-08T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-01-08T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>在R中读取数据 | Jeevan Yue</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Jeevan Yue</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">在R中读取数据</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-01-08 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-01-08
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Jeevan Yue">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=%e5%9c%a8R%e4%b8%ad%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_data_in_r%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_data_in_r%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_data_in_r%2f&amp;title=%e5%9c%a8R%e4%b8%ad%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_data_in_r%2f&amp;title=%e5%9c%a8R%e4%b8%ad%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=%e5%9c%a8R%e4%b8%ad%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae&amp;body=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-08-read_data_in_r%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <div id="TOC">
+<ul>
+<li><a><span class="toc-section-number">1</span> 1. 文本格式</a></li>
+<li><a href="#excel"><span class="toc-section-number">2</span> 2. Excel格式</a><ul>
+<li><a href="#openxlsx"><span class="toc-section-number">2.1</span> 2.1 openxlsx包</a></li>
+<li><a href="#vbaxlsxcsv"><span class="toc-section-number">2.2</span> 2.2 用VBA把xlsx批量转化为csv格式</a></li>
+<li><a href="#xlsx"><span class="toc-section-number">2.3</span> 2.3 xlsx包</a></li>
+<li><a><span class="toc-section-number">2.4</span> 2.4 剪切板</a></li>
+</ul></li>
+<li><a><span class="toc-section-number">3</span> 3. 数据库</a><ul>
+<li><a href="#access"><span class="toc-section-number">3.1</span> 3.1 ACCESS</a></li>
+<li><a href="#mysql"><span class="toc-section-number">3.2</span> 3.2 MYSQL</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>▓░░░░░░░░░░░░░░░░░░░░░░░░░░ 2%</p>
+<p><strong>数据源</strong></p>
+<ul>
+<li>文本格式</li>
+<li>Excel格式</li>
+<li>数据库</li>
+<li><strong>剪切板</strong></li>
+</ul>
+<div class="section level1">
+<h1><span class="header-section-number">1</span> 1. 文本格式</h1>
+<ul>
+<li><strong>read.table()</strong> 即是以<strong>数据框</strong>的格式在R中读取数据，可以直接读取txt文件。</li>
+<li><strong>read.csv()</strong> 与read.table函数类似，可以直接读取csv文件和txt文件。</li>
+<li>data.table的<strong>fread()</strong> 比常规的<strong>read.table</strong>或者<strong>read.csv</strong>效率更高。</li>
+</ul>
+<pre class="r"><code>read.table(tf, header = T, fill = TRUE)
+read.csv(tf, header = T, fill = TRUE)
+#fread需先加载data.table
+library(data.table)
+fread(tf, sep=&quot;auto&quot;, header=T, select=NULL, drop=NULL)</code></pre>
+<p><strong>筛选读取的列</strong></p>
+<pre class="r"><code>data = &quot;A,B,C,D\n1,3,5,7\n2,4,6,8\n&quot;
+#筛选读取的列
+fread(data, select=c(&quot;A&quot;,&quot;D&quot;))
+fread(data, select=c(1,4))
+#筛选不读取的列
+fread(data, drop=c(&quot;B&quot;,&quot;C&quot;))
+fread(data, drop=2:3)</code></pre>
+<p><strong>直接读取URL数据</strong></p>
+<pre class="r"><code>data &lt;- fread(&quot;http://www.stats.ox.ac.uk/pub/datasets/csb/ch11b.dat&quot;)</code></pre>
+<p><strong>read.csv与fread效率比较</strong></p>
+<pre class="r"><code>n &lt;- 1e6
+DT &lt;- data.table( a=sample(1:1000,n,replace=TRUE),b=sample(1:1000,n,replace=TRUE),
+                 c=rnorm(n),d=sample(c(&quot;foo&quot;,&quot;bar&quot;,&quot;baz&quot;,&quot;qux&quot;,&quot;quux&quot;),n,replace=TRUE),
+                 e=rnorm(n),f=sample(1:1000,n,replace=TRUE) )
+DT[2,b:=NA_integer_]
+DT[4,c:=NA_real_]
+DT[3,d:=NA_character_]
+DT[5,d:=&quot;&quot;]
+DT[2,e:=+Inf]
+DT[3,e:=-Inf]
+write.table(DT,&quot;test.csv&quot;,sep=&quot;,&quot;,row.names=FALSE,quote=FALSE)
+cat(&quot;File size (MB):&quot;, round(file.info(&quot;test.csv&quot;)$size/1024^2),&quot;\n&quot;)
+##File size (MB): 51 
+#新建50 MB (1e6 rows x 6 columns)的数据
+
+system.time(DF1 &lt;-read.csv(&quot;test.csv&quot;,stringsAsFactors=FALSE))
+#第一次读取所需时间 11 sec
+system.time(DF1 &lt;- read.csv(&quot;test.csv&quot;,stringsAsFactors=FALSE))
+#重复读取所需时间 8 sec
+system.time(DF2 &lt;- read.table(&quot;test.csv&quot;,header=TRUE,sep=&quot;,&quot;,quote=&quot;&quot;,
+    stringsAsFactors=FALSE,comment.char=&quot;&quot;,nrows=n,
+    colClasses=c(&quot;integer&quot;,&quot;integer&quot;,&quot;numeric&quot;,
+                 &quot;character&quot;,&quot;numeric&quot;,&quot;integer&quot;)))
+#知道字段格式所需时间 6 sec
+require(data.table)
+system.time(DT &lt;- fread(&quot;test.csv&quot;))
+#使用fread()更友好、更快！</code></pre>
+</div>
+<div id="excel" class="section level1">
+<h1><span class="header-section-number">2</span> 2. Excel格式</h1>
+<p>用VBA把xlsx批量转化为csv格式，虽然比较方便，但是还有mac的存在，综合推荐使用<strong>openxlsx包</strong></p>
+<div id="openxlsx" class="section level2">
+<h2><span class="header-section-number">2.1</span> 2.1 openxlsx包</h2>
+<pre class="r"><code>read.xlsx(xlsxFile, sheet = 1, startRow = 1, colNames = TRUE,
+  rowNames = FALSE, detectDates = FALSE, skipEmptyRows = TRUE,
+  rows = NULL, cols = NULL, check.names = FALSE, namedRegion = NULL)</code></pre>
+<p>读取excel数据</p>
+<pre class="r"><code>library(openxlsx)
+xlsxFile &lt;- system.file(&quot;readTest.xlsx&quot;, package = &quot;openxlsx&quot;)
+df &lt;- read.xlsx(xlsxFile = xlsxFile, sheet = 1, skipEmptyRows = FALSE)
+sapply(df, class)</code></pre>
+<p>将excel中日期数字转换为日期格式</p>
+<pre class="r"><code>convertToDate(df$Var5)</code></pre>
+<p>获取工作表sheet的名称</p>
+<pre class="r"><code>getSheetNames(xlsxFile)</code></pre>
+<p>创建工作簿并保存</p>
+<pre class="r"><code>wb &lt;- createWorkbook()
+# 创建mtcars工作表
+addWorksheet(wb, &quot;mtcars&quot;)
+# 写入数据
+writeData(wb, &quot;mtcars&quot;, mtcars)
+# 保存工作簿
+saveWorkbook(wb, &quot;mtcars.xlsx&quot;, overwrite = TRUE)</code></pre>
+</div>
+<div id="vbaxlsxcsv" class="section level2">
+<h2><span class="header-section-number">2.2</span> 2.2 用VBA把xlsx批量转化为csv格式</h2>
+<p>主要参考<a href="http://www.cnblogs.com/weibaar/">尾巴AR</a>的<a href="http://www.cnblogs.com/weibaar/p/4506144.html">R语言学习笔记之: 论如何正确把EXCEL文件喂给R处理</a></p>
+<blockquote>
+<p>在上面的尝试已经发现，xlsx本身就是这个复杂问题的最根本原因。与之相反，R对csv等文本格式支持的很好，而且有<strong>fread</strong>这个神器，要处理一定量级的数据，还是得把xlsx转化为csv格式。 以此为思路，在参考了两个资料后，我成功改写了一段VBA，可以选中需要的xlsx，然后在其目录下新建csv文件夹，把xlsx批量转化为csv格式</p>
+</blockquote>
+</div>
+<div id="xlsx" class="section level2">
+<h2><span class="header-section-number">2.3</span> 2.3 xlsx包</h2>
+<p>首先配置java环境，加载rJava包，再加载xlsxjars包和xlsx包。</p>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>安装最新版本的java。</li>
+<li>在R中加载环境，即一行代码，路径要依据你的java版本做出更改。<br />
+<code>Sys.setenv(JAVA_HOME='C:\\Program Files\\Java\\jre1.8.0_45\\')</code></li>
+</ol>
+</blockquote>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">2.4</span> 2.4 剪切板</h2>
+<p>如果excel文件很小、很干净，可临时采用<strong>剪切板</strong>的方式。 <code>read.table(&quot;clipboard&quot;,header=T)</code></p>
+</div>
+</div>
+<div class="section level1">
+<h1><span class="header-section-number">3</span> 3. 数据库</h1>
+<ul>
+<li>ACCESS</li>
+<li>MYSQL</li>
+</ul>
+<div id="access" class="section level2">
+<h2><span class="header-section-number">3.1</span> 3.1 ACCESS</h2>
+<div class="section level3">
+<h3><span class="header-section-number">3.1.1</span> 3.1.1 连接数据库</h3>
+<p><code>odbcConnect(dsn, uid = &quot;&quot;, pwd = &quot;&quot;, ...)</code></p>
+<pre class="r"><code>library(RODBC)
+# datasource为已配制好的本地数据源
+channel &lt;- odbcConnect(&quot;datasource&quot;)</code></pre>
+<p><strong>也可以先不配置ODBC源，直接用odbcConnectAccess()</strong></p>
+<pre class="r"><code>channel &lt;- odbcConnectAccess(&quot;AccessFile.mdb&quot;)
+#odbcConnectAccess只能用于32位windows系统，64位的可以尝试odbcConnectAccess2007()
+channel &lt;- odbcConnectAccess2007(&quot;AccessFile.accdb&quot;)</code></pre>
+</div>
+<div class="section level3">
+<h3><span class="header-section-number">3.1.2</span> 3.1.2 读取数据</h3>
+<p>向数据库提交查询，并返回结果。</p>
+<p><code>sqlQuery(channel, query, errors = TRUE, ..., rows_at_time)</code></p>
+<pre class="r"><code>myquery &lt;- &quot;select * from testtable&quot;
+mydata &lt;- sqlQuery(channel, myquery)
+#对于日常的统计口径可以讲select、where和group等模块化
+myselect &lt;- &quot;select State, Murder from USArrests&quot;
+mywhere &lt;- &quot;where Rape &gt; 30 order by Murder&quot;
+mydata1 &lt;- sqlQuery(channel, paste(myselect,mywhere))</code></pre>
+</div>
+</div>
+<div id="mysql" class="section level2">
+<h2><span class="header-section-number">3.2</span> 3.2 MYSQL</h2>
+<p>参考内容:</p>
+<p><a href="http://blog.fens.me/r-mysql-rmysql/">RMySQL数据库编程指南</a> <a href="http://blog.csdn.net/hongweigg/article/details/49781427">R语言使用RMySQL连接及读写Mysql数据库</a></p>
+<p>RMySql包安装和加载优点问题，试着根据提示简单安装和加载可以使用，后续再查询资料解决。</p>
+<div id="-1" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> 3.2.1 连接数据库</h3>
+<p><code>dbConnect(MySQL(),host=&quot;localhost&quot;,dbname,user=&quot;&quot;,password=&quot;&quot;, ...)</code></p>
+<pre class="r"><code>library(RMySql)
+#可能是安装RMySQL的问题，导致直接library(RMySql)提示不存在RMySql包，通过下列方式可以加载成功（又挖一个坑...）
+library(&quot;RMySQL&quot;, lib.loc=&quot;/Library/Frameworks/R.framework/Versions/3.3/Resources/library&quot;)
+# Quark
+con &lt;- dbConnect(MySQL(),host=&quot;localhost&quot;,dbname=&quot;Quark&quot;,user=&quot;root&quot;,password=&quot;root&quot;)
+#获取连接信息，查看database下所有表
+summary(con)  
+dbGetInfo(con)  
+dbListTables(con)
+#断开连接
+dbDisconnect(con)</code></pre>
+</div>
+<div class="section level3">
+<h3><span class="header-section-number">3.2.2</span> 3.2.2 写入数据</h3>
+<p><code>dbWriteTable(conn, name, value, row.names=T...)</code></p>
+<ul>
+<li>append=T 在数据库中原表的基础上追加</li>
+<li>overwrite=T 覆盖数据库中的原表</li>
+</ul>
+<pre class="r"><code>testA &lt;-data.frame(id=1:6,e=c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;),c=c(&quot;我&quot;,&quot;的&quot;,&quot;世&quot;,&quot;界&quot;,&quot;变&quot;,&quot;得&quot;))  
+testB &lt;-data.frame(id=7:13,e=c(&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;),c=c(&quot;奇&quot;,&quot;妙&quot;,&quot;跟&quot;,&quot;难&quot;,&quot;以&quot;,&quot;言&quot;,&quot;喻&quot;))  
+#直接写testA写入test表中  
+dbWriteTable(con,&quot;test&quot;,testA,row.names=T)
+dbReadTable(con,&quot;test&quot;)
+#追加写testB追加在test表后  
+dbWriteTable(con,&quot;test&quot;,testB,append=T,row.names=F)  
+dbReadTable(con,&quot;test&quot;)  
+#覆盖写testB覆盖test表  
+dbWriteTable(con,&quot;test&quot;,testB,overwrite=T,row.names=F)  
+dbReadTable(con,&quot;test&quot;)
+
+fruits &lt;-data.frame(id=1:5,name=c(&quot;苹果&quot;,&quot;香蕉&quot;,&quot;梨子&quot;,&quot;玉米&quot;,&quot;西瓜&quot;),price=c(8.8,4.98,7.8,6,2.1),status=c(&quot;无&quot;,&quot;打折&quot;,&quot;无&quot;,&quot;售罄&quot;,&quot;批发&quot;))  
+dbListTables(con)
+dbWriteTable(con,&quot;fruits&quot;,fruits,overwrite=T,row.names=F)
+dbReadTable(con,&quot;fruits&quot;)</code></pre>
+</div>
+<div id="-1" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> 3.2.3 读取数据</h3>
+<p>向数据库提交查询，并返回结果。</p>
+<ul>
+<li>dbReadTable(conn, name, …) 直接获得所读取表的全部数据</li>
+<li>dbGetQuery(conn, statement, …) 通过sql语句查询数据</li>
+</ul>
+<pre class="r"><code>#读数据库
+#解决中文乱麻问题
+#dbSendQuery(con,&#39;SET NAMES uft8&#39;)
+dbReadTable(con,&quot;test&quot;)
+
+#用SQL语句查询dbGetQuery()和dbSendQuery()两种方法  
+dbGetQuery(con, &quot;SELECT * FROM test limit 3&quot;)  
+   
+res &lt;- dbSendQuery(con, &quot;SELECT * FROM test&quot;)  
+data &lt;- dbFetch(res, n=2) #取前2条数据，n=-1时是获取所有数据  
+data  
+data &lt;- dbFetch(res, n=-1) #取余下所有数据  
+data  
+dbClearResult(res)</code></pre>
+<p><strong>用SQL语句批量查询</strong>，client.flag设置这样支持批量查询</p>
+<pre class="r"><code>con &lt;- dbConnect(MySQL(),host=&quot;localhost&quot;,dbname=&quot;Quark&quot;,user=&quot;root&quot;,password=&quot;root&quot;,client.flag= CLIENT_MULTI_STATEMENTS) 
+#client.flag设置这样支持批量查询
+#dbSendQuery(con,&#39;SET NAMES uft-8&#39;)
+sql &lt;- &quot;SELECT * FROM fruits;SELECT * FROM test&quot;
+res1 &lt;- dbSendQuery(con,sql)
+dbFetch(res1, n = -1)
+if (dbMoreResults(con)) {
+  res2 &lt;- dbNextResult(con)
+  dbFetch(res2, n = -1)
+}
+dbListResults(con)
+dbClearResult(res1)
+dbClearResult(res2)</code></pre>
+</div>
+<div class="section level3">
+<h3><span class="header-section-number">3.2.4</span> 3.2.3 删除表</h3>
+<pre class="r"><code>dbRemoveTable(con,&quot;test&quot;)</code></pre>
+</div>
+</div>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/explore">Explore</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/2018-01-08_data_explore/">在R中处理数据</a></li>
+    
+    <li><a href="/post/2018-01-08-read_xml_data_in_r/">在R中读取数据-XML</a></li>
+    
+    <li><a href="/post/2017-04-06-dplyr_transfer_parameter/">dplyr之参数传递</a></li>
+    
+    <li><a href="/post/2017-04-02-read_and_handle_big_data/">R读取并处理较大数据</a></li>
+    
+    <li><a href="/post/2017-01-08-shanghai_driver_license/">上海驾照考试情况</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Jeevan Yue &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
