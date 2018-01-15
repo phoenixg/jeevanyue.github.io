@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.32.2" />
+  <meta name="author" content="Jeevan Yue">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="1 Highmaps数据 1.1 json数据 1.2 js数据 1.3 演示数据  2 地图 2.1 点图 2.2 气泡图 2.3 地区分布  3 地图汉化 4 参考   ▓▓░░░░░░░░░░░░░░░░░░░░░░░░░ 4%
+1 Highmaps数据 在Highmaps data上可以获取Highmaps的全部数据列表，其中关于中国的数据有三条。中国(只包括中国大陆)、中国(中国大陆、香港、澳门)、中国(中国大陆、香港、澳门、台湾)。如果统计中国数据，我们当然是只用第三条数据。
+Highmaps数据分为json和js，都可以回来绘制Highmaps。
+1.1 json数据 Chinajson_file &lt;- &quot;/data/Highmaps-data/cn-all-sar-taiwan.geo.json&quot; Chinajson &lt;- jsonlite::fromJSON(Chinajson_file, simplifyVector = FALSE) Chinajson &lt;- geojsonio::as.json(Chinajson)  1.2 js数据 Chinajs_file &lt;- &quot;/data/Highmaps-data/cn-all-sar-taiwan.js&quot; Chinajs &lt;- readLines(Chinajs_file, warn = FALSE, encoding = &quot;UTF-8&quot;) Chinajs[1] &lt;- gsub(&quot;.* = &quot;, &quot;&quot;, Chinajs[1]) Chinajs &lt;- paste(Chinajs, collapse = &quot;\n&quot;) Chinajs &lt;- jsonlite::fromJSON(Chinajs, simplifyVector = FALSE)  1.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://jeevanyue.github.io/post/2018-01-15-highcharter-china-map/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/blue.css">
+  
+
+  
+
+  
+  <link rel="alternate" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  <link rel="feed" href="https://jeevanyue.github.io/index.xml" type="application/rss+xml" title="Jeevan Yue">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://jeevanyue.github.io/post/2018-01-15-highcharter-china-map/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@https://twitter.com/Yuejeevan">
+  <meta property="twitter:creator" content="@https://twitter.com/Yuejeevan">
+  
+  <meta property="og:site_name" content="Jeevan Yue">
+  <meta property="og:url" content="https://jeevanyue.github.io/post/2018-01-15-highcharter-china-map/">
+  <meta property="og:title" content="Highcharter绘制中国地图 | Jeevan Yue">
+  <meta property="og:description" content="1 Highmaps数据 1.1 json数据 1.2 js数据 1.3 演示数据  2 地图 2.1 点图 2.2 气泡图 2.3 地区分布  3 地图汉化 4 参考   ▓▓░░░░░░░░░░░░░░░░░░░░░░░░░ 4%
+1 Highmaps数据 在Highmaps data上可以获取Highmaps的全部数据列表，其中关于中国的数据有三条。中国(只包括中国大陆)、中国(中国大陆、香港、澳门)、中国(中国大陆、香港、澳门、台湾)。如果统计中国数据，我们当然是只用第三条数据。
+Highmaps数据分为json和js，都可以回来绘制Highmaps。
+1.1 json数据 Chinajson_file &lt;- &quot;/data/Highmaps-data/cn-all-sar-taiwan.geo.json&quot; Chinajson &lt;- jsonlite::fromJSON(Chinajson_file, simplifyVector = FALSE) Chinajson &lt;- geojsonio::as.json(Chinajson)  1.2 js数据 Chinajs_file &lt;- &quot;/data/Highmaps-data/cn-all-sar-taiwan.js&quot; Chinajs &lt;- readLines(Chinajs_file, warn = FALSE, encoding = &quot;UTF-8&quot;) Chinajs[1] &lt;- gsub(&quot;.* = &quot;, &quot;&quot;, Chinajs[1]) Chinajs &lt;- paste(Chinajs, collapse = &quot;\n&quot;) Chinajs &lt;- jsonlite::fromJSON(Chinajs, simplifyVector = FALSE)  1.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-01-08T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-01-08T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>Highcharter绘制中国地图 | Jeevan Yue</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Jeevan Yue</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Highcharter绘制中国地图</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-01-08 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      2018-01-08
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Jeevan Yue">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Highcharter%e7%bb%98%e5%88%b6%e4%b8%ad%e5%9b%bd%e5%9c%b0%e5%9b%be&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-15-highcharter-china-map%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-15-highcharter-china-map%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-15-highcharter-china-map%2f&amp;title=Highcharter%e7%bb%98%e5%88%b6%e4%b8%ad%e5%9b%bd%e5%9c%b0%e5%9b%be"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-15-highcharter-china-map%2f&amp;title=Highcharter%e7%bb%98%e5%88%b6%e4%b8%ad%e5%9b%bd%e5%9c%b0%e5%9b%be"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Highcharter%e7%bb%98%e5%88%b6%e4%b8%ad%e5%9b%bd%e5%9c%b0%e5%9b%be&amp;body=https%3a%2f%2fjeevanyue.github.io%2fpost%2f2018-01-15-highcharter-china-map%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <div id="TOC">
+<ul>
+<li><a href="#highmaps"><span class="toc-section-number">1</span> Highmaps数据</a><ul>
+<li><a href="#json"><span class="toc-section-number">1.1</span> json数据</a></li>
+<li><a href="#js"><span class="toc-section-number">1.2</span> js数据</a></li>
+<li><a><span class="toc-section-number">1.3</span> 演示数据</a></li>
+</ul></li>
+<li><a><span class="toc-section-number">2</span> 地图</a><ul>
+<li><a><span class="toc-section-number">2.1</span> 点图</a></li>
+<li><a><span class="toc-section-number">2.2</span> 气泡图</a></li>
+<li><a><span class="toc-section-number">2.3</span> 地区分布</a></li>
+</ul></li>
+<li><a><span class="toc-section-number">3</span> 地图汉化</a></li>
+<li><a><span class="toc-section-number">4</span> 参考</a></li>
+</ul>
+</div>
+
+<p>▓▓░░░░░░░░░░░░░░░░░░░░░░░░░ 4%</p>
+<div id="highmaps" class="section level1">
+<h1><span class="header-section-number">1</span> Highmaps数据</h1>
+<p>在<a href="https://code.highcharts.com/mapdata/">Highmaps data</a>上可以获取Highmaps的全部数据列表，其中关于中国的数据有三条。中国(只包括中国大陆)、中国(中国大陆、香港、澳门)、中国(中国大陆、香港、澳门、台湾)。如果统计中国数据，我们当然是只用第三条数据。</p>
+<p>Highmaps数据分为json和js，都可以回来绘制Highmaps。</p>
+<div id="json" class="section level2">
+<h2><span class="header-section-number">1.1</span> json数据</h2>
+<pre class="r"><code>Chinajson_file &lt;- &quot;/data/Highmaps-data/cn-all-sar-taiwan.geo.json&quot;
+Chinajson &lt;- jsonlite::fromJSON(Chinajson_file, simplifyVector = FALSE)
+Chinajson &lt;- geojsonio::as.json(Chinajson)</code></pre>
+</div>
+<div id="js" class="section level2">
+<h2><span class="header-section-number">1.2</span> js数据</h2>
+<pre class="r"><code>Chinajs_file &lt;- &quot;/data/Highmaps-data/cn-all-sar-taiwan.js&quot;
+Chinajs &lt;- readLines(Chinajs_file, warn = FALSE, encoding = &quot;UTF-8&quot;)
+Chinajs[1] &lt;- gsub(&quot;.* = &quot;, &quot;&quot;, Chinajs[1])
+Chinajs &lt;- paste(Chinajs, collapse = &quot;\n&quot;)
+Chinajs &lt;- jsonlite::fromJSON(Chinajs, simplifyVector = FALSE)</code></pre>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">1.3</span> 演示数据</h2>
+<pre class="r"><code>n &lt;- 20
+z &lt;-  sample(1:n)
+sequences &lt;- purrr::map2(1:n, z, function(x, y){ ifelse(x == 1:n, y, 0) })
+df &lt;- data.frame(
+  lat = runif(n, 20, 45),
+  lon = runif(n, 80, 120),
+  z = z,
+  color = colorize(z),
+  sequence = sequences
+)
+
+hp_df &lt;- read.csv(&quot;/data/Highmaps-data/map_example.csv&quot;, stringsAsFactors = FALSE)
+names(hp_df) &lt;- c(&quot;hc-key&quot;, &quot;value&quot;)
+knitr::kable(head(hp_df))</code></pre>
+</div>
+</div>
+<div class="section level1">
+<h1><span class="header-section-number">2</span> 地图</h1>
+<div class="section level2">
+<h2><span class="header-section-number">2.1</span> 点图</h2>
+<pre class="r"><code>highchart(type = &quot;map&quot;) %&gt;%
+  hc_add_series(mapData = Chinajson, showInLegend = FALSE) %&gt;%
+  hc_add_series(
+    data = df, type = &quot;mappoint&quot;,
+    dataLabels = list(enabled = FALSE),
+    name = &quot;演示数据&quot;) </code></pre>
+<iframe src="/post/2018-01-15-highcharter-china-map_files/figure-html/mappoint.html" style="border: none; width: 100%; height: 600px">
+</iframe>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">2.2</span> 气泡图</h2>
+<pre class="r"><code>highchart(type = &quot;map&quot;) %&gt;%
+  hc_add_series(mapData = Chinajson, showInLegend = FALSE) %&gt;%
+  hc_add_series(
+    data = df, type = &quot;mapbubble&quot;,
+    minSize = 0, maxSize = 30,
+    dataLabels = list(enabled = FALSE),
+    name = &quot;演示数据&quot;) </code></pre>
+<iframe src="/post/2018-01-15-highcharter-china-map_files/figure-html/mapbubble.html" style="border: none; width: 100%; height: 600px">
+</iframe>
+</div>
+<div class="section level2">
+<h2><span class="header-section-number">2.3</span> 地区分布</h2>
+<p>通过js数据绘制</p>
+<pre class="r"><code>## js地图数据需要跟展示的数据一起通过hc_add_series导入
+highchart(type = &quot;map&quot;) %&gt;%
+  hc_add_series(
+    mapData = Chinajs, showInLegend = TRUE, name = &quot;演示数据&quot;,
+    data = hp_df, joinBy = &quot;hc-key&quot;) %&gt;% 
+  hc_colorAxis(auxpar = NULL)</code></pre>
+<p>通过json数据绘制</p>
+<pre class="r"><code>highchart(type = &quot;map&quot;) %&gt;%
+  hc_add_series(
+    mapData = Chinajson, showInLegend = FALSE, name = &quot;演示数据&quot;,
+    data = hp_df, joinBy = &quot;hc-key&quot;) %&gt;% 
+  hc_colorAxis(auxpar = NULL)</code></pre>
+<iframe src="/post/2018-01-15-highcharter-china-map_files/figure-html/heatmap.html" style="border: none; width: 100%; height: 600px">
+</iframe>
+</div>
+</div>
+<div class="section level1">
+<h1><span class="header-section-number">3</span> 地图汉化</h1>
+<pre class="r"><code>name_cn &lt;- read.csv(&quot;/data/Highmaps-data/name_cn.csv&quot;,stringsAsFactors = FALSE)
+
+Chinajs_chinese_file &lt;- &quot;/data/Highmaps-data/cn-all-sar-taiwan_chinese.js&quot;
+Chinajs_chinese &lt;- readLines(Chinajs_chinese_file, warn = FALSE, encoding = &quot;UTF-8&quot;)
+Chinajs_chinese[1] &lt;- gsub(&quot;.* = &quot;, &quot;&quot;, Chinajs_chinese[1])
+Chinajs_chinese &lt;- paste(Chinajs_chinese, collapse = &quot;\n&quot;)
+Chinajs_chinese &lt;- jsonlite::fromJSON(Chinajs_chinese, simplifyVector = FALSE)
+
+highchart(type = &quot;map&quot;) %&gt;%
+  hc_add_series(
+    mapData = Chinajs_chinese, showInLegend = TRUE, name = &quot;演示数据&quot;,
+    data = hp_df, joinBy = &quot;hc-key&quot;) %&gt;% 
+  hc_colorAxis(auxpar = NULL)</code></pre>
+</div>
+<div class="section level1">
+<h1><span class="header-section-number">4</span> 参考</h1>
+<ul>
+<li><a href="https://api.highcharts.com/highcharts/">Highcharts JS Options Reference</a></li>
+<li><a href="https://code.highcharts.com/mapdata/">Highmaps data</a></li>
+<li><a href="http://jkunst.com/highcharter/index.html">highcharter</a></li>
+<li><a href="https://dantonnoriega.github.io/ultinomics.org/post/2017-04-05-highcharter-explainer.html">Thinking in highcharter - How to build any Highcharts plot in R</a></li>
+<li><a href="https://github.com/jbkunst/highcharter/issues/331">Select option export in hc_exporting()</a></li>
+</ul>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/map">Map</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/highcharter">Highcharter</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/2016-09-07-shmetro-visual/">上海地铁数据可视化</a></li>
+    
+    <li><a href="/post/2016-08-25-shanghai-metro-line/">上海地铁线路</a></li>
+    
+    <li><a href="/post/2018-01-08-read_data_in_r/">在R中读取数据</a></li>
+    
+    <li><a href="/post/2018-01-08_data_explore/">在R中处理数据</a></li>
+    
+    <li><a href="/post/2018-01-08-read_xml_data_in_r/">在R中读取数据-XML</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Jeevan Yue &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
