@@ -17,9 +17,8 @@
       
     
   
-  <meta name="description" content="1 1. 概述 1.1 1.1 三种方式 1.2 1.2 传递多个参数 1.3 1.3 设置变量名 1.4 1.4 将更多信息参数化  2 2. examples 2.1 2.1 select_ 2.2 2.2 filter_ 2.3 2.3 group_by_和summarise_ 2.4 2.4 mutete_  3 3. lazyeval包 4 4. 参考   1 1. 概述 在shiny中经常需要根据input来向dplyr的函数提供参数，以便进行相应数据操作。dplyr在filter()、mutate()、summarise()、arrange()、select()、group_by()这些函数中，都支持Non-standard evaluation(NSE)，很方便的进行参数传递。
-1.1 1.1 三种方式 ## 加载dplyr包 require(&quot;dplyr&quot;) ## 通过下列查看相关资料 vignette(&quot;nse&quot;) 通过select_、group_by_、filter_、summarise_、mutate_、arrange_与.dots结合来操作数据。支持下列三种方式，向dplyr传递参数。
- With a formula: ~ mean(mpg) With quote(): quote(mean(mpg)) As a string: &quot;mean(mpg)&quot;  下面是个简单的栗子">
+  <meta name="description" content="1 概述 1.1 三种方式 1.2 传递多个参数 1.3 设置变量名 1.4 将更多信息参数化  2 examples 2.1 rename_ 2.2 arrange_ 2.3 select_ 2.4 filter_ 2.5 group_by_和summarise_ 2.6 mutete_  3 3. lazyeval包 4 4. 参考   1 概述  Flexibility in syntax, if it does not lead to ambiguity, would seem a reasonable thing to ask of an interactive programming language. — Kent Pitman
+  Every function that uses NSE should have a standard evaluation (SE) escape hatch that does the actual computation.">
 
   
   <link rel="alternate" hreflang="en-us" href="https://jeevanyue.github.io/post/2017-04-06-dplyr_transfer_parameter/">
@@ -82,9 +81,8 @@
   <meta property="og:site_name" content="Jeevan Yue">
   <meta property="og:url" content="https://jeevanyue.github.io/post/2017-04-06-dplyr_transfer_parameter/">
   <meta property="og:title" content="dplyr之参数传递 | Jeevan Yue">
-  <meta property="og:description" content="1 1. 概述 1.1 1.1 三种方式 1.2 1.2 传递多个参数 1.3 1.3 设置变量名 1.4 1.4 将更多信息参数化  2 2. examples 2.1 2.1 select_ 2.2 2.2 filter_ 2.3 2.3 group_by_和summarise_ 2.4 2.4 mutete_  3 3. lazyeval包 4 4. 参考   1 1. 概述 在shiny中经常需要根据input来向dplyr的函数提供参数，以便进行相应数据操作。dplyr在filter()、mutate()、summarise()、arrange()、select()、group_by()这些函数中，都支持Non-standard evaluation(NSE)，很方便的进行参数传递。
-1.1 1.1 三种方式 ## 加载dplyr包 require(&quot;dplyr&quot;) ## 通过下列查看相关资料 vignette(&quot;nse&quot;) 通过select_、group_by_、filter_、summarise_、mutate_、arrange_与.dots结合来操作数据。支持下列三种方式，向dplyr传递参数。
- With a formula: ~ mean(mpg) With quote(): quote(mean(mpg)) As a string: &quot;mean(mpg)&quot;  下面是个简单的栗子">
+  <meta property="og:description" content="1 概述 1.1 三种方式 1.2 传递多个参数 1.3 设置变量名 1.4 将更多信息参数化  2 examples 2.1 rename_ 2.2 arrange_ 2.3 select_ 2.4 filter_ 2.5 group_by_和summarise_ 2.6 mutete_  3 3. lazyeval包 4 4. 参考   1 概述  Flexibility in syntax, if it does not lead to ambiguity, would seem a reasonable thing to ask of an interactive programming language. — Kent Pitman
+  Every function that uses NSE should have a standard evaluation (SE) escape hatch that does the actual computation.">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2017-04-06T00:00:00&#43;00:00">
@@ -254,7 +252,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    3 min read
+    4 min read
   </span>
   
 
@@ -325,17 +323,19 @@
       <div class="article-style" itemprop="articleBody">
         <div id="TOC">
 <ul>
-<li><a><span class="toc-section-number">1</span> 1. 概述</a><ul>
-<li><a><span class="toc-section-number">1.1</span> 1.1 三种方式</a></li>
-<li><a><span class="toc-section-number">1.2</span> 1.2 传递多个参数</a></li>
-<li><a><span class="toc-section-number">1.3</span> 1.3 设置变量名</a></li>
-<li><a><span class="toc-section-number">1.4</span> 1.4 将更多信息参数化</a></li>
+<li><a><span class="toc-section-number">1</span> 概述</a><ul>
+<li><a><span class="toc-section-number">1.1</span> 三种方式</a></li>
+<li><a><span class="toc-section-number">1.2</span> 传递多个参数</a></li>
+<li><a><span class="toc-section-number">1.3</span> 设置变量名</a></li>
+<li><a><span class="toc-section-number">1.4</span> 将更多信息参数化</a></li>
 </ul></li>
-<li><a href="#examples"><span class="toc-section-number">2</span> 2. examples</a><ul>
-<li><a href="#select_"><span class="toc-section-number">2.1</span> 2.1 select_</a></li>
-<li><a href="#filter_"><span class="toc-section-number">2.2</span> 2.2 filter_</a></li>
-<li><a href="#group_by_summarise_"><span class="toc-section-number">2.3</span> 2.3 group_by_和summarise_</a></li>
-<li><a href="#mutete_"><span class="toc-section-number">2.4</span> 2.4 mutete_</a></li>
+<li><a href="#examples"><span class="toc-section-number">2</span> examples</a><ul>
+<li><a href="#rename_"><span class="toc-section-number">2.1</span> rename_</a></li>
+<li><a href="#arrange_"><span class="toc-section-number">2.2</span> arrange_</a></li>
+<li><a href="#select_"><span class="toc-section-number">2.3</span> select_</a></li>
+<li><a href="#filter_"><span class="toc-section-number">2.4</span> filter_</a></li>
+<li><a href="#group_by_summarise_"><span class="toc-section-number">2.5</span> group_by_和summarise_</a></li>
+<li><a href="#mutete_"><span class="toc-section-number">2.6</span> mutete_</a></li>
 </ul></li>
 <li><a href="#lazyeval"><span class="toc-section-number">3</span> 3. lazyeval包</a></li>
 <li><a><span class="toc-section-number">4</span> 4. 参考</a></li>
@@ -343,14 +343,18 @@
 </div>
 
 <div class="section level1">
-<h1><span class="header-section-number">1</span> 1. 概述</h1>
-<p>在shiny中经常需要根据input来向dplyr的函数提供参数，以便进行相应数据操作。dplyr在filter()、mutate()、summarise()、arrange()、select()、group_by()这些函数中，都支持Non-standard evaluation(NSE)，很方便的进行参数传递。</p>
+<h1><span class="header-section-number">1</span> 概述</h1>
+<blockquote>
+<p>Flexibility in syntax, if it does not lead to ambiguity, would seem a reasonable thing to ask of an interactive programming language. — Kent Pitman</p>
+</blockquote>
+<blockquote>
+<p>Every function that uses NSE should have a standard evaluation (SE) escape hatch that does the actual computation. The SE-function name should end with _.</p>
+</blockquote>
+<p>在shiny中经常需要根据input来向dplyr的函数提供参数，以便进行相应数据操作。dplyr在filter()、mutate()、arrange()、select()、group_by()、summarise()这些函数中，都支持Non-standard evaluation(NSE)，很方便的进行参数传递。</p>
 <div class="section level2">
-<h2><span class="header-section-number">1.1</span> 1.1 三种方式</h2>
+<h2><span class="header-section-number">1.1</span> 三种方式</h2>
 <pre class="r"><code>## 加载dplyr包
-require(&quot;dplyr&quot;)
-## 通过下列查看相关资料
-vignette(&quot;nse&quot;)</code></pre>
+require(&quot;dplyr&quot;)</code></pre>
 <p>通过select_、group_by_、filter_、summarise_、mutate_、arrange_与<code>.dots</code>结合来操作数据。支持下列三种方式，向dplyr传递参数。</p>
 <ul>
 <li>With a formula: <code>~ mean(mpg)</code></li>
@@ -377,7 +381,7 @@ measure_input &lt;- &quot;mean(mpg)&quot;
 myfun1(data = mtcars, group_name = group_name, measure_input = measure_input)</code></pre>
 </div>
 <div class="section level2">
-<h2><span class="header-section-number">1.2</span> 1.2 传递多个参数</h2>
+<h2><span class="header-section-number">1.2</span> 传递多个参数</h2>
 <p>通过<code>.dots</code>来传递多个参数</p>
 <pre class="r"><code>myfun1 &lt;- function(data, group_name, measure_input){
   data %&gt;%
@@ -396,7 +400,7 @@ measure_input &lt;- c(&quot;sum(disp)&quot;,&quot;mean(mpg)&quot;)
 myfun1(data = data, group_name = group_name, measure_input = measure_input)</code></pre>
 </div>
 <div class="section level2">
-<h2><span class="header-section-number">1.3</span> 1.3 设置变量名</h2>
+<h2><span class="header-section-number">1.3</span> 设置变量名</h2>
 <pre class="r"><code>group_name &lt;- c(&quot;cyl&quot;,&quot;carb&quot;)
 measure_input &lt;- c(&quot;sum(disp)&quot;,&quot;mean(mpg)&quot;)
 
@@ -405,7 +409,7 @@ measure_input &lt;- setNames(measure_input, c(&quot;sum&quot;, &quot;mean&quot;)
 myfun1(data = data, group_name = group_name, measure_input = measure_input)</code></pre>
 </div>
 <div class="section level2">
-<h2><span class="header-section-number">1.4</span> 1.4 将更多信息参数化</h2>
+<h2><span class="header-section-number">1.4</span> 将更多信息参数化</h2>
 <pre class="r"><code>myfun1 &lt;- function(data, filter_input){
   data %&gt;%
     filter_(.dots = filter_input) -&gt; data
@@ -424,11 +428,42 @@ myfun1(data = data, filter_input = filter_input)</code></pre>
 </div>
 </div>
 <div id="examples" class="section level1">
-<h1><span class="header-section-number">2</span> 2. examples</h1>
+<h1><span class="header-section-number">2</span> examples</h1>
+<div id="rename_" class="section level2">
+<h2><span class="header-section-number">2.1</span> rename_</h2>
+<p>不知道什么原因dplyr::rename运行错误。需要该用plyr::rename</p>
+<pre class="r"><code>mtcars %&gt;% plyr::rename(c(mpg = &quot;mpg_&quot;)) %&gt;% head()
+
+rename_list &lt;- c(mpg = &quot;mpg_&quot;, cyl = &quot;cly_&quot;)    # return Vector
+rename_list &lt;- list(mpg = &quot;mpg_&quot;, cyl = &quot;cly_&quot;)
+mtcars %&gt;% plyr::rename(rename_list) %&gt;% head()</code></pre>
+</div>
+<div id="arrange_" class="section level2">
+<h2><span class="header-section-number">2.2</span> arrange_</h2>
+<pre class="r"><code>mtcars %&gt;% arrange(am,cyl) %&gt;% head()
+
+arrange_list &lt;- c(&quot;am&quot;,&quot;cyl&quot;)     # return Vector
+arrange_list &lt;- list(&quot;am&quot;,&quot;cyl&quot;)  
+mtcars %&gt;% arrange_(.dots = arrange_list) %&gt;% head()
+
+arrange_list &lt;- c(~am,~cyl)       # return list
+arrange_list &lt;- list(~am,~cyl)  
+mtcars %&gt;% arrange_(.dots = arrange_list) %&gt;% head()
+
+arrange_list &lt;- c(quote(am),quote(cyl))     # return list
+arrange_list &lt;- list(quote(am),quote(cyl))
+mtcars %&gt;% arrange_(.dots = arrange_list) %&gt;% head()
+
+myfun2 &lt;- function(data, arrange_list){
+  data %&gt;%
+    arrange_(.dots = arrange_list) -&gt; data
+  return(data)
+}
+myfun2(data = data, arrange_list = arrange_list)</code></pre>
+</div>
 <div id="select_" class="section level2">
-<h2><span class="header-section-number">2.1</span> 2.1 select_</h2>
-<pre class="r"><code>data &lt;- mtcars
-select_name &lt;- c(&quot;mpg&quot;,&quot;disp&quot;,&quot;cyl&quot;)
+<h2><span class="header-section-number">2.3</span> select_</h2>
+<pre class="r"><code>select_name &lt;- c(&quot;mpg&quot;,&quot;disp&quot;,&quot;cyl&quot;)
 mtcars %&gt;% select(mpg,disp,cyl) %&gt;% head()
 mtcars %&gt;% select(one_of(select_name)) %&gt;% head()
 
@@ -444,7 +479,7 @@ select_name &lt;- c(&quot;mpg&quot;,&quot;disp&quot;,&quot;cyl&quot;,&quot;carb&
 myfun2(data = data, select_name = select_name)</code></pre>
 </div>
 <div id="filter_" class="section level2">
-<h2><span class="header-section-number">2.2</span> 2.2 filter_</h2>
+<h2><span class="header-section-number">2.4</span> filter_</h2>
 <pre class="r"><code>myfun2 &lt;- function(data, select_name, filter_input){
   data %&gt;%
     filter_(.dots = filter_input) %&gt;%
@@ -462,7 +497,7 @@ myfun2(data = mtcars, select_name = select_name,
        filter_input = filter_input)</code></pre>
 </div>
 <div id="group_by_summarise_" class="section level2">
-<h2><span class="header-section-number">2.3</span> 2.3 group_by_和summarise_</h2>
+<h2><span class="header-section-number">2.5</span> group_by_和summarise_</h2>
 <pre class="r"><code>myfun2 &lt;- function(data, select_name = NULL, 
                    filter_input = NULL, 
                    group_name = NULL, 
@@ -499,7 +534,7 @@ myfun2(data=mtcars, select_name = select_name,
        measure_input = measure_input, measure_rename = measure_rename)</code></pre>
 </div>
 <div id="mutete_" class="section level2">
-<h2><span class="header-section-number">2.4</span> 2.4 mutete_</h2>
+<h2><span class="header-section-number">2.6</span> mutete_</h2>
 <pre class="r"><code>myfun2 &lt;- function(data, mutate_input = NULL,
                    mutate_name = NULL,
                    select_name = NULL, 
@@ -546,8 +581,8 @@ myfun2(data=mtcars,
 <h1><span class="header-section-number">4</span> 4. 参考</h1>
 <ul>
 <li><a href="http://adv-r.had.co.nz/Computing-on-the-language.html">Advanced R: Non-standard evaluation</a></li>
-<li><a href="http://cran.r-project.org/web/packages/dplyr/vignettes/nse.html">vignette(“nse”)</a></li>
 <li><a href="http://www.win-vector.com/blog/2017/06/non-standard-evaluation-and-function-composition-in-r/">Non-Standard Evaluation and Function Composition in R</a></li>
+<li><a href="http://rmhogervorst.nl/cleancode/blog/2016/06/13/NSE_standard_evaluation_dplyr.html">Non-standard-evaluation and standard evaluation in dplyr</a></li>
 </ul>
 </div>
 
